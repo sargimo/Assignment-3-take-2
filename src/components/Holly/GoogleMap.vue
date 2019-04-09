@@ -25,7 +25,7 @@ export default {
     category: "",
     landing: false,
     markerIsActive: Boolean,
-    searchQuery: ''
+    searchQuery: ""
   },
   data() {
     return {
@@ -36,6 +36,16 @@ export default {
       clientSecret: CLIENT_SECRET,
       markers: []
     };
+  },
+  computed: {
+    ALL_CATEGORIES: function() {
+      let that = this;
+      let categories = '';
+      $.each(API_CATEGORIES, function(i, category) {
+        categories += category.categories + ',';
+      });
+      return categories;
+    }
   },
   async mounted() {
     const googleMapApi = await GoogleMapsApiLoader({
@@ -51,7 +61,7 @@ export default {
     },
     landing: function() {
       this.deleteMarkers();
-      this.$emit("$landingFalse");
+      this.$emit("$setLandingFalse");
       this.initializeMap();
     },
     markerIsActive: function() {
@@ -59,8 +69,10 @@ export default {
         this.map.setZoom(DEFAULT_ZOOM);
       }
     },
-    searchQuery: function(query) {
-      this.searchForQuery(query);
+    searchQuery: function() {
+      if (this.searchQuery.replace(/\s+/g, "") != "") {
+        this.searchForQuery();
+      }
     }
   },
   methods: {
@@ -120,12 +132,11 @@ export default {
       let that = this;
       let markers = data.body.response.venues;
       $.each(markers, function(i, marker) {
-        // console.log(marker);
         let newMarker = new that.google.maps.Marker({
           position: { lat: marker.location.lat, lng: marker.location.lng },
           map: that.map,
           id: marker.id,
-          category: marker.categories[0].name,
+          // category: marker.categories[0].name,
           name: marker.name
         });
         newMarker.addListener("click", function(evt) {
@@ -173,7 +184,8 @@ export default {
       service.getDetails(request, callback);
       function callback(place, status) {
         let placeData = {};
-        if (status === that.google.maps.places.PlacesServiceStatus.OK) { //necessary??
+        if (status === that.google.maps.places.PlacesServiceStatus.OK) {
+          //necessary??
           if (place.name) {
             placeData.name = place.name;
           }
@@ -211,9 +223,32 @@ export default {
         that.$emit("$markerClicked", placeData);
       }
     },
-    // searchForQuery: function(query) {
-      // Search query
-    // }
+    searchForQuery: function() {
+      console.log(this.ALL_CATEGORIES);
+      this.$http
+        .get(
+          "https://api.foursquare.com/v2/venues/search?" +
+            "ll=" +
+            CENTER_POSITION +
+            "&radius=" +
+            SEARCH_RADIUS +
+            "&query=" +
+            this.searchQuery +
+            "&categoryId=" +
+            this.ALL_CATEGORIES +
+            "&client_id=" +
+            this.clientID +
+            "&client_secret=" +
+            this.clientSecret +
+            "&v=20190404"
+        )
+        .then(function(result) {
+          console.log(result);
+          this.deleteMarkers();
+          this.addMarkers(result);
+        });
+        // venues/search?ll=-38.079881,176.271883&radius=50000&query=skyline
+    }
   }
 };
 </script>
