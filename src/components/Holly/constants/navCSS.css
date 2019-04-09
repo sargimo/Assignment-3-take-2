@@ -1,0 +1,104 @@
+/* Landing and InfoScreen styles */
+    .logoLinkLanding, .logoLinkInfo {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        cursor: pointer;
+        margin: 3%;
+    }
+    .logoLinkLanding {
+        width: 50%;
+    }
+    .logoLinkInfo {
+        width: 100%;
+    }
+    .logoLanding, .logoInfo,
+    .buttonImgLanding, .buttonImgInfo {
+        margin: auto;
+        transition: transform 0.2s ease-in-out;
+    }
+    .logoLanding {
+        width: 20%;
+    }
+    .logoInfo {
+        width: 50%;
+    }
+    .logoLanding:hover, .logoInfo:hover,
+    .buttonImgLanding:hover, .buttonImgInfo:hover {
+        transform: scale(1.05);
+    }
+    .searchLanding, .searchInfo {
+        font-family: 'Nanum Gothic', sans-serif;
+    }
+    .searchLanding {
+        width: 28vw;
+    }
+    .searchLanding input {
+        font-size: 1.8em;
+        margin-top: 2%;
+        box-shadow: 0px 0px 10px 2px #291E02;
+    }
+    .searchInfo {
+        width: 75%;
+    }
+    .searchInfo input {
+        font-size: 1.2em;
+    }
+    .buttonsLanding, .buttonsInfo {
+        margin-top: 3%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .buttonsLanding {
+        width: 45%;
+        flex-direction: row;
+    }
+    .buttonsInfo {
+        width: 100%;
+        flex-direction: column;
+        margin-top: 6%;
+    }
+    .buttonTitle {
+        font-family: 'Spinnaker', sans-serif;
+    }
+    .buttonLanding, .buttonInfo {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        width: 100%;
+    }
+    .buttonInfo {
+        padding-top: 5%;
+        padding-bottom: 0;
+        margin-bottom: 0;
+    }
+    .buttonIsActive {
+        background: rgba(0, 0, 0, 0.2);
+    }
+    .buttonImgLanding, .buttonImgInfo {
+        display: flex;
+        width: 140px;
+        height: 140px;
+        margin-bottom: 4%;
+        border: transparent solid 6px;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+    .buttonImgInfo {
+        width: 100px;
+        height: 100px;
+    }
+    .buttonImgLanding:hover, .buttonImgInfo:hover, .buttonImgIsActive {
+        border: rgba(255, 255, 255, 0.8) solid 6px;
+    }
+    h1 {
+        color: #fff;
+        font-size: 3rem;
+        margin-bottom: 4%;
+        font-family: 'Cabin', sans-serif;
+    }
+      

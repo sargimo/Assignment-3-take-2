@@ -1,0 +1,230 @@
+<template>
+  <div class="map">
+    <div class="google-map" ref="googleMap"></div>
+    <!-- <template v-if="Boolean(this.google) && Boolean(this.map)">
+      <slot :google="google" :map="map"/>
+    </template>-->
+  </div>
+</template>
+
+<script>
+import GoogleMapsApiLoader from "google-maps-api-loader";
+import { API_KEY } from "./constants/config.js";
+import { CLIENT_ID } from "./constants/config.js";
+import { CLIENT_SECRET } from "./constants/config.js";
+import { API_CATEGORIES } from "./constants/data.js";
+import { CENTER_POSITION } from "./constants/data.js";
+import { CENTER_LAT_LONG } from "./constants/data.js";
+import { SEARCH_RADIUS } from "./constants/data.js";
+import { DEFAULT_ZOOM } from "./constants/data.js";
+
+export default {
+  name: "GoogleMap",
+  props: {
+    mapConfig: Object,
+    category: "",
+    landing: false,
+    markerIsActive: Boolean,
+    searchQuery: ''
+  },
+  data() {
+    return {
+      google: null,
+      map: null,
+      apiKey: API_KEY,
+      clientID: CLIENT_ID,
+      clientSecret: CLIENT_SECRET,
+      markers: []
+    };
+  },
+  async mounted() {
+    const googleMapApi = await GoogleMapsApiLoader({
+      apiKey: this.apiKey,
+      libraries: ["places"]
+    });
+    this.google = googleMapApi;
+    this.initializeMap();
+  },
+  watch: {
+    category: function() {
+      this.getData();
+    },
+    landing: function() {
+      this.deleteMarkers();
+      this.$emit("$landingFalse");
+      this.initializeMap();
+    },
+    markerIsActive: function() {
+      if (!this.markerIsActive) {
+        this.map.setZoom(DEFAULT_ZOOM);
+      }
+    },
+    searchQuery: function(query) {
+      this.searchForQuery(query);
+    }
+  },
+  methods: {
+    initializeMap() {
+      const mapContainer = this.$refs.googleMap;
+      this.map = new this.google.maps.Map(mapContainer, {
+        zoom: DEFAULT_ZOOM,
+        mapTypeControl: true,
+        mapTypeControlOptions: {
+          position: this.google.maps.ControlPosition.TOP_RIGHT
+        },
+        fullscreenControl: true,
+        fullscreenControlOptions: {
+          position: this.google.maps.ControlPosition.TOP_RIGHT
+        },
+        streetViewControl: true,
+        streetViewControlOptions: {
+          position: this.google.maps.ControlPosition.RIGHT_TOP
+        },
+        zoomControl: true,
+        zoomControlOptions: {
+          position: this.google.maps.ControlPosition.RIGHT_BOTTOM
+        },
+        center: { lat: CENTER_LAT_LONG[0], lng: CENTER_LAT_LONG[1] }
+      });
+      this.map.getStreetView().setOptions({
+        addressControlOptions: {
+          position: this.google.maps.ControlPosition.TOP_CENTER
+        },
+        panControlOptions: {
+          position: this.google.maps.ControlPosition.RIGHT_TOP
+        }
+      });
+    },
+    getData() {
+      this.$http
+        .get(
+          "https://api.foursquare.com/v2/venues/search?" +
+            "ll=" +
+            CENTER_POSITION +
+            "&categoryId=" +
+            API_CATEGORIES[this.category].categories +
+            "&radius=" +
+            SEARCH_RADIUS +
+            "&client_id=" +
+            this.clientID +
+            "&client_secret=" +
+            this.clientSecret +
+            "&v=20190404"
+        )
+        .then(function(result) {
+          this.deleteMarkers();
+          this.addMarkers(result);
+        });
+    },
+    addMarkers(data) {
+      let that = this;
+      let markers = data.body.response.venues;
+      $.each(markers, function(i, marker) {
+        // console.log(marker);
+        let newMarker = new that.google.maps.Marker({
+          position: { lat: marker.location.lat, lng: marker.location.lng },
+          map: that.map,
+          id: marker.id,
+          category: marker.categories[0].name,
+          name: marker.name
+        });
+        newMarker.addListener("click", function(evt) {
+          // Smooth transition here somehow
+          that.map.setCenter(newMarker.getPosition());
+          that.map.setZoom(14);
+          that.getGooglePlaceId(newMarker.name);
+        });
+        that.markers.push(newMarker);
+      });
+    },
+    deleteMarkers() {
+      let that = this;
+      $.each(that.markers, function(i, marker) {
+        marker.setMap(null);
+      });
+      this.markers = [];
+    },
+    getGooglePlaceId(name) {
+      let that = this;
+      let query = {
+        query: name,
+        locationBias: {
+          radius: 50000,
+          center: { lat: CENTER_LAT_LONG[0], lng: CENTER_LAT_LONG[1] }
+        },
+        fields: ["place_id"]
+      };
+      let service = new google.maps.places.PlacesService(this.map);
+      service.findPlaceFromQuery(query, function(results, status) {
+        if (status === that.google.maps.places.PlacesServiceStatus.OK) {
+          let id = results[0].place_id;
+          that.getGooglePlaceDetails(id);
+        } else {
+          console.log("Not found!");
+        }
+      });
+    },
+    getGooglePlaceDetails(id) {
+      let that = this;
+      let request = {
+        placeId: id
+      };
+      let service = new that.google.maps.places.PlacesService(this.map);
+      service.getDetails(request, callback);
+      function callback(place, status) {
+        let placeData = {};
+        if (status === that.google.maps.places.PlacesServiceStatus.OK) { //necessary??
+          if (place.name) {
+            placeData.name = place.name;
+          }
+          if (place.formatted_phone_number) {
+            placeData.phoneNumber = place.formatted_phone_number;
+          }
+          if (place.opening_hours) {
+            placeData.openNow = place.opening_hours.open_now;
+          }
+          if (place.opening_hours) {
+            placeData.openTimes = place.opening_hours.weekday_text;
+          }
+          if (place.formatted_address) {
+            placeData.address = place.formatted_address;
+          }
+          if (place.user_ratings_total) {
+            placeData.userRatings = place.user_ratings_total;
+          }
+          if (place.distance) {
+            placeData.distance = place.distance;
+          }
+          if (place.website) {
+            placeData.website = place.website;
+          }
+          if (place.photos) {
+            placeData.photos = place.photos;
+          }
+          if (place.rating) {
+            placeData.rating = place.rating;
+          }
+          if (place.reviews) {
+            placeData.reviews = place.reviews;
+          }
+        }
+        that.$emit("$markerClicked", placeData);
+      }
+    },
+    // searchForQuery: function(query) {
+      // Search query
+    // }
+  }
+};
+</script>
+
+<style scoped>
+.google-map {
+  width: 100vw;
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+  top: 0;
+  left: 0;
+}
+</style>
