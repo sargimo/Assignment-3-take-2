@@ -1,4 +1,3 @@
-
 <template>
   <div
     :class="{buttonLanding: this.$parent.$parent.$parent.$data.landing, buttonInfo: this.$parent.$parent.$parent.$data.info,
@@ -18,7 +17,7 @@
 <script>
 export default {
   name: "ButtonActivities",
-  props: { 
+  props: {
     buttonIsActive: false
   },
   methods: {

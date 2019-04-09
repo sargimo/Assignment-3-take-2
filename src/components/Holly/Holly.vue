@@ -3,7 +3,7 @@
 <template>
   <div class="home">
     <GoogleMap
-      @$landingFalse="landingFalse"
+      @$setLandingFalse="setLandingFalse"
       @$markerClicked="markerClicked"
       :landing="landing"
       :category="category"
@@ -73,7 +73,7 @@ export default {
       this.landing = true;
       this.markerIsActive = false;
     },
-    landingFalse: function() {
+    setLandingFalse: function() {
       this.landing = false;
     },
     markerClicked: function(placeData) {
@@ -85,6 +85,7 @@ export default {
     },
     searchForQuery: function(query) {
       this.searchQuery = query;
+      // this.$emit('$searchForQuery', query);
     }
   }
 };
