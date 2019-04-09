@@ -1,7 +1,7 @@
 <template>
 <div>
 <div class="navbar navbar-expand-lg">
-  <a class="jack-main-logo"><img src="../assets/jack/jack-logo.png"></a>
+  <a class="jack-main-logo"><img src="../../assets/jack/jack-logo.png"></a>
     <div class="navbar-nav ml-auto">
       <a class="nav-item nav-link"><router-link v-bind:to="'/jack'">Home</router-link></a>
       <a class="nav-item nav-link"><router-link v-bind:to="'/'">About Us</router-link></a>

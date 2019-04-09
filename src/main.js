@@ -25,9 +25,13 @@ const routes = [
   { path: "/geoffmap", component: GeoffMap },
   { path: "/geofffeaturelanding", component: GeoffFeatureLanding, name: "geofffeaturelanding", props: true },
   { path: "/holly", component: Holly },
-  { path: "/jack", component: Jack },
   { path: "/jeremy", component: Jeremy },
+  {path: "/jack", component: Jack},
+  {path: "/jkdesigners", component: JkDesigners}
 ];
+
+// Jack Routing
+import JkDesigners from "./components/Jack/JkDesigners.vue";
 
 const router = new VueRouter({
   routes,

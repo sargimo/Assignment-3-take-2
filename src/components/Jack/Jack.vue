@@ -28,7 +28,7 @@ export default {
 
 <style>
 .jack-body {
-  background-image: url("../assets/jack/jack-background.jpg");
+  background-image: url("../../assets/jack/jack-background.jpg");
   width: 100%;
   height: 100%;
   background-size:cover;
@@ -79,7 +79,7 @@ export default {
   /**
    * Dark Arrow Down
    */
-  background-image: url("../assets/jack/jack-downarrow.png");
+  background-image: url("../../assets/jack/jack-downarrow.png");
   
 }
 
