@@ -55,6 +55,20 @@
             "phoneNumber": "04 3812321",
             "mapId": "ChIJmwfKGdivOG0R9eTCVFOngnU",
             "category": "Music Venue"
+        },
+        {
+            "id": "4",
+            "name": "SOUTHERN CROSS GARDEN BAR RESTAURANT",
+            "location": "39 Abel Smith St",
+            "description": "The Cross has something for everyone - have a look around and choose the perfect spot to suit your mood. Each area has been designed to create a different experience, a different ambience. There’s no room for getting bored here – they're not just a place to grab a drink. Each week is chocka with entertainment – from massages for new parents, to live gigs, to quizzes, to life drawing!",
+            "imageUrl": "https://i.ibb.co/LdpFfKh/jbhomegrown.jpg",
+            "website": "https://www.thecross.co.nz/",
+            "email": "cu@thecross.co.nz",
+            "facebook": "https://www.facebook.com/thecrosswellington/",
+            "instagram": "https://www.instagram.com/thecrosswellington/",
+            "phoneNumber": "04 384 9085",
+            "mapId": "ChIJmwfKGdivOG0R9eTCVFOngnU",
+            "category": "Music Venue"
         }
 
     ]

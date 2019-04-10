@@ -26,7 +26,11 @@ import GoogleMapsApiLoader from "google-maps-api-loader";
 import { API_KEY } from "../constants/config.js";
 import { CLIENT_ID } from "../constants/config.js";
 import { CLIENT_SECRET } from "../constants/config.js";
+import { regularMarker } from "../constants/mapSettings.js";
 import musicVenueData from "../constants/musicVenueData.json";
+import recordStoresData from "../constants/recordStoreData.json";
+import musicShopData from "../constants/musicShopData.json";
+import musicSchoolData from "../constants/musicSchoolData.json";
 import GeoffMapCategories from "./GeoffMapCategories.vue";
 import GeoffPlaceInformation from "./GeoffPlaceInformation.vue";
 
@@ -57,7 +61,8 @@ export default {
       placeData: "",
       gPlaceId: "",
       gPlaceData: {},
-      featureData: [musicVenueData.venues],
+      categoryIds: ["4bf58dd8d48988d1e5931735", "4bf58dd8d48988d10d951735", "4bf58dd8d48988d1fe941735", "4f04b10d2fb6e1c99f3db0be"],
+      featureData: [musicVenueData.venues, recordStoresData.venues, musicShopData.venues, musicSchoolData.venues],
       featuredMarkers: []
     };
   },
@@ -110,6 +115,7 @@ export default {
       $.each(places, function(i, place) {
         let newGMarker = new gMap.Marker({
           position: place.position,
+          icon: "https://i.ibb.co/MGR4s7m/geoff-map-marker.png",
           id: place.id,
           map: myMap,
           name: place.name,
@@ -122,8 +128,8 @@ export default {
       });
       this.initMarkerClickListeners(gMarkers);
     },
-    deleteMarkers() {
-      let gMarkers = this.markers;
+    deleteMarkers(array) {
+      let gMarkers = array;
       $.each(gMarkers, function(i, gMarker) {
         gMarker.setMap(null);
       });
@@ -139,21 +145,22 @@ export default {
           that.placeInfoPanel = true;
           that.storePlaceDetails(marker);
           that.getGooglePlaceId(that.placeData.name);
-          // that.getGooglePlaceId("san fran")
+          // that.getGooglePlaceId("new zealand school of music")
           // that.getGooglePlaceDetails()
         });
       });
     },
-    categoryClickHandler: function(id, value, ref) {
-      // this.getSearchData(id, this.currentRadius);
-      this.showFeatureMarkers(0);
+    categoryClickHandler: function(id, value) {
+      this.getSearchData(this.categoryIds[id], this.currentRadius);
+      this.deleteMarkers(this.featuredMarkers)
+      this.showFeatureMarkers(id);
     },
     radiusChanged: function(radius) {
       this.currentRadius = radius;
     },
-    showFeatureMarkers(key) {
+    showFeatureMarkers(id) {
       let that = this;
-      let category = this.featureData[key];
+      let category = this.featureData[id];
       $.each(category, function(i, marker) {
         let request = {
           placeId: category[i].mapId
@@ -164,6 +171,7 @@ export default {
           if (status === google.maps.places.PlacesServiceStatus.OK) {
             let newGMarker = new that.google.maps.Marker({
               position: place.geometry.location,
+              icon: "https://i.ibb.co/GCw4xmG/geoff-featured-map-marker.png",
               id: place.id,
               map: that.map,
               name: marker.name,
@@ -197,7 +205,7 @@ export default {
             "&v=20190404"
         )
         .then(function(data) {
-          this.deleteMarkers();
+          this.deleteMarkers(this.markers);
           this.currentSearchData = [];
           let addMarkers = this.addMarkers;
           let searchData = this.currentSearchData;
@@ -240,7 +248,7 @@ export default {
       let service = new google.maps.places.PlacesService(this.map);
       service.findPlaceFromQuery(query, function(results, status) {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
-          console.log(results);
+          // console.log(results);
           let id = results[0].place_id;
           that.getGooglePlaceDetails(id);
         } else {
@@ -263,11 +271,11 @@ export default {
         placeId: id
         // fields: ['photo', 'user_ratings_total', 'opening_hours', 'website', 'formatted_phone_number', 'reviews', 'rating']
       };
-      console.log(id);
+      // console.log(id);
       let service = new google.maps.places.PlacesService(this.map);
       service.getDetails(request, callback);
       function callback(place, status) {
-        console.log(place);
+        // console.log(place);
         if (status === google.maps.places.PlacesServiceStatus.OK) {
           that.gPlaceData = {};
           if (place.formatted_phone_number) {

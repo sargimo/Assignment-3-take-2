@@ -4,4 +4,9 @@ const mapSettings = {
     maxZoom: 25
 }
 
+const regularMarker = {
+    url: "../../../assets/geoff/geoff-map-marker.png",
+}
+
 export { mapSettings };
+export { regularMarker };

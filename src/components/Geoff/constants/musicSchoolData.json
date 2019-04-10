@@ -1,0 +1,44 @@
+{
+    "venues": [
+        {
+            "id": "0",
+            "name": "GOODTIME MUSIC ACADEMY",
+            "location": "50 VICTORIA STREET, ALICETOWN",
+            "description": "Goodtime Music Academy is an award winning music school based in Lower Hutt that operates as a social enterprise. Kids, teens and adults are all taken care of with lessons available for piano, guitar, singing, drums, ukelele and bass guitar. Every stupidnt also has the opportunity to participate in band classes and to perform in concerts every term.",
+            "imageUrl": "https://i.ibb.co/LdpFfKh/jbhomegrown.jpg",
+            "website": "https://goodtimemusicacademy.co.nz/",
+            "email": "office@gtma.co.nz",
+            "facebook": "https://www.facebook.com/goodtimemusicacademy/",
+            "instagram": "https://www.instagram.com/goodtime_musicacademy/",
+            "phoneNumber": "04 568 2237",
+            "mapId": "ChIJC154_9evOG0RVq63eeH183g",
+            "category": "Music School"
+        },
+        {
+            "id": "1",
+            "name": "THE ROCK ACADEMY",
+            "location": "MOBILE IN WELLINGTON AND LOWER HUTT",
+            "description": "The Rock Academy use a unique method for music tuition that is fun and thorough. Their mobile lessons cover the Wellington and Lower Hutt areas, and the 'Band School' runs out of Newton. With lessons available for guitar, singing, piano, drums, ukulele and violin, your child will gain skills and confidence with Rocky Academy.",
+            "imageUrl": "https://i.ibb.co/LdpFfKh/jbhomegrown.jpg",
+            "website": "http://www.therockacademy.co.nz/",
+            "email": "geoff@therockacademy.co.nz",
+            "facebook": "https://www.facebook.com/therockacademynz/",
+            "phoneNumber": "021 565 750",
+            "mapId": "ChIJNXMpXtivOG0RZnnJ5hFkkpk",
+            "category": "Music School"
+        },
+        {
+            "id": "2",
+            "name": "Te Kōkī THE NEW ZEALAND SCHOOL OF MUSIC",
+            "location": "VICTORIA UNIVERSITY, KELBURN",
+            "description": "If it's a more formal music education you are after, New Zealand's most reowned music school is right around the corner. Study with professionally celebrated and internationally acclaimed staff in the beautiful capital city of Wellington, and take advantage of the many artistic and cultural opportunities on offer.",
+            "imageUrl": "https://i.ibb.co/LdpFfKh/jbhomegrown.jpg",
+            "website": "https://www.victoria.ac.nz/nzsm",
+            "email": "music@vuw.ac.nz",
+            "facebook": "https://www.facebook.com/NZSMusic/",
+            "phoneNumber": "04 4635369",
+            "mapId": "ChIJearNQC-wOG0RHnWypuVu3pw",
+            "category": "Music School"
+        }
+    ]
+}
