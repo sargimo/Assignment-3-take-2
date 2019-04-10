@@ -9,7 +9,7 @@
   <p>Based in our wellington branch.</p>
   </div>
 <div class="jk-testy">
-  <div class="jk-designers" v-for="user in users" v-bind:key="user.id">
+  <div class="jk-designers" v-for="user in users" v-bind:key="user.username">
     <img target="_blank" v-bind:src="user.images[115]">
     <h4 target="_blank" >{{ user.username }}</h4>
     <p></p>
@@ -40,9 +40,6 @@ export default {
         .then(function(data) {
           this.users = data.body.users;
         });
-    },
-    getProjectsByUser: function() {
-
     }
   },
   created: function() {
