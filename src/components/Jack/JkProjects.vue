@@ -5,13 +5,13 @@
   </div>
 
   <div class="jk-designer-bar"> 
-  <h1>Our Designers</h1>
+  <h1>Their Projects</h1>
   <p>Based in our wellington branch.</p>
   </div>
 <div class="jk-testy">
-  <div class="jk-designers" v-for="user in users" v-bind:key="user.username">
-    <img target="_blank" v-bind:src="user.images[115]">
-    <h4 target="_blank" >{{ user.username }}</h4>
+  <div class="jk-designers" v-for="project in projects" v-bind:key="project.id">
+    <!-- <img target="_blank""> -->
+    <h4 target="_blank" >{{ project.name }}</h4>
     <p></p>
     <p></p>
   </div>
@@ -24,7 +24,7 @@
 import JkHeader from "./JkHeader.vue";
 
 export default {
-  name: "JkDesigners",
+  name: "JkProjects",
   data: function() {
     return {
       users: []
@@ -34,18 +34,20 @@ export default {
     JkHeader
   },
   methods: {
-    getDesigners: function() {
-      this.$http
-        .get("https://behance-mock-api.glitch.me/api/users")
-        .then(function(data) {
-          this.users = data.body.users;
+    getProjects: function() {
+      if (this.$route.params.UserValue) {
+        this.$http
+          .get("https://behance-mock-api.glitch.me/api/users/" + UserValue + "/projects")
+          .then(function(data) {
+          this.projects = data.body.projects;
         });
     }
   },
   created: function() {
-    this.getDesigners();
-  }
-};
+    this.getProjects();
+  },
+}
+}
 </script>
 
 <style>

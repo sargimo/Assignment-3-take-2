@@ -28,7 +28,7 @@ const routes = [
   { path: "/jeremy", component: Jeremy },
   { path: "/jack", component: Jack},
   { path: "/jkdesigners", component: JkDesigners},
-  { path: "/jkprojects", component: JkProjects}
+  { path: "/jkprojects", component: JkProjects, name: "jkprojects", props: true }
 ];
 
 // Jack Routing
