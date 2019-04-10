@@ -3,12 +3,14 @@
     <button @click="closeInfoContainer" class="close-button">X</button>
     <div class="place-container">
       <h1 v-if="placeData.name" class="name">{{ placeData.name }}</h1>
-      <div v-if="placeData.photos" class="img-container"><img :src="this.placeData.photos[0].getUrl()" class="img"></div>
+      <div v-if="placeData.photos" class="img-container">
+        <img :src="placePhotos" class="img">
+      </div>
       <div v-if="placeData.website" class="website">
         <a :href="placeData.website" target="_blank">Visit site</a>
       </div>
       <div>
-          <p>{{ placeData.rating }}/5</p>
+        <p>{{ placeData.rating }}/5</p>
       </div>
     </div>
   </div>
@@ -22,10 +24,15 @@ export default {
   props: {
     placeData: Object
   },
+  computed: {
+    placePhotos: function() {
+      return this.placeData.photos[0].getUrl();
+    }
+  },
   methods: {
     closeInfoContainer: function() {
-        this.$emit("$closeInfoContainer");
-    },
+      this.$emit("$closeInfoContainer");
+    }
   }
 };
 </script>
@@ -67,26 +74,27 @@ export default {
   cursor: pointer;
 }
 .img-container {
-    width: 100%;
-    text-align: right;
+  width: 100%;
+  text-align: right;
 }
 .img {
-    width: 100% !important;
-    border-radius: 20px;
-    border: #ddd 1px solid;
-    box-shadow: 0px 0px 1px 1px #000;
-    margin-bottom: 4%;
+  width: 100% !important;
+  border-radius: 20px;
+  border: #ddd 1px solid;
+  box-shadow: 0px 0px 1px 1px #000;
+  margin-bottom: 4%;
 }
-.name, .website {
-    text-align: right;
+.name,
+.website {
+  text-align: right;
 }
 .name {
-    font-size: 1.6rem;
-    margin-bottom: 8%;
+  font-size: 1.6rem;
+  margin-bottom: 8%;
 }
 a {
-    color: #c7800e;
-    /* text-decoration: underline; */
+  color: #c7800e;
+  /* text-decoration: underline; */
 }
 </style>
 

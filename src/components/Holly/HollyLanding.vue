@@ -1,19 +1,19 @@
 <template>
   <transition name="fade" mode="out-in">
     <div class="landing">
-      <router-link class="homeButton" :to="'/'"><i class="fas fa-chevron-left"></i></router-link>
-      <Logo @$goHome="goHome"/>
+      <router-link class="homeButton" :to="'/'">
+        <i class="fas fa-chevron-left"></i>
+      </router-link>
+      <Logo @$setLandingTrue="setLandingTrue" :landing="landing"/>
       <div>
         <h1>Find your next adventure...</h1>
       </div>
-      <SearchBar @$searchForQuery="searchForQuery"/>
-      <div
-        :class="{buttonsLanding: this.$parent.$parent.$data.landing, buttonsInfo: this.$parent.$parent.$data.info}"
-      >
-        <ButtonBike @$categorySelected="categorySelected"/>
-        <ButtonHiking @$categorySelected="categorySelected"/>
-        <ButtonWater @$categorySelected="categorySelected"/>
-        <ButtonActivities @$categorySelected="categorySelected"/>
+      <SearchBar @$searchForQuery="searchForQuery" :landing="landing"/>
+      <div :class="{buttonsLanding: landing, buttonsInfo: !landing}">
+        <ButtonBike @$categorySelected="categorySelected" :landing="landing"/>
+        <ButtonHiking @$categorySelected="categorySelected" :landing="landing"/>
+        <ButtonWater @$categorySelected="categorySelected" :landing="landing"/>
+        <ButtonActivities @$categorySelected="categorySelected" :landing="landing"/>
       </div>
     </div>
   </transition>
@@ -29,6 +29,9 @@ import ButtonActivities from "./nav/ButtonActivities.vue";
 
 export default {
   name: "HollyLanding",
+  props: {
+    landing: Boolean
+  },
   components: {
     Logo,
     SearchBar,
@@ -41,12 +44,12 @@ export default {
     categorySelected: function(id) {
       this.$emit("$categorySelected", id);
     },
-    goHome: function() {
+    setLandingTrue: function() {
       location.reload();
-      this.$emit('$goHome');
+      this.$emit("$setLandingTrue");
     },
     searchForQuery: function(query) {
-      this.$emit('$searchForQuery', query);
+      this.$emit("$searchForQuery", query);
     }
   }
 };
@@ -67,7 +70,7 @@ export default {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.55);
 }
 .homeButton {
   align-self: flex-start;

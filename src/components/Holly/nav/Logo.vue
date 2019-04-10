@@ -1,15 +1,18 @@
 <template>
-  <div :class="{logoLinkLanding: this.$parent.$parent.$parent.$data.landing, logoLinkInfo: !this.$parent.$parent.$parent.$data.landing}">
-    <img @click="goHome" :class="{logoLanding: this.$parent.$parent.$parent.$data.landing, logoInfo: !this.$parent.$parent.$parent.$data.landing}" src="../../../assets/holly/logo-final.png">
+  <div :class="{logoLinkLanding: landing, logoLinkInfo: !landing}">
+    <img @click="setLandingTrue" :class="{logoLanding: landing, logoInfo: !landing}" src="../../../assets/holly/logo-final.png">
   </div>
 </template>
 
 <script>
 export default {
     name: "Logo",
+    props: {
+      landing: Boolean
+    },
     methods: {
-      goHome: function() {
-        this.$emit("$goHome");
+      setLandingTrue: function() {
+        this.$emit("$setLandingTrue");
       }
     }
 };

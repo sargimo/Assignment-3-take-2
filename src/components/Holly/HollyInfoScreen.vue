@@ -1,19 +1,38 @@
 <template>
   <div class="info-screen">
     <div class="lhs-nav">
-      <Logo @$goHome="goHome"/>
-      <SearchBar @$searchForQuery="searchForQuery" />
-      <div
-        :class="{buttonsLanding: this.$parent.$parent.$data.landing, buttonsInfo: this.$parent.$parent.$data.info}"
-      >
-        <ButtonBike :buttonIsActive="category==0" @$categorySelected="categorySelected"/>
-        <ButtonHiking :buttonIsActive="category==1" @$categorySelected="categorySelected"/>
-        <ButtonWater :buttonIsActive="category==2" @$categorySelected="categorySelected"/>
-        <ButtonActivities :buttonIsActive="category==3" @$categorySelected="categorySelected"/>
+      <Logo @$setLandingTrue="setLandingTrue" :landing="landing"/>
+      <SearchBar @$searchForQuery="searchForQuery" :landing="landing" :searchQuery="searchQuery"/>
+      <div :class="{buttonsLanding: landing, buttonsInfo: !landing}">
+        <ButtonBike
+          :buttonIsActive="category==0"
+          @$categorySelected="categorySelected"
+          :landing="landing"
+        />
+        <ButtonHiking
+          :buttonIsActive="category==1"
+          @$categorySelected="categorySelected"
+          :landing="landing"
+        />
+        <ButtonWater
+          :buttonIsActive="category==2"
+          @$categorySelected="categorySelected"
+          :landing="landing"
+        />
+        <ButtonActivities
+          :buttonIsActive="category==3"
+          @$categorySelected="categorySelected"
+          :landing="landing"
+        />
       </div>
     </div>
     <!-- Transition on v-if?? -->
-    <ActivityInfoContainer @$closeInfoContainer="closeInfoContainer" :placeData="placeData" v-show="markerIsActive" class="activity-info-container" />
+    <ActivityInfoContainer
+      @$closeInfoContainer="closeInfoContainer"
+      :placeData="placeData"
+      v-show="markerIsActive"
+      class="activity-info-container"
+    />
   </div>
 </template>
 
@@ -29,9 +48,11 @@ import ActivityInfoContainer from "./ActivityInfoContainer.vue";
 export default {
   name: "HollyInfoScreen",
   props: {
+    landing: Boolean,
     category: null,
     markerIsActive: Boolean,
-    placeData: Object
+    placeData: Object,
+    searchQuery: ""
   },
   components: {
     Logo,
@@ -46,14 +67,14 @@ export default {
     categorySelected: function(id) {
       this.$emit("$categorySelected", id);
     },
-    goHome: function() {
-      this.$emit("$goHome");
+    setLandingTrue: function() {
+      this.$emit("$setLandingTrue");
     },
     closeInfoContainer: function() {
-      this.$emit('$closeInfoContainer');
+      this.$emit("$closeInfoContainer");
     },
     searchForQuery: function(query) {
-      this.$emit('$searchForQuery', query);
+      this.$emit("$searchForQuery", query);
     }
   }
 };

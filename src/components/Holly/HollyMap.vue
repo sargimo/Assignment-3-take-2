@@ -1,14 +1,12 @@
 <template>
   <div class="map">
     <div class="google-map" ref="googleMap"></div>
-    <!-- <template v-if="Boolean(this.google) && Boolean(this.map)">
-      <slot :google="google" :map="map"/>
-    </template>-->
   </div>
 </template>
 
 <script>
 import GoogleMapsApiLoader from "google-maps-api-loader";
+import { mapStyles } from "./constants/mapSettings.js";
 import { API_KEY } from "./constants/config.js";
 import { CLIENT_ID } from "./constants/config.js";
 import { CLIENT_SECRET } from "./constants/config.js";
@@ -19,11 +17,10 @@ import { SEARCH_RADIUS } from "./constants/data.js";
 import { DEFAULT_ZOOM } from "./constants/data.js";
 
 export default {
-  name: "GoogleMap",
+  name: "HollyMap",
   props: {
-    mapConfig: Object,
+    landing: Boolean,
     category: "",
-    landing: false,
     markerIsActive: Boolean,
     searchQuery: ""
   },
@@ -40,9 +37,9 @@ export default {
   computed: {
     ALL_CATEGORIES: function() {
       let that = this;
-      let categories = '';
+      let categories = "";
       $.each(API_CATEGORIES, function(i, category) {
-        categories += category.categories + ',';
+        categories += category.categories + ",";
       });
       return categories;
     }
@@ -57,12 +54,12 @@ export default {
   },
   watch: {
     category: function() {
-      this.getData();
+      if (this.category != null) {
+        this.getData();
+      }
     },
     landing: function() {
       this.deleteMarkers();
-      this.$emit("$setLandingFalse");
-      console.log('success');
       this.initializeMap();
     },
     markerIsActive: function() {
@@ -97,7 +94,8 @@ export default {
         zoomControlOptions: {
           position: this.google.maps.ControlPosition.RIGHT_BOTTOM
         },
-        center: { lat: CENTER_LAT_LONG[0], lng: CENTER_LAT_LONG[1] }
+        center: { lat: CENTER_LAT_LONG[0], lng: CENTER_LAT_LONG[1] },
+        styles: mapStyles
       });
       this.map.getStreetView().setOptions({
         addressControlOptions: {
@@ -184,6 +182,7 @@ export default {
       let service = new that.google.maps.places.PlacesService(this.map);
       service.getDetails(request, callback);
       function callback(place, status) {
+        // console.log(place);
         let placeData = {};
         if (status === that.google.maps.places.PlacesServiceStatus.OK) {
           //necessary??
@@ -225,8 +224,8 @@ export default {
       }
     },
     searchForQuery: function() {
-      // this.$emit("$setLandingFalse");
-      console.log(this.ALL_CATEGORIES);
+      this.$emit("$setLandingFalse");
+      this.initializeMap();
       this.$http
         .get(
           "https://api.foursquare.com/v2/venues/search?" +
@@ -249,7 +248,6 @@ export default {
           this.deleteMarkers();
           this.addMarkers(result);
         });
-        // venues/search?ll=-38.079881,176.271883&radius=50000&query=skyline
     }
   }
 };

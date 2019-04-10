@@ -2,9 +2,10 @@
   <form
     @submit.prevent="searchForQuery"
     class="input-group md-form form-sm form-2 pl-0"
-    :class="{searchLanding: this.$parent.$parent.$parent.$data.landing, searchInfo: !this.$parent.$parent.$parent.$data.landing}"
+    :class="{searchLanding: landing, searchInfo: !landing}"
   >
     <input
+      :value="searchQuery"
       class="form-control my-0 py-1 amber-border"
       ref="searchBar"
       type="text"
@@ -17,16 +18,21 @@
       </button>
     </div>
   </form>
+  <!-- <input v-model="message" placeholder="edit me"> -->
 </template>
 
 <script>
 export default {
   name: "SearchBar",
+  props: {
+    landing: Boolean,
+    searchQuery: ""
+  },
   methods: {
     searchForQuery: function() {
-      this.$refs.searchBar.focus();
       let query = this.$refs.searchBar.value;
-      this.$emit('$searchForQuery', query);
+      this.$emit("$searchForQuery", query);
+      // this.$refs.searchBar.focus();
     }
   }
 };
@@ -34,3 +40,4 @@ export default {
 
 <style scoped src="../constants/navCSS.css">
 </style>
+

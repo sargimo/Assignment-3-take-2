@@ -2,36 +2,40 @@
 
 <template>
   <div class="home">
-    <GoogleMap
+    <HollyMap
       @$setLandingFalse="setLandingFalse"
       @$markerClicked="markerClicked"
       :landing="landing"
       :category="category"
       :markerIsActive="markerIsActive"
       :searchQuery="searchQuery"
-      :mapConfig="mapConfig"
     />
     <HollyLanding
+      v-if="landing"
+      @$setLandingFalse="setLandingFalse"
       @$categorySelected="categorySelected"
       @$searchForQuery="searchForQuery"
-      v-if="this.$parent.$data.landing"
+      :landing="landing"
     />
     <HollyInfoScreen
-      @$goHome="goHome"
+      v-if="!landing"
+      @$setLandingFalse="setLandingFalse"
+      @$setLandingTrue="setLandingTrue"
       @$categorySelected="categorySelected"
       @$closeInfoContainer="closeInfoContainer"
       @$searchForQuery="searchForQuery"
+      :landing="landing"
       :category="category"
       :placeData="placeData"
       :markerIsActive="markerIsActive"
-      v-if="this.$parent.$data.info"
+      :searchQuery="searchQuery"
     />
   </div>
 </template>
 
 <script>
 import GoogleMapsApiLoader from "google-maps-api-loader";
-import GoogleMap from "./GoogleMap.vue";
+import HollyMap from "./HollyMap.vue";
 import HollyLanding from "./HollyLanding.vue";
 import HollyInfoScreen from "./HollyInfoScreen.vue";
 import { mapSettings } from "./constants/mapSettings.js";
@@ -40,36 +44,25 @@ import { CENTER_LAT_LONG } from "./constants/data.js";
 export default {
   name: "Holly",
   components: {
-    GoogleMap,
+    HollyMap,
     HollyLanding,
     HollyInfoScreen
   },
   data: function() {
     return {
-      category: "",
-      landing: false,
+      landing: true,
+      category: null,
       markerIsActive: false,
       searchQuery: "",
       placeData: {}
     };
   },
-  computed: {
-    mapConfig() {
-      return {
-        ...mapSettings,
-        center: { lat: CENTER_LAT_LONG[0], lng: CENTER_LAT_LONG[1] }
-      };
-    }
-  },
   methods: {
     categorySelected: function(id) {
-      this.$parent.$data.landing = false;
-      this.$parent.$data.info = true;
+      this.setLandingFalse();
       this.category = id;
     },
-    goHome: function() {
-      this.$parent.$data.landing = true;
-      this.$parent.$data.info = false;
+    setLandingTrue: function() {
       this.landing = true;
       this.markerIsActive = false;
     },
@@ -84,8 +77,9 @@ export default {
       this.markerIsActive = false;
     },
     searchForQuery: function(query) {
+      this.setLandingFalse();
       this.searchQuery = query;
-      // this.$emit('$searchForQuery', query);
+      this.category = null;
     }
   }
 };
@@ -95,7 +89,7 @@ export default {
 <style scoped>
 .home {
   font-family: "Amatic SC", cursive;
-  font-family: 'Cabin', sans-serif;
+  font-family: "Cabin", sans-serif;
   /* search */
   /* font-family: 'Cuprum', sans-serif; */
   /* font-family: 'Dokdo', cursive; */
@@ -111,7 +105,7 @@ export default {
   /* font-family: 'Raleway', sans-serif; */
   /* font-family: 'Reenie Beanie', cursive; */
   /* font-family: 'Source Code Pro', monospace; */
-  font-family: 'Spinnaker', sans-serif;
+  font-family: "Spinnaker", sans-serif;
   /* font-family: 'Viga', sans-serif; */
 }
 </style>
