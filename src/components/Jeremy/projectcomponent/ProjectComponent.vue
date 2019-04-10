@@ -30,7 +30,7 @@
       </div>
 
       <div class="d-flex justify-content-around">
-        <div v-for="photo in project.modules" class="project-photos-cover">
+        <div v-for="photo in project.modules" v-bind:key="photo.sizes" class="project-photos-cover">
           <img class="project-images" v-bind:src="photo.sizes.max_1200">
         </div>
       </div>
