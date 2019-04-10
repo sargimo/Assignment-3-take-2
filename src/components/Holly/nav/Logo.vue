@@ -1,6 +1,6 @@
 <template>
-  <div :class="{logoLinkLanding: this.$parent.$parent.$parent.$data.landing, logoLinkInfo: this.$parent.$parent.$parent.$data.info}">
-    <img @click="goHome" :class="{logoLanding: this.$parent.$parent.$parent.$data.landing, logoInfo: this.$parent.$parent.$parent.$data.info}" src="../../../assets/holly/logo-final.png">
+  <div :class="{logoLinkLanding: this.$parent.$parent.$parent.$data.landing, logoLinkInfo: !this.$parent.$parent.$parent.$data.landing}">
+    <img @click="goHome" :class="{logoLanding: this.$parent.$parent.$parent.$data.landing, logoInfo: !this.$parent.$parent.$parent.$data.landing}" src="../../../assets/holly/logo-final.png">
   </div>
 </template>
 

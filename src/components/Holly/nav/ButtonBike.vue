@@ -1,13 +1,13 @@
 
 <template>
   <div
-    :class="{buttonLanding: this.$parent.$parent.$parent.$data.landing, buttonInfo: this.$parent.$parent.$parent.$data.info,
+    :class="{buttonLanding: this.$parent.$parent.$parent.$data.landing, buttonInfo: !this.$parent.$parent.$parent.$data.landing,
             buttonIsActive: buttonIsActive}"
   >
     <img
       @click="categorySelected"
       id="0"
-      :class="{buttonImgLanding: this.$parent.$parent.$parent.$data.landing, buttonImgInfo: this.$parent.$parent.$parent.$data.info,
+      :class="{buttonImgLanding: this.$parent.$parent.$parent.$data.landing, buttonImgInfo: !this.$parent.$parent.$parent.$data.landing,
                 buttonImgIsActive: buttonIsActive}"
       src="../../../assets/holly/button-bike.png"
     >

@@ -2,7 +2,7 @@
   <form
     @submit.prevent="searchForQuery"
     class="input-group md-form form-sm form-2 pl-0"
-    :class="{searchLanding: this.$parent.$parent.$parent.$data.landing, searchInfo: this.$parent.$parent.$parent.$data.info}"
+    :class="{searchLanding: this.$parent.$parent.$parent.$data.landing, searchInfo: !this.$parent.$parent.$parent.$data.landing}"
   >
     <input
       class="form-control my-0 py-1 amber-border"

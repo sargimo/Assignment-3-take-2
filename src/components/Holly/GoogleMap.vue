@@ -62,6 +62,7 @@ export default {
     landing: function() {
       this.deleteMarkers();
       this.$emit("$setLandingFalse");
+      console.log('success');
       this.initializeMap();
     },
     markerIsActive: function() {
@@ -224,6 +225,7 @@ export default {
       }
     },
     searchForQuery: function() {
+      // this.$emit("$setLandingFalse");
       console.log(this.ALL_CATEGORIES);
       this.$http
         .get(
