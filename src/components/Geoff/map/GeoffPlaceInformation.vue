@@ -11,11 +11,11 @@
         <div class="details-text">
           <p v-if="gPlaceData.address">
             <span class="detail-title">ADDRESS:</span>
-            {{placeData.address }}
+            {{gPlaceData.address}}
           </p>
           <p v-if="gPlaceData.distance">
             <span class="detail-title">DISTANCE:</span>
-            {{placeData.distance}}m
+            {{gPlaceData.distance}}m
           </p>
           <p v-if="gPlaceData.phoneNumber">
             <span class="detail-title">PHONE NUMBER:</span>
