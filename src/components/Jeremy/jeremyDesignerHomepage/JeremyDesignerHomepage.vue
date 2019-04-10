@@ -14,8 +14,8 @@
       </div>
 
       <div v-for="user in users" v-bind:key="user.id" class="d-inline-flex designer-element">
-        <router-link to="/designerportfolio">
-          <div class="ddelement container row">
+        <router-link to="/designerportfolio" exact>
+          <div :id="user.id" @click="getData" class="ddelement container row">
             <div class="p-2">
               <img class="user-image" v-bind:src="user.images[138]">
             </div>
@@ -33,7 +33,7 @@
         </router-link>
       </div>
 
-      <div class="row">
+      <!-- <div class="row">
         <router-link v-bind:to="'/designerportfolio'">
           <div class="designer d-flex flex-row col-md">
             <div class="designer-image">
@@ -90,7 +90,7 @@
             </div>
           </div>
         </router-link>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -114,6 +114,11 @@ export default {
           console.log("data", data);
           this.users = data.body.users;
         });
+    },
+    
+    getData: function(evt) {
+      //targets router and pushes param of urlTag and imgValue, to be used by DataScreen to display correct data and image
+      this.$router.push({name: "projectcomponent", params: { designerId: evt.target.id } });
     }
   },
   created: function() {
@@ -123,8 +128,7 @@ export default {
 </script>
 
 <style scoped>
-
-.designer-element{
+.designer-element {
   margin: 15px;
 }
 

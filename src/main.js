@@ -13,6 +13,7 @@ import Holly from "./components/Holly/Holly.vue";
 import Jack from "./components/Jack/Jack.vue";
 import Jeremy from "./components/Jeremy/Jeremy.vue";
 import DesignerPortfolio from "./components/Jeremy/designerportfolio/DesignerPortfolio.vue";
+import ProjectComponent from "./components/Jeremy/projectcomponent/ProjectComponent.vue";
 
 Vue.config.productionTip = false;
 
@@ -27,14 +28,19 @@ const routes = [
   { path: "/geofffeaturelanding", component: GeoffFeatureLanding, name: "geofffeaturelanding", props: true },
   { path: "/holly", component: Holly },
   { path: "/jack", component: Jack },
-  { path: "/jeremy", component: Jeremy },
-  {path: "/jeremy", component: Jeremy},
+  { path: "/jeremy", component: Jeremy},
   {
     name: "designerportfolio",
     path: "/designerportfolio",
     component: DesignerPortfolio,
     props: true
   },
+  {
+    name: "projectcomponent",
+    path: "/projectcomponent",
+    component: ProjectComponent,
+    props: true
+  }
 ];
 
 const router = new VueRouter({

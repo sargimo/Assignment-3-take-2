@@ -44,24 +44,84 @@ export default {
   props: ["source"],
   data: function() {
     return {
-      projects: []
+      projects: [],
+      designerId: "",
     };
   },
   methods: {
-    getProjects: function() {
-      console.log("get");
+    // getProjects: function() {
+    //   console.log("get");
 
-      this.$http
-        .get("https://behance-mock-api.glitch.me/api/users/a4d57bd1-a9b9-4c6c-af55-767537bab564/projects")
-        .then(function(data) {
-          console.log("data", data);
-          this.projects = data.body.projects;
-          console.log(this.projects);
-        });
-    }
+    //   this.$http
+    //     .get("https://behance-mock-api.glitch.me/api/users/a4d57bd1-a9b9-4c6c-af55-767537bab564/projects")
+    //     .then(function(data) {
+    //       console.log("data", data);
+    //       this.projects = data.body.projects;
+    //       console.log(this.projects);
+    //     });
+    // },
+    // get designer ID from clicking on designer on homepage then asigning it to the page
+     getInitialData: function() {
+      //targets router and gets param of urlTag, binds that to local component data
+      if (this.$route.params.designerId) {
+        this.urlTag = this.$route.params.designerId;
+        let array = [];
+        //gets api data based on url tag and filters the data based on category
+        this.$http
+          .get("https://behance-mock-api.glitch.me/api/users/" + this.designerId + "/projects")
+          
+          
+          // maybe this isnt needed
+          // .then(function(data) {
+          //   this.spinnerIsActive = false;
+          //   //.body required from slightly strange api data return
+          //   array.push(data.body);
+          //   //RegEx checks for category
+          //   if (/planets/i.test(this.urlTag)) {
+          //     this.data = this.getPlanetsAttributes(array);
+          //   } else if (/people/i.test(this.urlTag)) {
+          //     this.data = this.getPeopleAttributes(array);
+          //   } else if (/starships/i.test(this.urlTag)) {
+          //     this.data = this.getStarshipsAttributes(array);
+          //   }
+          //   this.tableIsActive = true;
+          // });
+      } else {
+        let array = [];
+        //makes default data to lukas von skywalk incase user arrives at page without a click
+        this.$http
+          .get("https://behance-mock-api.glitch.me/api/projects")
+      }
+    },
+
+
+
+// Probably dont need this section below for Behance API project
+
+    /** 
+      * handles search requests
+      * @param {number} searchCategory
+      * @param {string} searchInput
+      */
+    // getData: function(searchCategory, searchInput) {
+    //   this.$http
+    //     .get(
+    //       "https://swapi.co/api/" +
+    //         searchCategory +
+    //         "/?search=" +
+    //         searchInput +
+    //         "&format=json"
+    //     )
+    //     .then(function(data) {
+    //       this.filterData(searchCategory, data.body.results);
+    //       this.spinnerIsActive = false;
+    //       this.tableIsActive = true;
+    //     });
+    // },
   },
   created: function() {
-    this.getProjects();
+    // this.getProjects();
+    this.getInitialData();
   }
 };
 </script>
@@ -75,7 +135,7 @@ export default {
 }
 
 .color-363636{
-  color:#363636;
+  color:#636363;
 }
 .project-images {
   /* border-radius: 25px; */
