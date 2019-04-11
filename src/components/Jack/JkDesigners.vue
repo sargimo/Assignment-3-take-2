@@ -8,8 +8,7 @@
   <h1>Our Designers</h1>
   <p>Based in our wellington branch.</p>
   </div>
-<div class="jk-testy">
-  
+<div class="jk-users container">
     <div class="jk-designers" v-for="user in users" v-bind:key="user.id">
       <router-link :to="'/jkprojects'" exact>
         <img v-bind:title="user.id" target="_blank" v-on:click="getProjectsByUser(user.id)" v-bind:src="user.images[115]">
@@ -77,7 +76,7 @@ export default {
   margin-bottom: 0;
 }
 
-.jk-testy {
+.jk-users {
   display: flex;
   flex-direction: row;
 }

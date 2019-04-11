@@ -8,9 +8,9 @@
   <h1>Their Projects</h1>
   <p>Based in our wellington branch.</p>
   </div>
-<div class="jk-testy">
+<div class="jk-project container">
   <div class="jk-designers" v-for="project in projects" v-bind:key="project.id">
-    <img target="_blank" v-bind:src="project.covers[202]">
+    <img target="_blank" v-bind:src="project.covers[404]">
     <h4 target="_blank" >{{ project.name }}</h4>
     <p target="_blank">Views: {{ project.stats.views }} | Appreciations: {{ project.stats.appreciations }}</p>
     <p ></p>
@@ -72,9 +72,10 @@ export default {
   margin-bottom: 0;
 }
 
-.jk-testy {
+.jk-project {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
 }
 
 </style>
