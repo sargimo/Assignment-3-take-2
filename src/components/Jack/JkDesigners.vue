@@ -8,13 +8,16 @@
   <h1>Our Designers</h1>
   <p>Based in our wellington branch.</p>
   </div>
-<div class="jk-testy">
-  <div class="jk-designers" v-for="user in users" v-bind:key="user.id">
-    <img target="_blank" v-bind:src="user.images[115]">
-    <h4 target="_blank" >{{ user.username }}</h4>
-    <p></p>
-    <p></p>
-  </div>
+<div class="jk-users container">
+    <div class="jk-designers" v-for="user in users" v-bind:key="user.id">
+      <router-link :to="'/jkprojects'" exact>
+        <img v-bind:title="user.id" target="_blank" v-on:click="getProjectsByUser(user.id)" v-bind:src="user.images[115]">
+        <h4 target="_blank" >{{ user.username }}</h4>
+        <p></p>
+        <p></p>
+      </router-link>
+    </div>
+
 </div>
 
 </div>
@@ -41,8 +44,8 @@ export default {
           this.users = data.body.users;
         });
     },
-    getProjectsByUser: function() {
-
+    getProjectsByUser: function(userId) {
+      this.$router.push({name: "jkprojects", params: {userId: userId } });
     }
   },
   created: function() {
@@ -73,7 +76,7 @@ export default {
   margin-bottom: 0;
 }
 
-.jk-testy {
+.jk-users {
   display: flex;
   flex-direction: row;
 }
