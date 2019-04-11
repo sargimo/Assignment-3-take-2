@@ -5,6 +5,7 @@
     <HollyMap
       @$setLandingFalse="setLanding(false)"
       @$markerClicked="markerClicked"
+      @$setMarkerFalse="setMarkerIsActive(false)"
       :landing="landing"
       :category="category"
       :markerIsActive="markerIsActive"

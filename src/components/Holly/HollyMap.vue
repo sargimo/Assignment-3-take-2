@@ -15,6 +15,8 @@ import { CENTER_POSITION } from "./constants/data.js";
 import { CENTER_LAT_LONG } from "./constants/data.js";
 import { SEARCH_RADIUS } from "./constants/data.js";
 import { DEFAULT_ZOOM } from "./constants/data.js";
+import { MARKER_ZOOM } from "./constants/data.js";
+import { setTimeout } from "timers";
 
 export default {
   name: "HollyMap",
@@ -55,13 +57,11 @@ export default {
   watch: {
     category: function() {
       if (this.category != null) {
+        this.refreshMap();
         this.getData();
-      }else {
-        // Call something to set value of searchbar to null
       }
     },
     landing: function() {
-      this.deleteMarkers();
       this.initializeMap();
     },
     markerIsActive: function() {
@@ -72,12 +72,19 @@ export default {
     searchQuery: function() {
       if (this.searchQuery.replace(/\s+/g, "") != "") {
         this.searchForQuery();
-      }else {
-        this.initializeMap();
+      } else {
+        this.refreshMap();
       }
     }
   },
   methods: {
+    refreshMap() {
+      this.map.getStreetView().setVisible(false);
+      this.deleteMarkers();
+      this.$emit("$setMarkerFalse");
+      this.map.setZoom(DEFAULT_ZOOM);
+      this.map.setCenter({ lat: CENTER_LAT_LONG[0], lng: CENTER_LAT_LONG[1] });
+    },
     initializeMap() {
       const mapContainer = this.$refs.googleMap;
       this.map = new this.google.maps.Map(mapContainer, {
@@ -127,7 +134,6 @@ export default {
             "&v=20190404"
         )
         .then(function(result) {
-          this.deleteMarkers();
           this.addMarkers(result);
         });
     },
@@ -140,13 +146,19 @@ export default {
           map: that.map,
           id: marker.id,
           // category: marker.categories[0].name,
-          name: marker.name
+          name: marker.name,
+          icon: "http://maps.google.com/mapfiles/ms/icons/orange-dot.png"
         });
         newMarker.addListener("click", function(evt) {
           // Smooth transition here somehow
-          that.map.setCenter(newMarker.getPosition());
-          that.map.setZoom(14);
-          that.getGooglePlaceId(newMarker.name);
+          if (that.map.getZoom() == MARKER_ZOOM && that.map.getCenter() == newMarker.getPosition()) {
+            that.map.setZoom(DEFAULT_ZOOM);
+            that.$emit("$setMarkerFalse");
+          }else {
+            that.map.setZoom(MARKER_ZOOM);
+            that.getGooglePlaceId(newMarker.name);
+            that.map.setCenter(newMarker.getPosition());
+          }
         });
         that.markers.push(newMarker);
       });
@@ -186,10 +198,8 @@ export default {
       let service = new that.google.maps.places.PlacesService(this.map);
       service.getDetails(request, callback);
       function callback(place, status) {
-        // console.log(place);
         let placeData = {};
         if (status === that.google.maps.places.PlacesServiceStatus.OK) {
-          //necessary??
           if (place.name) {
             placeData.name = place.name;
           }
@@ -229,7 +239,7 @@ export default {
     },
     searchForQuery: function() {
       this.$emit("$setLandingFalse");
-      this.initializeMap();
+      this.refreshMap();
       this.$http
         .get(
           "https://api.foursquare.com/v2/venues/search?" +

@@ -1,22 +1,22 @@
 <template>
-  <div class="activity-info-container">
-    <button @click="closeInfoContainer" class="close-button">X</button>
-    <div class="place-container">
-      <h1 v-if="placeData.name" class="name">{{ placeData.name }}</h1>
-      <div v-if="placeData.photos" class="img-container">
-        <img :src="placePhotos" class="img">
-      </div>
-      <div v-if="placeData.website" class="website">
-        <a :href="placeData.website" target="_blank">Visit site</a>
-      </div>
-      <div>
-        <p>{{ placeData.rating }}/5</p>
+  <transition name="slide-in" mode="out-in">
+    <div class="activity-info-container">
+      <button @click="closeInfoContainer" class="close-button">X</button>
+      <div class="place-container">
+        <h1 v-if="placeData.name" class="name">{{ placeData.name }}</h1>
+        <div v-if="placeData.photos" class="img-container">
+          <img :src="placePhotos" class="img">
+        </div>
+        <div v-if="placeData.website" class="website">
+          <a :href="placeData.website" target="_blank">Visit site</a>
+        </div>
+        <div>
+          <p>{{ placeData.rating }}/5</p>
+        </div>
       </div>
     </div>
-  </div>
+  </transition>
 </template>
-
-// { "height": 2988, "html_attributions": [ "<a href=\"https://maps.google.com/maps/contrib/113517593786235636064/photos\">Brenda Neville</a>" ], "width": 5312 }
 
 <script>
 export default {
@@ -95,6 +95,15 @@ export default {
 a {
   color: #c7800e;
   /* text-decoration: underline; */
+}
+.slide-in-enter-active,
+.slide-in-leave-active {
+  transition: width 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.slide-in-enter,
+.slide-in-leave-to {
+  width: 0%;
 }
 </style>
 
