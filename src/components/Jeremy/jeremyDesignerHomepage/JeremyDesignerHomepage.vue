@@ -14,8 +14,8 @@
       </div>
 
       <div v-for="user in users" v-bind:key="user.id" class="d-inline-flex designer-element">
-        <router-link to="/designerportfolio" exact>
-          <div @click="navigateTo(user.id);" class="ddelement container row">
+        <router-link to="/projectcomponent" exact>
+          <div @click="getProjectsByUser(user.id);" class="ddelement container row">
             <div class="p-2">
               <img :id="user.id" class="user-image" v-bind:src="user.images[138]">
             </div>
@@ -32,65 +32,6 @@
           </div>
         </router-link>
       </div>
-
-      <!-- <div class="row">
-        <router-link v-bind:to="'/designerportfolio'">
-          <div class="designer d-flex flex-row col-md">
-            <div class="designer-image">
-              <img class="userImage" src="../../../assets/jeremy/designer1.png" alt>
-            </div>
-            <div class="designer-details">
-              <h3>Dudley Dawson</h3>
-              <h5>UX Designer</h5>
-
-              <h6>Specialises in:</h6>
-              <ul>
-                <li>User Experience</li>
-                <li>User Interface</li>
-                <li>Web Design</li>
-              </ul>
-            </div>
-          </div>
-        </router-link>
-
-        <router-link v-bind:to="'/designerportfolio'">
-          <div class="designer d-flex flex-row col-md">
-            <div class="designer-image">
-              <img class="userImage" src="../../../assets/jeremy/designer3.png" alt>
-            </div>
-            <div class="designer-details">
-              <h3>Samantha Spectre</h3>
-              <h5>Graphic Designer</h5>
-
-              <h6>Specialises in:</h6>
-              <ul>
-                <li>Logo Design</li>
-                <li>Knolling Design</li>
-                <li>Document Design</li>
-              </ul>
-            </div>
-          </div>
-        </router-link>
-
-        <router-link v-bind:to="'/designerportfolio'">
-          <div class="designer d-flex flex-row col-md">
-            <div class="designer-image">
-              <img class="userImage" src="../../../assets/jeremy/designer2.png" alt>
-            </div>
-            <div class="designer-details">
-              <h3>Albert Jacobs</h3>
-              <h5>Image Expert</h5>
-
-              <h6>Specialises in:</h6>
-              <ul>
-                <li>Photography</li>
-                <li>Publications</li>
-                <li>UX Design</li>
-              </ul>
-            </div>
-          </div>
-        </router-link>
-      </div>-->
     </div>
   </div>
 </template>
@@ -107,7 +48,6 @@ export default {
   methods: {
     getUsers: function() {
       console.log("get");
-
       this.$http
         .get("https://behance-mock-api.glitch.me/api/users")
         .then(function(data) {
@@ -115,13 +55,13 @@ export default {
           this.users = data.body.users;
         });
     },
-    navigateTo: function(userId) {
-      console.log('userId', userId)
+    getProjectsByUser: function(userId) {
+      console.log("userId", userId);
       this.$router.push({
         name: "projectcomponent",
-        params: { designerId: userId }
+        params: { userId: userId }
       });
-      // this.$router.push({ name: "detail", params: { searchQuery: path } });
+     
     }
   },
   created: function() {

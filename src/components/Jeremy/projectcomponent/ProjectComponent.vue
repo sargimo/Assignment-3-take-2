@@ -1,8 +1,16 @@
 <template>
   <div>
-    <h3>Projects Component</h3>
+    <Mynav/>
+    <h3>Super Mario Projects Component</h3>
 
     <div v-for="project in projects" v-bind:key="project.id">
+      
+
+      <div class="designer-details">
+        <h1></h1>
+      </div>
+
+
       <div class="d-inline-flex ddelement justify-content-around align-items-center">
         <div class="project-photos-cover">
           <h2 v-bind:href="project.name" target="_blank">{{ project.name }}</h2>
@@ -39,7 +47,7 @@
             <li v-bind:href="project.tags" target="_blank">{{ project.tags[4] }}</li>
           </ul>
         </div>
-      </div> -->
+      </div>
 
       <div class="d-flex justify-content-around">
         <div v-for="photo in project.modules" v-bind:key="photo.sizes" class="project-photos-cover">
@@ -47,30 +55,44 @@
         </div>
       </div>
     </div>
+
+    <CallToAction/>
+    <Myfooter/>
   </div>
 </template>
 
 <script>
+import Mynav from ".././mynav/Mynav.vue";
+import Myfooter from ".././myfooter/Myfooter.vue";
+import CallToAction from ".././calltoaction/CallToAction.vue";
+
 export default {
   name: "ProjectComponent",
+  components: {
+    Mynav,
+    Myfooter,
+    CallToAction
+  },
   data: function() {
     return {
-      projects: [],
-      designerId: ""
+      projects: []
+      // designerId: ""
     };
   },
-  created: function() {
-    // console.log('params', this.$route.params);
-    if (this.$route.params.designerId) {
-      this.designerId = this.$route.params.designerId;
-      let array = [];
-      //gets api data based on url tag and filters the data based on category
-      this.$http.get(
-        "https://behance-mock-api.glitch.me/api/users/" +
-          this.designerId +
-          "/projects"
-      );
+  methods: {
+    getProjects: function(userId) {
+      this.$http
+        .get(
+          "https://behance-mock-api.glitch.me/api/users/" + userId + "/projects"
+        )
+        .then(function(data) {
+          this.projects = data.body.projects;
+        });
     }
+  },
+  created: function() {
+    console.log("params", this.$route.params.userId);
+    this.getProjects(this.$route.params.userId);
   }
 };
 </script>
