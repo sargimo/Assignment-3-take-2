@@ -5,6 +5,7 @@
     :class="{searchLanding: landing, searchInfo: !landing}"
   >
     <input
+      @click="setCategoryNull"
       :value="searchQuery"
       class="form-control my-0 py-1 amber-border"
       ref="searchBar"
@@ -33,6 +34,9 @@ export default {
       let query = this.$refs.searchBar.value;
       this.$emit("$searchForQuery", query);
       // this.$refs.searchBar.focus();
+    },
+    setCategoryNull: function() {
+      this.$emit('$setCategoryNull');
     }
   }
 };

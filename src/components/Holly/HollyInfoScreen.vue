@@ -2,7 +2,7 @@
   <div class="info-screen">
     <div class="lhs-nav">
       <Logo @$setLandingTrue="setLandingTrue" :landing="landing"/>
-      <SearchBar @$searchForQuery="searchForQuery" :landing="landing" :searchQuery="searchQuery"/>
+      <SearchBar @$searchForQuery="searchForQuery" @setCategoryNull="setCategoryNull" :landing="landing" :searchQuery="searchQuery"/>
       <div :class="{buttonsLanding: landing, buttonsInfo: !landing}">
         <ButtonBike
           :buttonIsActive="category==0"
@@ -75,6 +75,9 @@ export default {
     },
     searchForQuery: function(query) {
       this.$emit("$searchForQuery", query);
+    },
+    setCategoryNull: function() {
+      this.$emit('$setCategoryNull');
     }
   }
 };

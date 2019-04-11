@@ -56,6 +56,8 @@ export default {
     category: function() {
       if (this.category != null) {
         this.getData();
+      }else {
+        // Call something to set value of searchbar to null
       }
     },
     landing: function() {
@@ -70,6 +72,8 @@ export default {
     searchQuery: function() {
       if (this.searchQuery.replace(/\s+/g, "") != "") {
         this.searchForQuery();
+      }else {
+        this.initializeMap();
       }
     }
   },

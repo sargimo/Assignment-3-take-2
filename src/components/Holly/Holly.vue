@@ -3,7 +3,7 @@
 <template>
   <div class="home">
     <HollyMap
-      @$setLandingFalse="setLandingFalse"
+      @$setLandingFalse="setLanding(false)"
       @$markerClicked="markerClicked"
       :landing="landing"
       :category="category"
@@ -12,18 +12,19 @@
     />
     <HollyLanding
       v-if="landing"
-      @$setLandingFalse="setLandingFalse"
+      @$setLandingFalse="setLanding(false)"
       @$categorySelected="categorySelected"
       @$searchForQuery="searchForQuery"
       :landing="landing"
     />
     <HollyInfoScreen
       v-if="!landing"
-      @$setLandingFalse="setLandingFalse"
-      @$setLandingTrue="setLandingTrue"
+      @$setLandingFalse="setLanding(false)"
+      @$setLandingTrue="setLanding(true)"
       @$categorySelected="categorySelected"
       @$closeInfoContainer="closeInfoContainer"
       @$searchForQuery="searchForQuery"
+      @$setCategoryNull="setCategory(null)"
       :landing="landing"
       :category="category"
       :placeData="placeData"
@@ -59,27 +60,39 @@ export default {
   },
   methods: {
     categorySelected: function(id) {
-      this.setLandingFalse();
-      this.category = id;
-    },
-    setLandingTrue: function() {
-      this.landing = true;
-      this.markerIsActive = false;
-    },
-    setLandingFalse: function() {
-      this.landing = false;
+      this.setLanding(false);
+      this.setCategory(id);
+      this.setSearchQuery(null);
     },
     markerClicked: function(placeData) {
       this.placeData = placeData;
-      this.markerIsActive = true;
+      this.setMarkerIsActive(true);
     },
     closeInfoContainer: function() {
-      this.markerIsActive = false;
+      this.setMarkerIsActive(false);
     },
     searchForQuery: function(query) {
-      this.setLandingFalse();
-      this.searchQuery = query;
-      this.category = null;
+      this.setLanding(false);
+      this.setSearchQuery(query);
+      this.setCategory(null);
+    },
+    setLanding: function(bool) {
+      if(bool) {
+        this.setSearchQuery(null);
+        this.landing = true;
+        this.setMarkerIsActive(false)
+      }else {
+        this.landing = false;
+      }
+    },
+    setMarkerIsActive: function(bool) {
+      bool ? this.markerIsActive = true : this.markerIsActive = false;
+    },
+    setCategory: function(value) {
+      value = null ? this.category = null : this.category = value;
+    },
+    setSearchQuery: function(value) {
+      value == null ? this.searchQuery = "" : this.searchQuery = value;
     }
   }
 };
