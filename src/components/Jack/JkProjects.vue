@@ -10,10 +10,10 @@
   </div>
 <div class="jk-testy">
   <div class="jk-designers" v-for="project in projects" v-bind:key="project.id">
-    <!-- <img target="_blank""> -->
+    <img target="_blank" v-bind:src="project.covers[202]">
     <h4 target="_blank" >{{ project.name }}</h4>
-    <p></p>
-    <p></p>
+    <p target="_blank">Views: {{ project.stats.views }} | Appreciations: {{ project.stats.appreciations }}</p>
+    <p ></p>
   </div>
 </div>
 
@@ -27,26 +27,26 @@ export default {
   name: "JkProjects",
   data: function() {
     return {
-      users: []
+      projects: []
     };
   },
   components: {
     JkHeader
   },
   methods: {
-    getProjects: function() {
-      if (this.$route.params.UserValue) {
+    getProjects: function(userId) {
         this.$http
-          .get("https://behance-mock-api.glitch.me/api/users/" + UserValue + "/projects")
+          .get("https://behance-mock-api.glitch.me/api/users/" + userId + "/projects")
           .then(function(data) {
           this.projects = data.body.projects;
         });
-    }
-  },
+  }
+},
   created: function() {
-    this.getProjects();
+      // console.log("params", this.$route.params.userId)
+      this.getProjects(this.$route.params.userId);
+
   },
-}
 }
 </script>
 

@@ -12,7 +12,7 @@
   
     <div class="jk-designers" v-for="user in users" v-bind:key="user.id">
       <router-link :to="'/jkprojects'" exact>
-        <img v-bind:title="user.id" target="_blank" v-on:click="getProjectsByUser" v-bind:src="user.images[115]">
+        <img v-bind:title="user.id" target="_blank" v-on:click="getProjectsByUser(user.id)" v-bind:src="user.images[115]">
         <h4 target="_blank" >{{ user.username }}</h4>
         <p></p>
         <p></p>
@@ -45,18 +45,8 @@ export default {
           this.users = data.body.users;
         });
     },
-    /** 
-      * switch to turn title into category. Used due to being unable to recieve to attributes from the evt.target. There will be a better way 
-      * @param {evt} event
-    */
-    getProjectsByUser: function(evt) {
-      let UserValue;
-      switch (evt.target.title) {
-        case "a4d57bd1-a9b9-4c6c-af55-767537bab564":
-          UserValue = "a4d57bd1-a9b9-4c6c-af55-767537bab564";
-          break;
-      }
-      this.$router.push({name: "jkprojects", params: { UserValue: UserValue } });
+    getProjectsByUser: function(userId) {
+      this.$router.push({name: "jkprojects", params: {userId: userId } });
     }
   },
   created: function() {
