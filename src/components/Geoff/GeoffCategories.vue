@@ -9,7 +9,7 @@
           </div>
         </router-link>
       </div>
-      <div class="category music-venues">
+      <div @click="getCategoryId" class="category music-venues" id="1">
         <div class="cat-title">
           <h3>
             MUSIC
@@ -18,7 +18,7 @@
           <p>LIVE WEEKEND MUSIC VENUES</p>
         </div>
       </div>
-      <div class="category record-stores">
+      <div @click="getCategoryId" class="category record-stores" id="2">
         <div class="cat-title">
           <h3>
             RECORD
@@ -27,7 +27,7 @@
           <p>VINYL, CDS AND EVERYTHING INBETWEEN</p>
         </div>
       </div>
-      <div class="category music-shops">
+      <div @click="getCategoryId" class="category music-shops" id="3">
         <div class="cat-title">
           <h3>
             MUSIC
@@ -36,7 +36,7 @@
           <p>FOR ALL YOUR MUSICAL NEEDS</p>
         </div>
       </div>
-      <div class="category music-schools">
+      <div @click="getCategoryId" class="category music-schools" id="4">
         <div class="cat-title">
           <h3>
             MUSIC

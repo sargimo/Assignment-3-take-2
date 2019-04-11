@@ -27,6 +27,7 @@ import { API_KEY } from "../constants/config.js";
 import { CLIENT_ID } from "../constants/config.js";
 import { CLIENT_SECRET } from "../constants/config.js";
 import { regularMarker } from "../constants/mapSettings.js";
+import { mapStyle } from "../constants/mapSettings.js"
 import musicVenueData from "../constants/musicVenueData.json";
 import recordStoresData from "../constants/recordStoreData.json";
 import musicShopData from "../constants/musicShopData.json";
@@ -83,8 +84,9 @@ export default {
       this.map = new this.google.maps.Map(mapContainer, {
         zoom: 13,
         minZoom: 10,
-        maxZoom: 25,
+        // maxZoom: 25,
         center: { lat: -41.2865, lng: 174.7762 },
+        styles: mapStyle,
         mapTypeControl: false,
         fullscreenControl: true,
         fullscreenControlOptions: {
@@ -109,24 +111,25 @@ export default {
       });
     },
     addMarkers(places) {
-      let myMap = this.map;
-      let gMarkers = this.markers;
-      let gMap = this.google.maps;
+      let that = this;
+      // let myMap = this.map;
+      // let gMarkers = this.markers;
+      // let gMap = this.google.maps;
       $.each(places, function(i, place) {
-        let newGMarker = new gMap.Marker({
+        let newGMarker = new that.google.maps.Marker({
           position: place.position,
           icon: "https://i.ibb.co/MGR4s7m/geoff-map-marker.png",
           id: place.id,
-          map: myMap,
+          map: that.map,
           name: place.name,
           address: place.address,
           addressLoc: place.addressLoc,
           distance: place.distance,
           category: place.category
         });
-        gMarkers.push(newGMarker);
+        that.markers.push(newGMarker);
       });
-      this.initMarkerClickListeners(gMarkers);
+      this.initMarkerClickListeners(that.markers);
     },
     deleteMarkers(array) {
       let gMarkers = array;
