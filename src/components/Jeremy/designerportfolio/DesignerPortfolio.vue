@@ -5,7 +5,7 @@
     <h1>Behance Projects</h1>
 
     <ProjectComponent />
-    <div v-for="project in projects" v-bind:key="project.id">
+    <!-- <div v-for="project in projects" v-bind:key="project.id"> -->
       <!-- <div>
         <h4 v-bind:href="project.name" target="_blank">{{ project.name }}</h4>
         <h6>
@@ -18,7 +18,7 @@
             <li v-for:href="project.covers" target="_blank">{{ project.covers }}</li>
         </ul>
       </div> -->
-    </div>
+    <!-- </div> -->
 
     <CallToAction/>
     <Myfooter/>
@@ -38,6 +38,11 @@ export default {
     Myfooter,
     CallToAction,
     ProjectComponent
+  },
+  data: function() {
+    return {
+      projects: []
+    };
   },
  
 };

@@ -30,17 +30,18 @@ const routes = [
   { path: "/jack", component: Jack },
   { path: "/jeremy", component: Jeremy},
   {
-    name: "designerportfolio",
-    path: "/designerportfolio",
-    component: DesignerPortfolio,
-    props: true
-  },
-  {
     name: "projectcomponent",
     path: "/projectcomponent",
     component: ProjectComponent,
     props: true
+  },
+  {
+    name: "designerportfolio",
+    path: "/designerportfolio",
+    component: DesignerPortfolio,
+    props: true
   }
+  
 ];
 
 const router = new VueRouter({
