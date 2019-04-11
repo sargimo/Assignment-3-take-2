@@ -4,19 +4,20 @@
     <h3>Super Mario Projects Component</h3>
 
     <div v-for="project in projects" v-bind:key="project.id">
-      
-
-      <div class="designer-details">
-        <h1></h1>
+      <div class="d-flex justify-content-around">
+        <div class="p-2">
+          <img v-bind:src="project.covers[404]">
+        </div>
       </div>
 
-
-      <div class="d-inline-flex ddelement justify-content-around align-items-center">
-        <div class="project-photos-cover">
+      <!-- friday concept -->
+      <!-- <div class="d-inline-flex ddelement justify-content-around align-items-center row">
+        <div class="project-photos-cover col-sm">
           <h2 v-bind:href="project.name" target="_blank">{{ project.name }}</h2>
-          <img class="project-cover" v-bind:src="project.covers[230]">
+          <img class="project-cover" v-bind:src="project.covers[202]">
         </div>
-        <div>
+
+        <div class="col-sm">
           <h5>Behance Link:</h5>
           <h6>
             <a v-bind:href="project.url" target="_blank">{{ project.url }}</a>
@@ -37,23 +38,24 @@
             class="color-363636"
           >Comments: {{ project.stats.comments }}</h6>
         </div>
-        <div class="tags">
+
+        <div class="col-sm tags">
           <h6>Tags</h6>
           <ul>
-            <li v-bind:href="project.tags" target="_blank">{{ project.tags[0] }}</li>
-            <li v-bind:href="project.tags" target="_blank">{{ project.tags[1] }}</li>
-            <li v-bind:href="project.tags" target="_blank">{{ project.tags[2] }}</li>
-            <li v-bind:href="project.tags" target="_blank">{{ project.tags[3] }}</li>
-            <li v-bind:href="project.tags" target="_blank">{{ project.tags[4] }}</li>
+            <li v-bind:href="project.tags" target="_blank"  class="color-363636">{{ project.tags[0] }}</li>
+            <li v-bind:href="project.tags" target="_blank"  class="color-363636">{{ project.tags[1] }}</li>
+            <li v-bind:href="project.tags" target="_blank"  class="color-363636">{{ project.tags[2] }}</li>
+            <li v-bind:href="project.tags" target="_blank"  class="color-363636">{{ project.tags[3] }}</li>
+            <li v-bind:href="project.tags" target="_blank"  class="color-363636">{{ project.tags[4] }}</li>
           </ul>
         </div>
-      </div>
+      </div>-->
 
-      <div class="d-flex justify-content-around">
+      <!-- <div class="d-flex justify-content-around">
         <div v-for="photo in project.modules" v-bind:key="photo.sizes" class="project-photos-cover">
           <img class="project-images" v-bind:src="photo.sizes.max_1200">
         </div>
-      </div>
+      </div>-->
     </div>
 
     <CallToAction/>
@@ -119,22 +121,24 @@ export default {
   height: 350px;
 }
 
-.project-cover {
+/* .project-cover {
   height: 110px;
-}
+} */
 
 .designer-element {
   margin: 15px;
 }
 
 .ddelement {
+  margin: 5px;
   width: 100vw;
   padding: 20px;
   background-color: #dbdbdb;
+  transition: background-color 0.5s ease;
   /* text-align: center; */
 }
 
 .ddelement:hover {
-  box-shadow: none;
+  background-color: #8b8b8b;
 }
 </style>
