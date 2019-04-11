@@ -22,9 +22,9 @@ export default {
   name: "HollyMap",
   props: {
     landing: Boolean,
-    category: "",
+    category: null,
     markerIsActive: Boolean,
-    searchQuery: ""
+    searchQuery: null
   },
   data() {
     return {
@@ -70,7 +70,7 @@ export default {
       }
     },
     searchQuery: function() {
-      if (this.searchQuery.replace(/\s+/g, "") != "") {
+      if (this.searchQuery != null && this.searchQuery.replace(/\s+/g, "") != "") {
         this.searchForQuery();
       } else {
         this.refreshMap();

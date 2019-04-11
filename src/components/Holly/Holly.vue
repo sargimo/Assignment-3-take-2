@@ -55,7 +55,7 @@ export default {
       landing: true,
       category: null,
       markerIsActive: false,
-      searchQuery: "",
+      searchQuery: null,
       placeData: {}
     };
   },
@@ -93,7 +93,7 @@ export default {
       value = null ? this.category = null : this.category = value;
     },
     setSearchQuery: function(value) {
-      value == null ? this.searchQuery = "" : this.searchQuery = value;
+      value == null ? this.searchQuery = null : this.searchQuery = value;
     }
   }
 };

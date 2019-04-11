@@ -24,5 +24,5 @@ export const API_CATEGORIES = [
 export const CENTER_POSITION = "-38.079881,176.271883";
 export const CENTER_LAT_LONG = [-38.1368, 176.2497];
 export const SEARCH_RADIUS = 50000;
-export const DEFAULT_ZOOM = 10;
+export const DEFAULT_ZOOM = 10.4;
 export const MARKER_ZOOM = 13;

@@ -19,7 +19,6 @@
       </button>
     </div>
   </form>
-  <!-- <input v-model="message" placeholder="edit me"> -->
 </template>
 
 <script>
@@ -27,16 +26,22 @@ export default {
   name: "SearchBar",
   props: {
     landing: Boolean,
-    searchQuery: ""
+    searchQuery: null
   },
   methods: {
     searchForQuery: function() {
       let query = this.$refs.searchBar.value;
       this.$emit("$searchForQuery", query);
-      // this.$refs.searchBar.focus();
     },
     setCategoryNull: function() {
-      this.$emit('$setCategoryNull');
+      this.$emit("$setCategoryNull");
+    }
+  },
+  created: function() {
+    if (this.searchQuery != null) {
+      this.$nextTick(function() {
+        return this.$refs.searchBar.focus();
+      });
     }
   }
 };

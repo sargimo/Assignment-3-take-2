@@ -47,13 +47,6 @@ import ActivityInfoContainer from "./ActivityInfoContainer.vue";
 
 export default {
   name: "HollyInfoScreen",
-  props: {
-    landing: Boolean,
-    category: null,
-    markerIsActive: Boolean,
-    placeData: Object,
-    searchQuery: ""
-  },
   components: {
     Logo,
     SearchBar,
@@ -62,6 +55,13 @@ export default {
     ButtonWater,
     ButtonActivities,
     ActivityInfoContainer
+  },
+  props: {
+    landing: Boolean,
+    category: null,
+    markerIsActive: Boolean,
+    placeData: Object,
+    searchQuery: null
   },
   methods: {
     categorySelected: function(id) {
