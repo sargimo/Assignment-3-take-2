@@ -48,9 +48,7 @@
             {{gPlaceData.userRatings}}
           </p>
           <p v-if="gPlaceData.website">
-            <span class="detail-title">WEBSITE:</span>
-            {{gPlaceData.website}}
-          </p>
+            <span class="detail-title"><a class="detail-title" :href="this.gPlaceData.website">WEBSITE</a></span>          </p>
           <!-- <p v-if="gPlaceData.photos">PHOTOS: {{gPlaceData.photos}}</p> -->
           <p v-if="gPlaceData.rating">
             <span class="detail-title">RATING:</span>
@@ -160,6 +158,13 @@ export default {
   font-weight: bold;
   font-size: 14px;
   padding-right: 20px;
+  text-decoration: none;
+  cursor: pointer !important;
+}
+
+.detail-title a {
+  color: #3fcbca;
+  cursor: pointer !important;
 }
 
 .stars-outer {

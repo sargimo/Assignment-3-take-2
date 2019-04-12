@@ -28,7 +28,7 @@ export default {
   },
   data: function() {
     return {
-      categoryId: 1,
+      categoryId: Number,
       categoryData: [festivalData.venues, musicVenueData.venues, recordStoresData.venues, musicShopData.venues, musicSchoolData.venues],
       selectedCategoryData: [],
       selectedIndex: 0
@@ -40,9 +40,10 @@ export default {
     },
   methods: {
     getCategoryId() {
-      if (this.$route.params.categoryId){
+      // if (this.$route.params.categoryId){
+        console.log(this.$route.params.categoryId)
         this.categoryId = this.$route.params.categoryId;
-      }
+      // }
     },
     featureIconClicked(id){
       this.selectedIndex = id;

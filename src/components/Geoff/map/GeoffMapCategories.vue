@@ -1,7 +1,6 @@
 <template>
   <div>
     <div class="filters">
-      <button>back</button>
       <div class="filters-container">
         <div class="row">
           <div class="col">
@@ -17,35 +16,44 @@
               @click.prevent="categoryClickHandler"
               :class="{active: buttonIsActive[0]}"
               id="0"
+              value="festivals"
+              class="category-btn"
+            >FESTIVALS</button>
+          </div>
+          <div class="col">
+            <button
+              @click.prevent="categoryClickHandler"
+              :class="{active: buttonIsActive[1]}"
+              id="1"
               value="music venues"
               class="category-btn"
             >MUSIC VENUES</button>
           </div>
           <div class="col">
-            <button 
-            @click.prevent="categoryClickHandler" 
-            :class="{active: buttonIsActive[1]}"
-            id="1" 
-            value="record stores" 
-            class="category-btn"
+            <button
+              @click.prevent="categoryClickHandler"
+              :class="{active: buttonIsActive[2]}"
+              id="2"
+              value="record stores"
+              class="category-btn"
             >RECORD STORES</button>
           </div>
           <div class="col">
-            <button 
-            @click.prevent="categoryClickHandler" 
-            :class="{active: buttonIsActive[2]}"
-            id="2"
-            value="music stores" 
-            class="category-btn"
+            <button
+              @click.prevent="categoryClickHandler"
+              :class="{active: buttonIsActive[3]}"
+              id="3"
+              value="music stores"
+              class="category-btn"
             >MUSIC STORES</button>
           </div>
           <div class="col">
-            <button 
-            @click.prevent="categoryClickHandler" 
-            :class="{active: buttonIsActive[3]}"
-            id="3"
-            value="music schools" 
-            class="category-btn"
+            <button
+              @click.prevent="categoryClickHandler"
+              :class="{active: buttonIsActive[4]}"
+              id="4"
+              value="music schools"
+              class="category-btn"
             >MUSIC SCHOOLS</button>
           </div>
         </div>
@@ -61,26 +69,34 @@ export default {
   methods: {
     categoryClickHandler: function(evt) {
       // console.log(evt)
-      this.$emit("$categoryClickHandler", evt.target.id, evt.target.value, evt.target.ref);
+      this.$emit(
+        "$categoryClickHandler",
+        evt.target.id,
+        evt.target.value,
+        evt.target.ref
+      );
       this.setActive(evt);
     },
     radiusChanged: function(evt) {
-      this.$emit("$radiusChanged", evt.target.value,);
+      this.$emit("$radiusChanged", evt.target.value);
     },
     setActive(evt) {
       let value = evt.target.value;
       switch (value) {
+        case "festivals":
+          this.buttonIsActive = [true, false, false, false, false];
+          break;
         case "music venues":
-          this.buttonIsActive = [true, false, false, false];
+          this.buttonIsActive = [false, true, false, false, false];
           break;
         case "record stores":
-          this.buttonIsActive = [false, true, false, false];
+          this.buttonIsActive = [false, false, true, false, false];
           break;
         case "music stores":
-          this.buttonIsActive = [false, false, true, false];
+          this.buttonIsActive = [false, false, false, true, false];
           break;
         case "music schools":
-          this.buttonIsActive = [false, false, false, true];
+          this.buttonIsActive = [false, false, false, false, true];
           break;
       }
     }
@@ -88,7 +104,7 @@ export default {
   data: function() {
     return {
       buttonIsActive: [false, false, false, false]
-    }
+    };
   }
 };
 </script>
@@ -99,7 +115,6 @@ export default {
   margin: 0 auto;
 }
 .filters {
-  
   position: absolute;
   z-index: 2;
   top: 0;
@@ -109,7 +124,7 @@ export default {
 }
 
 .dropdown {
-  font-family: 'Hind Madurai', sans-serif;
+  font-family: "Hind Madurai", sans-serif;
 }
 
 .category-btn {

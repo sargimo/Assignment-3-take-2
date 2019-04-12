@@ -54,13 +54,16 @@ import festivalData from "./constants/festivalData.json";
 export default {
   name: "GeoffCategories",
   data: function() {
-    return {};
+    return {
+      catId: null
+    };
   },
   methods: {
     getCategoryId(evt) {
+      this.catId = evt.target.id
       this.$router.push({
         name: "geofffeaturelanding",
-        params: { categoryId: evt.target.id }
+        params: { categoryId: this.catId }
       });
     }
   }

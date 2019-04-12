@@ -25,6 +25,7 @@ import { CLIENT_SECRET } from "../constants/config.js";
 import { regularMarker } from "../constants/mapSettings.js";
 import { mapStyle } from "../constants/mapSettings.js"
 import GeoffBackBtn from "../GeoffBackBtn.vue";
+import festivalData from "../constants/festivalData.json";
 import musicVenueData from "../constants/musicVenueData.json";
 import recordStoresData from "../constants/recordStoreData.json";
 import musicShopData from "../constants/musicShopData.json";
@@ -41,7 +42,7 @@ export default {
   },
 
   props: {
-    // mapConfig: Object
+
   },
 
   data: function() {
@@ -60,8 +61,8 @@ export default {
       placeData: "",
       gPlaceId: "",
       gPlaceData: {},
-      categoryIds: ["4bf58dd8d48988d1e5931735", "4bf58dd8d48988d10d951735", "4bf58dd8d48988d1fe941735", "4f04b10d2fb6e1c99f3db0be"],
-      featureData: [musicVenueData.venues, recordStoresData.venues, musicShopData.venues, musicSchoolData.venues],
+      categoryIds: ["test", "4bf58dd8d48988d1e5931735", "4bf58dd8d48988d10d951735", "4bf58dd8d48988d1fe941735", "4f04b10d2fb6e1c99f3db0be"],
+      featureData: [festivalData.venues, musicVenueData.venues, recordStoresData.venues, musicShopData.venues, musicSchoolData.venues],
       featuredMarkers: []
     };
   },
@@ -73,8 +74,11 @@ export default {
     });
     this.google = googleMapApi;
     this.initializeMap();
+    // this.categoryClickHandler(this.$route.params.id, "test")
   },
-
+  created: function() {
+    
+  },
   methods: {
     initializeMap() {
       const mapContainer = this.$refs.googleMap;
@@ -131,6 +135,38 @@ export default {
       });
       gMarkers = [];
     },
+    showFeaturedFestivals() {
+      let that = this;
+      let category = this.featureData[0];
+      $.each(category, function(i, marker) {
+        let request = {
+          placeId: category[i].mapId
+        };
+        let service = new google.maps.places.PlacesService(that.map);
+          function callback(place, status) {
+          if (status === google.maps.places.PlacesServiceStatus.OK) {
+            let newGMarker = new that.google.maps.Marker({
+              position: place.geometry.location,
+              icon: "https://i.ibb.co/GCw4xmG/geoff-featured-map-marker.png",
+              id: place.id,
+              map: that.map,
+              name: marker.name,
+              address: marker.location,
+              addressLoc: place.address_components[3].short_name,
+              category: marker.category
+            });
+            newGMarker.addListener("click", function(evt) {
+              that.map.setZoom(15);
+              that.map.setCenter(newGMarker.getPosition());
+              that.placeInfoPanel = true;
+              that.storePlaceDetails(marker);
+              // that.getGooglePlaceId(that.placeData.name);
+            });
+            that.featuredMarkers.push(newGMarker);
+          }
+        }
+      })
+    },
     initMarkerClickListeners(markers) {
       let that = this;
       $.each(markers, function(i, marker) {
@@ -141,15 +177,19 @@ export default {
           that.placeInfoPanel = true;
           that.storePlaceDetails(marker);
           that.getGooglePlaceId(that.placeData.name);
-          // that.getGooglePlaceId("new zealand school of music")
+          // that.getGooglePlaceId("michael fowler center")
           // that.getGooglePlaceDetails()
         });
       });
     },
     categoryClickHandler: function(id, value) {
+      if (id === "0") {
+        this.showFeaturedFestivals()
+      } else {
       this.getSearchData(this.categoryIds[id], this.currentRadius);
       this.deleteMarkers(this.featuredMarkers)
       this.showFeatureMarkers(id);
+      }
     },
     radiusChanged: function(radius) {
       this.currentRadius = radius;

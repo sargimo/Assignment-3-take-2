@@ -21,7 +21,7 @@
         <i class="fas fa-grip-lines-vertical"></i>
       </div>
       <div class="button-align">
-        <button class="btn-yellow">EXPLORE</button>
+        <button @click="exploreMapClicked" :id="this.source[index].catId" class="btn-yellow">EXPLORE</button>
       </div>
     </div>
   </div>
@@ -32,6 +32,15 @@ export default {
   name: "GeoffFeatureDetails",
   components: {},
   props: ['source', 'index'],
+  methods: {
+    exploreMapClicked(evt){
+      let id = evt.target.id
+      this.$router.push({
+        name: "geoffmaploader",
+        params: {id: id}
+      })
+    }
+  }
 };
 </script>
 
