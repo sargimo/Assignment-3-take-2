@@ -70,7 +70,10 @@ export default {
       }
     },
     searchQuery: function() {
-      if (this.searchQuery != null && this.searchQuery.replace(/\s+/g, "") != "") {
+      if (
+        this.searchQuery != null &&
+        this.searchQuery.replace(/\s+/g, "") != ""
+      ) {
         this.searchForQuery();
       } else {
         this.refreshMap();
@@ -141,26 +144,38 @@ export default {
       let that = this;
       let markers = data.body.response.venues;
       $.each(markers, function(i, marker) {
-        let newMarker = new that.google.maps.Marker({
-          position: { lat: marker.location.lat, lng: marker.location.lng },
-          map: that.map,
-          id: marker.id,
-          // category: marker.categories[0].name,
-          name: marker.name,
-          icon: "http://maps.google.com/mapfiles/ms/icons/orange-dot.png"
-        });
-        newMarker.addListener("click", function(evt) {
-          // Smooth transition here somehow
-          if (that.map.getZoom() == MARKER_ZOOM && that.map.getCenter() == newMarker.getPosition()) {
-            that.map.setZoom(DEFAULT_ZOOM);
-            that.$emit("$setMarkerFalse");
-          }else {
-            that.map.setZoom(MARKER_ZOOM);
-            that.getGooglePlaceId(newMarker.name);
+        // Catch incorrect/very inconsistent FourSquare/Google Places API data 
+        if (
+          marker.id != "55ab791a498e4ade94d4770c" &&
+          marker.id != "4ecb32e68b813b34fddbcf53" &&
+          marker.id != "569b39c3498e633a3cd9670a" &&
+          marker.id != "563fe2f2cd10e0967a0b8cde"
+        ) {
+          let newMarker = new that.google.maps.Marker({
+            position: { lat: marker.location.lat, lng: marker.location.lng },
+            map: that.map,
+            // id: marker.id,
+            category: marker.categories[0].name,
+            name: marker.name,
+            icon: "http://maps.google.com/mapfiles/ms/icons/orange-dot.png"
+          });
+          newMarker.addListener("click", function(evt) {
+            // Smooth transition here somehow
+            console.log(newMarker);
+            if (
+              // that.map.getZoom() == MARKER_ZOOM &&
+              that.map.getCenter() == newMarker.getPosition()
+            ) {
+              that.map.setZoom(DEFAULT_ZOOM);
+              that.$emit("$setMarkerFalse");
+            } else if(that.map.getZoom() <= MARKER_ZOOM){
+              that.map.setZoom(MARKER_ZOOM);
+            }
+            that.getGooglePlaceId(newMarker.name, newMarker.category);
             that.map.setCenter(newMarker.getPosition());
-          }
-        });
-        that.markers.push(newMarker);
+          });
+          that.markers.push(newMarker);
+        }
       });
     },
     deleteMarkers() {
@@ -170,12 +185,12 @@ export default {
       });
       this.markers = [];
     },
-    getGooglePlaceId(name) {
+    getGooglePlaceId(name, category) {
       let that = this;
       let query = {
         query: name,
         locationBias: {
-          radius: 50000,
+          radius: SEARCH_RADIUS,
           center: { lat: CENTER_LAT_LONG[0], lng: CENTER_LAT_LONG[1] }
         },
         fields: ["place_id"]
@@ -184,13 +199,17 @@ export default {
       service.findPlaceFromQuery(query, function(results, status) {
         if (status === that.google.maps.places.PlacesServiceStatus.OK) {
           let id = results[0].place_id;
-          that.getGooglePlaceDetails(id);
+          that.getGooglePlaceDetails(id, category);
         } else {
-          console.log("Not found!");
+          that.$emit("$setMarkerFalse");
+          that.map.setZoom(DEFAULT_ZOOM);
+          setTimeout(function() {
+            alert("Destination permanently closed, sorry!");
+          }, 700);
         }
       });
     },
-    getGooglePlaceDetails(id) {
+    getGooglePlaceDetails(id, category) {
       let that = this;
       let request = {
         placeId: id
@@ -199,6 +218,7 @@ export default {
       service.getDetails(request, callback);
       function callback(place, status) {
         let placeData = {};
+        console.log(placeData);
         if (status === that.google.maps.places.PlacesServiceStatus.OK) {
           if (place.name) {
             placeData.name = place.name;
@@ -218,9 +238,9 @@ export default {
           if (place.user_ratings_total) {
             placeData.userRatings = place.user_ratings_total;
           }
-          if (place.distance) {
-            placeData.distance = place.distance;
-          }
+          // if (place.distance) {
+          //   placeData.distance = place.distance;
+          // }
           if (place.website) {
             placeData.website = place.website;
           }
@@ -230,10 +250,11 @@ export default {
           if (place.rating) {
             placeData.rating = place.rating;
           }
-          if (place.reviews) {
-            placeData.reviews = place.reviews;
-          }
+          // if (place.reviews) {
+          //   placeData.reviews = place.reviews;
+          // }
         }
+        placeData.category = category;
         that.$emit("$markerClicked", placeData);
       }
     },
