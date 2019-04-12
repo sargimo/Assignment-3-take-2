@@ -1,12 +1,67 @@
 <template>
   <div>
     <Mynav/>
-    <h3>Super Mario Projects Component</h3>
 
-    <div v-for="project in projects" v-bind:key="project.id">
-      <div class="d-flex justify-content-around">
+    <div class="d-flex justify-content-around project-elements">
+      <div v-for="project in projects" v-bind:key="project.id">
         <div class="p-2">
           <img v-bind:src="project.covers[404]">
+          <h2 v-bind:href="project.ame" target="_blank">{{ project.name }}</h2>
+          <h4>Behance Link</h4>
+          <h6>
+            <a v-bind:href="project.url" target="_blank">{{ project.url }}</a>
+          </h6>
+          <div class="col-sm">
+            <h6
+              v-bind:href="project.stats.views"
+              target="_blank"
+              class="color-363636"
+            >Views: {{ project.stats.views }}</h6>
+            <h6
+              v-bind:href="project.stats.appreciations"
+              target="_blank"
+              class="color-363636"
+            >Appreciations: {{ project.stats.appreciations }}</h6>
+            <h6
+              v-bind:href="project.stats.comments"
+              target="_blank"
+              class="color-363636"
+            >Comments: {{ project.stats.comments }}</h6>
+          </div>
+          <!-- Button trigger modal -->
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-toggle="modal"
+            data-target="#exampleModal"
+          >View Project</button>
+
+          <!-- Modal -->
+          <div
+            class="modal fade"
+            id="exampleModal"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel" v-bind:href="project.ame" target="_blank">{{ project.name }}</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body"><div v-for="photo in project.modules" v-bind:key="photo.sizes" class="project-photos-cover">
+          <img class="project-images" v-bind:src="photo.sizes.max_1200">
+        </div></div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -140,5 +195,14 @@ export default {
 
 .ddelement:hover {
   background-color: #8b8b8b;
+}
+
+.project-elements {
+  padding: 30px;
+}
+
+.modal-dialog {
+    max-width: 1200px;
+    margin: 1.75rem auto;
 }
 </style>

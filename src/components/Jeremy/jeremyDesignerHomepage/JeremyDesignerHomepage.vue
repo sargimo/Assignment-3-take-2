@@ -15,7 +15,7 @@
 
       <div v-for="user in users" v-bind:key="user.id" class="d-inline-flex designer-element">
         <router-link to="/projectcomponent" exact>
-          <div @click="getProjectsByUser(user.id);" class="ddelement container row">
+          <div @click="getProjectsByUser(user.id);" class="ddelement container">
             <div class="p-2">
               <img :id="user.id" class="user-image" v-bind:src="user.images[138]">
             </div>
@@ -61,7 +61,6 @@ export default {
         name: "projectcomponent",
         params: { userId: userId }
       });
-     
     }
   },
   created: function() {
@@ -71,19 +70,16 @@ export default {
 </script>
 
 <style scoped>
-.designer-element {
-  margin: 15px;
-}
 
 .ddelement {
-  padding: 50px;
+  padding: 20px;
   margin: 50px;
-  border-radius: 25px;
-  box-shadow: -1px -1px 5px 5px rgba(0, 0, 0, 0.21);
+  box-shadow: none;
+  transition: box-shadow 0.5s ease;
 }
 
 .ddelement:hover {
-  box-shadow: none;
+  box-shadow: -1px -1px 5px 5px rgba(0, 0, 0, 0.21);
 }
 
 .designer-component {
