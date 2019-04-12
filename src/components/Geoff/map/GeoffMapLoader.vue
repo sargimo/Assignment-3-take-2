@@ -1,5 +1,8 @@
 <template>
   <div>
+    <router-link :to="'/GeoffCategories'" exact>
+      <GeoffBackBtn />
+    </router-link>
     <GeoffMapCategories
       @$categoryClickHandler="categoryClickHandler"
       @$radiusChanged="radiusChanged"
@@ -11,13 +14,6 @@
       v-if="placeInfoPanel"
     />
     <div class="google-map" ref="googleMap"></div>
-    <!-- <template v-if="Boolean(this.google) && Boolean(this.map)">
-      <slot :google="google" :map="map"/>
-    </template> -->
-    <!-- <button
-      @click="addMarkers([{position: {lat: -41.2855, lng: 174.7772}}, {position: {lat: -41.2875, lng: 174.7742}}, {position: {lat: -41.2871, lng: 174.7779}}])"
-    >add</button>
-    <button @click="deleteMarkers()">delete</button>-->
   </div>
 </template>
 
@@ -28,6 +24,7 @@ import { CLIENT_ID } from "../constants/config.js";
 import { CLIENT_SECRET } from "../constants/config.js";
 import { regularMarker } from "../constants/mapSettings.js";
 import { mapStyle } from "../constants/mapSettings.js"
+import GeoffBackBtn from "../GeoffBackBtn.vue";
 import musicVenueData from "../constants/musicVenueData.json";
 import recordStoresData from "../constants/recordStoreData.json";
 import musicShopData from "../constants/musicShopData.json";
@@ -38,6 +35,7 @@ import GeoffPlaceInformation from "./GeoffPlaceInformation.vue";
 export default {
   name: "GeoffMapLoader",
   components: {
+    GeoffBackBtn,
     GeoffMapCategories,
     GeoffPlaceInformation
   },
@@ -75,7 +73,6 @@ export default {
     });
     this.google = googleMapApi;
     this.initializeMap();
-    // this.initFeatureMarkers();
   },
 
   methods: {
@@ -84,7 +81,6 @@ export default {
       this.map = new this.google.maps.Map(mapContainer, {
         zoom: 13,
         minZoom: 10,
-        // maxZoom: 25,
         center: { lat: -41.2865, lng: 174.7762 },
         styles: mapStyle,
         mapTypeControl: false,
@@ -112,9 +108,6 @@ export default {
     },
     addMarkers(places) {
       let that = this;
-      // let myMap = this.map;
-      // let gMarkers = this.markers;
-      // let gMap = this.google.maps;
       $.each(places, function(i, place) {
         let newGMarker = new that.google.maps.Marker({
           position: place.position,

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div :key="index" v-for="(sources, index) in source" :style="styles[index]">
-      <img src="../../../assets/geoff/geoff-map-marker.png">
+      <img @click="featureIconClicked" :id="index" src="../../../assets/geoff/geoff-map-marker.png">
     </div>
   </div>
 </template>
@@ -15,16 +15,26 @@ export default {
       styles: []
     }
   },
-  watch: {
-    source: function() {
+  methods: {
+    featureIconClicked(evt){
+      this.$emit("$featureIconClicked", evt.target.id)
+    },
+    getStyles() {
       let that = this;
       this.styles = [];
       $.each(that.source, function(i, venue) {
-        console.log(venue.style)
         let style = JSON.parse(venue.style)
         that.styles.push(style);
       })
     }
+  },
+  created: function () {
+    this.getStyles();
+  },
+  watch: {
+    source: function() {
+      this.getStyles();
+    } 
   }
 };
 </script>

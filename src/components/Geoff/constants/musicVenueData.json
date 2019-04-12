@@ -2,7 +2,7 @@
     "venues": [
         {
             "id": "0",
-            "title": "Meow",
+            "title": "MEOW",
             "location": "9 EDWARD ST, TE ARO",
             "description": "From hosting their own jazz festival, to nights with a distinctly rock ‘n’ roll vibe, Meow is the place to be on any day of the week. A restaurant bar during the day, Meow also boasts an extensive calendar of events. Their intimate venue backs onto floor to ceiling windows that cast the performers in striking silhouettes and evokes the open and creative space of an art studio. The venue is spacious with minimal furnishing and high ceilings where you can really immerse yourself in the local talent on show.",
             "imageUrl": "https://i.ibb.co/LdpFfKh/jbhomegrown.jpg",
@@ -13,7 +13,7 @@
             "phoneNumber": "04-385 8883",
             "mapId": "ChIJy4pWytevOG0Rwnic3zc5ASA",
             "category": "Music Venue",
-            "style": "{\"position\": \"absolute\", \"left\": \"200px\", \"top\": \"800px\"}" 
+            "style": "{\"position\": \"absolute\", \"left\": \"300px\", \"top\": \"550px\"}" 
 
         },
         {
@@ -29,7 +29,7 @@
             "phoneNumber": "04-385 8883",
             "mapId": "ChIJ4zvqN9ivOG0RniLyeYwE3lU",
             "category": "Music Venue",
-            "style": "{\"position\": \"absolute\", \"left\": \"500px\", \"top\": \"800px\"}" 
+            "style": "{\"position\": \"absolute\", \"left\": \"300px\", \"top\": \"630px\"}" 
 
         },
         {
@@ -45,7 +45,7 @@
             "phoneNumber": "0220524302",
             "mapId": "ChIJH3YcUNivOG0RsAFoKsh044Q",
              "category": "Music Venue",
-             "style": "{\"position\": \"absolute\", \"left\": \"400px\", \"top\": \"800px\"}" 
+             "style": "{\"position\": \"absolute\", \"left\": \"310px\", \"top\": \"670px\"}" 
 
         },
         {
@@ -61,7 +61,7 @@
             "phoneNumber": "04 3812321",
             "mapId": "ChIJmwfKGdivOG0R9eTCVFOngnU",
             "category": "Music Venue",
-            "style": "{\"position\": \"absolute\", \"left\": \"100px\", \"top\": \"800px\"}" 
+            "style": "{\"position\": \"absolute\", \"left\": \"280px\", \"top\": \"600px\"}" 
 
         },
         {
@@ -77,7 +77,7 @@
             "phoneNumber": "04 384 9085",
             "mapId": "ChIJmwfKGdivOG0R9eTCVFOngnU",
             "category": "Music Venue",
-            "style": "{\"position\": \"absolute\", \"left\": \"300px\", \"top\": \"800px\"}" 
+            "style": "{\"position\": \"absolute\", \"left\": \"270px\", \"top\": \"670px\"}" 
 
         }
 

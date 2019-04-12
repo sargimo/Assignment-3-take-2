@@ -9,6 +9,7 @@ import Geoff from "./components/Geoff/Geoff.vue";
 import GeoffCategories from "./components/Geoff/GeoffCategories.vue";
 import GeoffMap from "./components/Geoff/map/GeoffMap.vue";
 import GeoffFeatureLanding from "./components/Geoff/featured/GeoffFeatureLanding.vue";
+import GeoffBackBtn from "./components/Geoff/GeoffBackBtn.vue";
 import Holly from "./components/Holly/Holly.vue";
 import Jack from "./components/Jack/Jack.vue";
 import Jeremy from "./components/Jeremy/Jeremy.vue";
@@ -24,6 +25,7 @@ const routes = [
   { path: "/geoffcategories", component: GeoffCategories },
   { path: "/geoffmap", component: GeoffMap },
   { path: "/geofffeaturelanding", component: GeoffFeatureLanding, name: "geofffeaturelanding", props: true },
+  { path: "/geoffbackbtn", component: GeoffBackBtn },
   { path: "/holly", component: Holly },
   { path: "/jack", component: Jack },
   { path: "/jeremy", component: Jeremy },

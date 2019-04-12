@@ -1,15 +1,16 @@
 <template>
   <div class="category-landing">
-    <!-- <button @click="getCategoryId">test</button> -->
+    <router-link :to="'/GeoffCategories'" exact> 
+      <GeoffBackBtn />
+    </router-link>
     <GeoffFeatureDetails v-if="categoryId&&selectedCategoryData" :index="selectedIndex" :source="selectedCategoryData"/>
-    <GeoffFeatureMapIcons :source="selectedCategoryData"/>
+    <GeoffFeatureMapIcons @$featureIconClicked="featureIconClicked" :source="selectedCategoryData"/>
   </div>
 </template>
 
 <script>
-import GeoffFeatureHeroImage from "./GeoffFeatureHeroImage.vue";
+import GeoffBackBtn from "../GeoffBackBtn.vue";
 import GeoffFeatureDetails from "./GeoffFeatureDetails.vue";
-import GeoffFeatureMapImage from "./GeoffFeatureMapImage.vue";
 import GeoffFeatureMapIcons from "./GeoffFeatureMapIcons.vue";
 import festivalData from "../constants/festivalData.json";
 import musicVenueData from "../constants/musicVenueData.json";
@@ -21,30 +22,38 @@ import musicSchoolData from "../constants/musicSchoolData.json";
 export default {
   name: "GeoffFeatureLanding",
   components: {
-    GeoffFeatureHeroImage,
+    GeoffBackBtn,
     GeoffFeatureDetails,
-    GeoffFeatureMapImage,
     GeoffFeatureMapIcons
   },
   data: function() {
     return {
-      categoryId: "",
+      categoryId: 1,
       categoryData: [festivalData.venues, musicVenueData.venues, recordStoresData.venues, musicShopData.venues, musicSchoolData.venues],
       selectedCategoryData: [],
       selectedIndex: 0
     };
   },
     created: function() {
-      this.getCategoryId();     
+      this.getCategoryId();
+      this.setCategory();     
     },
   methods: {
     getCategoryId() {
-      this.categoryId = this.$route.params.categoryId;
+      if (this.$route.params.categoryId){
+        this.categoryId = this.$route.params.categoryId;
+      }
+    },
+    featureIconClicked(id){
+      this.selectedIndex = id;
+    },
+    setCategory() {
+      this.selectedCategoryData = this.categoryData[this.categoryId];
     }
   },
   watch: {
     categoryId: function() {
-      this.selectedCategoryData = this.categoryData[this.categoryId];
+      this.setCategory();
     }
   }
 };

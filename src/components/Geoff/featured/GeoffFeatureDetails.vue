@@ -2,7 +2,7 @@
   <div class="cust-container">
     <div class="details">
       <div class="venue-title">
-        <h2 :v-if="source">{{source[index].month}}, {{source[index].location}}</h2>
+        <h2 :v-if="source">{{source[index].month}} {{source[index].location}}</h2>
         <h1>{{source[index].title}}</h1>
       </div>
       <div class="contact-icons">

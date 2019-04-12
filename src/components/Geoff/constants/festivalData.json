@@ -11,7 +11,7 @@
             "email": "info@homegrown.net.nz",
             "facebook": "https://www.facebook.com/pages/Homegrown/159983710685042/",
             "instagram": "https://www.instagram.com/jimbeamhomegrown/",
-            "style": "{\"position\": \"absolute\", \"left\": \"200px\", \"top\": \"700px\"}" 
+            "style": "{\"position\": \"absolute\", \"left\": \"350px\", \"top\": \"500px\"}" 
         },
         {
             "id": "1",
@@ -24,7 +24,7 @@
             "email": "info@coastella.co.nz",
             "facebook": "https://www.facebook.com/coastella/",
             "instagram": "https://www.instagram.com/coastella/",
-            "style": "{\"position\": \"absolute\", \"left\": \"400px\", \"top\": \"800px\"}" 
+            "style": "{\"position\": \"absolute\", \"left\": \"200px\", \"top\": \"100px\"}" 
         },
         {
             "id": "2",
@@ -36,7 +36,7 @@
             "website": "info@jazzfestival.co.nz",
             "facebook": "https://www.facebook.com/welljazzfest/",
             "instagram": "https://www.instagram.com/welljazzfest/",
-            "style": "{\"position\": \"absolute\", \"left\": \"300px\", \"top\": \"800px\"}" 
+            "style": "{\"position\": \"absolute\", \"left\": \"320px\", \"top\": \"550px\"}" 
 
         }
     ]
