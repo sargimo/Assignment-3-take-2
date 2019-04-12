@@ -28,12 +28,14 @@ const routes = [
   { path: "/jeremy", component: Jeremy },
   { path: "/jack", component: Jack},
   { path: "/jkdesigners", component: JkDesigners},
-  { path: "/jkprojects", component: JkProjects, name: "jkprojects", props: true }
+  { path: "/jkprojects", component: JkProjects, name: "jkprojects", props: true },
+  { path: "/jkuserproject", component: JkUserProject, name: "jkuserproject", props: true }
 ];
 
 // Jack Routing
 import JkDesigners from "./components/Jack/JkDesigners.vue";
 import JkProjects from "./components/Jack/JkProjects.vue";
+import JkUserProject from "./components/Jack/JkUserProject.vue";
 
 const router = new VueRouter({
   routes,

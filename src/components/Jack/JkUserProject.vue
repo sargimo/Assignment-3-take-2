@@ -4,17 +4,15 @@
   <JkHeader />
   </div>
 
-  <div class="jk-designer-bar"> 
+<div class="jk-designer-bar"> 
     <div>
-  <h1>Our Designers</h1>
-  <p>Based in our wellington branch.</p>
+  <h1>{{ project.name }}</h1>
   </div>
   </div>
 <div class="jk-users container">
-    <div class="jk-designers" v-for="user in users" v-bind:key="user.id" v-on:click="getProjectsByUser(user.id)">
-        <img v-bind:title="user.id" target="_blank"  v-bind:src="user.images[138]">
-        <p target="_blank">Web Developer</p>
-        <h4 target="_blank" >{{ user.username }}</h4>
+    <h4 target="_blank" >{{ project.name }}</h4>
+    <div v-for="modules in project" v-bind:key="modules.type">
+      <img target="_blank" class="shadow-sm" v-bind:src="modules.src">
     </div>
 
 </div>
@@ -29,26 +27,24 @@ export default {
   name: "JkDesigners",
   data: function() {
     return {
-      users: []
+      project: []
     };
   },
   components: {
     JkHeader
   },
   methods: {
-    getDesigners: function() {
-      this.$http
-        .get("https://behance-mock-api.glitch.me/api/users")
-        .then(function(data) {
-          this.users = data.body.users;
+    getProject: function(projectId) {
+          this.$http
+          .get("https://behance-mock-api.glitch.me/api/projects/" + projectId)
+          .then(function(data) {
+          this.project = data.body.project;
         });
-    },
-    getProjectsByUser: function(userId) {
-      this.$router.push({name: "jkprojects", params: {userId: userId } });
     }
   },
   created: function() {
-    this.getDesigners();
+  // console.log("params", this.$route.params.projectId)
+    this.getProject(this.$route.params.projectId);
   }
 };
 </script>
