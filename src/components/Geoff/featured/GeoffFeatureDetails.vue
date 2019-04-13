@@ -21,7 +21,9 @@
         <i class="fas fa-grip-lines-vertical"></i>
       </div>
       <div class="button-align">
-        <button @click="exploreMapClicked" :id="this.source[index].catId" class="btn-yellow">EXPLORE</button>
+        <router-link :to="'/geoffmaploader'" exact> 
+          <button @click="exploreMapClicked" :id="this.source[index].catId" class="btn-yellow">EXPLORE</button>
+        </router-link>
       </div>
     </div>
   </div>
@@ -36,9 +38,13 @@ export default {
     exploreMapClicked(evt){
       let id = evt.target.id
       this.$router.push({
-        name: "geoffmaploader",
+        name: "geoffmaploader", 
         params: {id: id}
-      })
+      });
+      // this.$router.push({
+      //   name: "geoffmapcategories", 
+      //   params: {id: id}
+      // })
     }
   }
 };

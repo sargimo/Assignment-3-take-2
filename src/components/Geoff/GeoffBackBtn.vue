@@ -19,10 +19,11 @@ export default {
     font-size: 40px;
     color: #fff;
     transition: all 0.2s linear;
+    transform: scale(1);
   }
 
   .back-btn:hover {
-      color: #3fcbca;
-      font-size: 45px;
+    color: #3fcbca;
+    transform: scale(1.2);
   }
 </style>

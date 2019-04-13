@@ -63,7 +63,7 @@
         </div>
       </div>
       <div class="directions">
-        <button>GET DIRECTIONS</button>
+        <button @click="getDirections">GET DIRECTIONS</button>
       </div>
     </div>
   </transition>
@@ -82,6 +82,9 @@ export default {
     },
     emitBack() {
       this.$emit("$closeInfoPanel");
+    },
+    getDirections() {
+      this.$emit("$getDirections");
     }
   },
   data: function() {
@@ -132,11 +135,6 @@ export default {
   /* justify-content: center; */
   /* align-items: center; */
   width: 70%;
-}
-
-.title-text {
-  /* margin: 0;
-  width: 80%; */
 }
 
 .name-text {

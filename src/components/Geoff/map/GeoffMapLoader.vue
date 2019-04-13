@@ -1,7 +1,7 @@
 <template>
   <div>
     <router-link :to="'/GeoffCategories'" exact>
-      <GeoffBackBtn />
+      <GeoffBackBtn/>
     </router-link>
     <GeoffMapCategories
       @$categoryClickHandler="categoryClickHandler"
@@ -9,6 +9,7 @@
     />
     <GeoffPlaceInformation
       @$closeInfoPanel="closeInfoPanel"
+      @$getDirections="getDirections"
       :placeData="placeData"
       :gPlaceData="gPlaceData"
       v-if="placeInfoPanel"
@@ -23,7 +24,7 @@ import { API_KEY } from "../constants/config.js";
 import { CLIENT_ID } from "../constants/config.js";
 import { CLIENT_SECRET } from "../constants/config.js";
 import { regularMarker } from "../constants/mapSettings.js";
-import { mapStyle } from "../constants/mapSettings.js"
+import { mapStyle } from "../constants/mapSettings.js";
 import GeoffBackBtn from "../GeoffBackBtn.vue";
 import festivalData from "../constants/festivalData.json";
 import musicVenueData from "../constants/musicVenueData.json";
@@ -41,9 +42,7 @@ export default {
     GeoffPlaceInformation
   },
 
-  props: {
-
-  },
+  props: {},
 
   data: function() {
     return {
@@ -60,10 +59,25 @@ export default {
       placeInfoPanel: false,
       placeData: "",
       gPlaceId: "",
-      gplaceData: Object,
-      categoryIds: ["5267e4d9e4b0ec79466e48d1", "4bf58dd8d48988d1e5931735", "4bf58dd8d48988d10d951735", "4bf58dd8d48988d1fe941735", "4f04b10d2fb6e1c99f3db0be"],
-      featureData: [festivalData.venues, musicVenueData.venues, recordStoresData.venues, musicShopData.venues, musicSchoolData.venues],
-      featuredMarkers: []
+      gPlaceData: Object,
+      categoryIds: [
+        "5267e4d9e4b0ec79466e48d1",
+        "4bf58dd8d48988d1e5931735",
+        "4bf58dd8d48988d10d951735",
+        "4bf58dd8d48988d1fe941735",
+        "4f04b10d2fb6e1c99f3db0be"
+      ],
+      featureData: [
+        festivalData.venues,
+        musicVenueData.venues,
+        recordStoresData.venues,
+        musicShopData.venues,
+        musicSchoolData.venues
+      ],
+      featuredMarkers: [],
+      directionsService: null,
+      directionsDisplay: null,
+      activeMarker: null
     };
   },
 
@@ -74,18 +88,18 @@ export default {
     });
     this.google = googleMapApi;
     this.initializeMap();
-    if(this.$route.params.id) {
-      this.categoryClickHandler(this.$route.params.id)
+    if (this.$route.params.id) {
+      this.categoryClickHandler(this.$route.params.id);
     }
   },
-  created: function() {
-    
-  },
+  created: function() {},
   methods: {
     initializeMap() {
+      this.directionsService = new this.google.maps.DirectionsService();
+      this.directionsDisplay = new this.google.maps.DirectionsRenderer();
       const mapContainer = this.$refs.googleMap;
       this.map = new this.google.maps.Map(mapContainer, {
-        zoom: 13,
+        zoom: 15,
         center: { lat: -41.2865, lng: 174.7762 },
         styles: mapStyle,
         mapTypeControl: false,
@@ -110,6 +124,7 @@ export default {
           position: google.maps.ControlPosition.BOTTOM_LEFT
         }
       });
+      this.directionsDisplay.setMap(this.map);
     },
     addMarkers(places) {
       let that = this;
@@ -139,7 +154,7 @@ export default {
     showFeaturedFestivals(id) {
       let that = this;
       this.deleteMarkers(this.markers);
-      this.deleteMarkers(this.featuredMarkers)
+      this.deleteMarkers(this.featuredMarkers);
       // this.currentSearchData = [];
       let category = this.featureData[id];
       that.map.setZoom(9);
@@ -149,11 +164,12 @@ export default {
         };
         let service = new google.maps.places.PlacesService(that.map);
         service.getDetails(request, callback);
-          function callback(place, status) {
+        function callback(place, status) {
           if (status === google.maps.places.PlacesServiceStatus.OK) {
             let newGMarker = new that.google.maps.Marker({
               position: place.geometry.location,
               icon: "https://i.ibb.co/GCw4xmG/geoff-featured-map-marker.png",
+              zIndex: 999,
               id: place.id,
               map: that.map,
               name: marker.name,
@@ -164,17 +180,22 @@ export default {
             });
             newGMarker.addListener("click", function(evt) {
               that.map.setZoom(15);
+              that.activeMarker = newGMarker;
               that.map.setCenter(newGMarker.getPosition());
               that.placeInfoPanel = true;
-              that.placeData = {name: marker.name, category: marker.category}
-              that.gPlaceData = {address: marker.location, website: marker.website, desc: marker.description}
+              that.placeData = { name: marker.name, category: marker.category };
+              that.gPlaceData = {
+                address: marker.location,
+                website: marker.website,
+                desc: marker.description
+              };
               // that.storePlaceDetails(marker);
               // that.getGooglePlaceId(that.placeData.name);
             });
             that.featuredMarkers.push(newGMarker);
           }
         }
-      })
+      });
     },
     initMarkerClickListeners(markers) {
       let that = this;
@@ -186,6 +207,7 @@ export default {
           that.placeInfoPanel = true;
           that.storePlaceDetails(marker);
           that.getGooglePlaceId(that.placeData.name);
+          that.activeMarker = marker;
           // that.getGooglePlaceId("michael fowler center")
           // that.getGooglePlaceDetails()
         });
@@ -193,15 +215,33 @@ export default {
     },
     categoryClickHandler: function(id, value) {
       if (id === "0") {
-        this.showFeaturedFestivals(id)
+        this.showFeaturedFestivals(id);
       } else {
-      this.getSearchData(this.categoryIds[id], this.currentRadius);
-      this.deleteMarkers(this.featuredMarkers)
-      this.showFeatureMarkers(id);
+        this.changeZoom(this.currentRadius);
+        this.getSearchData(this.categoryIds[id], this.currentRadius);
+        this.deleteMarkers(this.featuredMarkers);
+        this.showFeatureMarkers(id);
       }
     },
     radiusChanged: function(radius) {
       this.currentRadius = radius;
+      this.changeZoom(radius);
+    },
+    changeZoom(radius) {
+      switch (radius) {
+        case "1000":
+          this.map.setZoom(15);
+          break;
+        case "5000":
+          this.map.setZoom(14);
+          break;
+        case "10000":
+          this.map.setZoom(13);
+          break;
+        case "20000":
+          this.map.setZoom(12);
+          break;
+      }
     },
     showFeatureMarkers(id) {
       let that = this;
@@ -216,6 +256,7 @@ export default {
           if (status === google.maps.places.PlacesServiceStatus.OK) {
             let newGMarker = new that.google.maps.Marker({
               position: place.geometry.location,
+              zIndex: 999,
               icon: "https://i.ibb.co/GCw4xmG/geoff-featured-map-marker.png",
               id: place.id,
               map: that.map,
@@ -369,6 +410,28 @@ export default {
     },
     closeInfoPanel() {
       this.placeInfoPanel = false;
+    },
+    getDirections() {
+      let that = this;
+      that.directionsService.route(
+        {
+          origin: { lat: -41.2268, lng: 174.807 },
+          destination: that.activeMarker.position,
+          travelMode: "DRIVING"
+        },
+        function(response, status) {
+          if (status === "OK") {
+            that.directionsDisplay.setDirections(response);
+          } else {
+            window.alert("Directions request failed due to " + status);
+          }
+        }
+      );
+    },
+    clearDirections: function() {
+      if (this.directionsDisplay != null) {
+        this.directionsDisplay.set("directions", null);
+      }
     }
     // getPlaceDetails(id) {
     //   this.$http

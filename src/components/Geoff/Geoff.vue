@@ -1,20 +1,22 @@
 <template>
-  <div class="home-bg">
-    <div class="container">
-      <div class="nz-outline">
-        <img src="../../assets/geoff/nz-outline.png">
-      </div>
-      <div class="title">
-        <h1 class="title-top">WELLINGTON</h1>
-        <h2 class="sub-title">THE NAME OF THIS</h2>
-        <div class="flex-center">
-          <router-link :to="'/GeoffCategories'" exact>
-            <button class="btn-yellow">GET STARTED</button>
-          </router-link>
+  <!-- <transition name="page-fade-in" mode="in-out"> -->
+    <div class="home-bg">
+      <div class="container">
+        <div class="nz-outline">
+          <img src="../../assets/geoff/nz-outline.png">
+        </div>
+        <div class="title">
+          <h1 class="title-top">WELLINGTON</h1>
+          <h2 class="sub-title">THE NAME OF THIS</h2>
+          <div class="flex-center">
+            <router-link :to="'/GeoffCategories'" exact>
+              <button class="btn-yellow">GET STARTED</button>
+            </router-link>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  <!-- </transition> -->
 </template>
 
 <script>
@@ -31,6 +33,16 @@ export default {
   width: 100vw;
   height: 100vh;
 }
+
+/* .page-fade-in-enter-active,
+.page-fade-in-leave-active {
+  transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
+}
+
+.page-fade-in-enter,
+.page-fade-in-leave-to {
+  opacity: 0;
+} */
 
 .title {
   position: absolute;
