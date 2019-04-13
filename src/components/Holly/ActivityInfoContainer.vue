@@ -80,9 +80,21 @@ export default {
 </script>
 
 <style scoped>
+::-webkit-scrollbar {
+  width: 0px;
+}
+/* ::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+} */
 .activity-info-container {
   background: url("../../assets/holly/pattern-background.png") center / cover;
-  position: absolute;
+  position: relative;
   z-index: 1000;
   right: 0;
   bottom: 0;
@@ -100,11 +112,17 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
+  padding-bottom: 6%;
+  padding-right: 0;
 }
 .place-container {
-  position: absolute;
+  position: relative;
   top: 60px;
   width: 80%;
+  height: 100%;
+  overflow-y: auto;
+  padding-right: 1%;
 }
 .close-button {
   position: absolute;
