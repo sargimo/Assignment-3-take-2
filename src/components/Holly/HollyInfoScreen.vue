@@ -27,8 +27,9 @@
       </div>
     </div>
     <!-- Transition on v-if?? -->
-    <ActivityInfoContainer
+    <HollyActivityInfoContainer
       @$closeInfoContainer="closeInfoContainer"
+      @$getDirections="getDirections"
       :placeData="placeData"
       v-show="markerIsActive"
       class="activity-info-container"
@@ -43,7 +44,7 @@ import ButtonBike from "./nav/ButtonBike.vue";
 import ButtonHiking from "./nav/ButtonHiking.vue";
 import ButtonWater from "./nav/ButtonWater.vue";
 import ButtonActivities from "./nav/ButtonActivities.vue";
-import ActivityInfoContainer from "./ActivityInfoContainer.vue";
+import HollyActivityInfoContainer from "./HollyActivityInfoContainer.vue";
 
 export default {
   name: "HollyInfoScreen",
@@ -54,7 +55,7 @@ export default {
     ButtonHiking,
     ButtonWater,
     ButtonActivities,
-    ActivityInfoContainer
+    HollyActivityInfoContainer
   },
   props: {
     landing: Boolean,
@@ -78,6 +79,9 @@ export default {
     },
     setCategoryNull: function() {
       this.$emit('$setCategoryNull');
+    },
+    getDirections: function() {
+      this.$emit('$getDirections');
     }
   }
 };

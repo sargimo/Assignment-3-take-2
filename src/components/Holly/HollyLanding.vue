@@ -1,5 +1,4 @@
 <template>
-  <transition name="fade" mode="out-in">
     <div class="landing">
       <router-link class="homeButton" :to="'/'">
         <i class="fas fa-chevron-left"></i>
@@ -15,8 +14,8 @@
         <ButtonWater @$categorySelected="categorySelected" :landing="landing"/>
         <ButtonActivities @$categorySelected="categorySelected" :landing="landing"/>
       </div>
+      <button @click="getLucky" class="feeling-lucky-button">FEELING LUCKY?</button>
     </div>
-  </transition>
 </template>
 
 <script>
@@ -50,6 +49,9 @@ export default {
     },
     searchForQuery: function(query) {
       this.$emit("$searchForQuery", query);
+    },
+    getLucky: function() {
+      this.$emit('$getLucky');
     }
   }
 };
@@ -84,12 +86,18 @@ export default {
 .homeButton:focus {
   outline: none;
 }
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.4s ease-in-out, transform 1.5s ease-in-out;
+.feeling-lucky-button {
+  background: #c7800e;
+  border-radius: 4px;
+  padding: 0.5% 1%;
+  color: #fff;
 }
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
+.feeling-lucky-button:hover {
+  background: #ffd711;
+  color: #291E02;
 }
+.feeling-lucky-button:focus {
+  outline: none;
+}
+
 </style>

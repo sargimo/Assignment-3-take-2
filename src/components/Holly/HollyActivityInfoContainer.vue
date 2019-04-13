@@ -1,52 +1,58 @@
 <template>
   <transition name="slide-in" mode="out-in">
     <div class="activity-info-container">
-      <button @click="closeInfoContainer" class="close-button">X</button>
-      <div class="place-container">
+      <i @click="closeInfoContainer" class="fas fa-times-circle close-button"></i>
+      <div class="title-container">
         <h1 v-if="placeData.name" class="name">{{ placeData.name }}</h1>
         <h2 v-if="placeData.category" class="category">{{ placeData.category }}</h2>
+      </div>
+      <div class="place-container">
         <div v-if="placeData.photos" class="img-container">
           <img :src="placePhotos" class="img">
         </div>
-        <div v-if="placeData.website" class="website">
-          <a :href="placeData.website" target="_blank">Visit site</a>
-        </div>
-        <div v-if="placeData.address">
-          <p>
-            <i class="fas fa-map-marker-alt"></i> {{ placeData.address }}
-          </p>
-        </div>
-        <div v-if="placeData.phoneNumber">
-          <p>
-            <i class="fas fa-mobile-alt"></i> {{ placeData.phoneNumber }}
-          </p>
-        </div>
-        <div v-if="placeData.openTimes">
-          <p v-if="placeData.openNow">
-            <i class="fas fa-heart"></i>
-            <span>Open now!</span>
-          </p>
-          <p v-if="!placeData.openNow">
-            <i class="fas fa-heart-broken"></i>
-            <span>Closed right now!</span>
-          </p>
-        </div>
-        <div v-if="placeData.rating" class="rating">
-          <p class="stars">
-            <span class="stars-outer">
-              <span :style="{ width: width + '%' }" class="stars-inner"></span>
-            </span>
-          </p>
-          <span v-if="placeData.userRatings" class="rated-by">Rated by {{ placeData.userRatings }}</span>
+        <div class="place-details">
+          <div v-if="placeData.address">
+            <p>
+              <i class="fas fa-map-marker-alt"></i>{{ placeData.address }}
+            </p>
+          </div>
+          <div v-if="placeData.phoneNumber">
+            <p>
+              <i class="fas fa-mobile-alt"></i>
+              {{ placeData.phoneNumber }}
+            </p>
+          </div>
+          <div v-if="placeData.openTimes">
+            <p v-if="placeData.openNow">
+              <i class="fas fa-check-circle"></i>
+              <span>Open now!</span>
+            </p>
+            <p v-if="!placeData.openNow">
+              <i class="fas fa-times-circle"></i>
+              <span>Closed right now!</span>
+            </p>
+          </div>
+          <div v-if="placeData.rating" class="rating">
+            <p class="stars">
+              <span class="stars-outer">
+                <span :style="{ width: width + '%' }" class="stars-inner"></span>
+              </span>
+            </p>
+            <span v-if="placeData.userRatings" class="rated-by">Rated by {{ placeData.userRatings }}</span>
+          </div>
+          <div v-if="placeData.website" class="website">
+            <a :href="placeData.website" target="_blank">Check it out!</a>
+          </div>
         </div>
       </div>
+      <button @click="getDirections" class="direction-button">Get Directions</button>
     </div>
   </transition>
 </template>
 
 <script>
 export default {
-  name: "ActivityInfoContainer",
+  name: "HollyActivityInfoContainer",
   props: {
     placeData: Object
   },
@@ -54,7 +60,7 @@ export default {
     return {
       starTotal: 5,
       width: Number
-    }
+    };
   },
   computed: {
     placePhotos: function() {
@@ -74,6 +80,9 @@ export default {
       let starPercentage = (this.placeData.rating / this.starTotal) * 100;
       let starPercentRounded = `${Math.round(starPercentage / 10) * 10}`;
       this.width = starPercentRounded;
+    },
+    getDirections: function() {
+      this.$emit('$getDirections');
     }
   }
 };
@@ -81,17 +90,17 @@ export default {
 
 <style scoped>
 ::-webkit-scrollbar {
-  width: 0px;
+  width: 4px;
 }
-/* ::-webkit-scrollbar-track {
-  background: #f1f1f1; 
+::-webkit-scrollbar-track {
+  background: #291E02; 
 }
 ::-webkit-scrollbar-thumb {
-  background: #888; 
+  background: #c7800e; 
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #555; 
-} */
+  background: #ffd711; 
+}
 .activity-info-container {
   background: url("../../assets/holly/pattern-background.png") center / cover;
   position: relative;
@@ -110,39 +119,51 @@ export default {
   font-family: "Spinnaker", sans-serif;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   overflow: hidden;
   padding-bottom: 6%;
   padding-right: 0;
 }
+.title-container,
 .place-container {
+  width: 82%;
+}
+.title-container {
   position: relative;
   top: 60px;
-  width: 80%;
-  height: 100%;
-  overflow-y: auto;
-  padding-right: 1%;
 }
-.close-button {
+.place-container {
+  position: relative;
+  top: 10%;
+  height: 75%;
+  overflow-y: auto;
+  padding-right: 2%;
+}
+.place-details {
+  width: 94%;
+  padding-bottom: 2%;
+  margin: auto;
+}
+i.close-button {
   position: absolute;
   top: 10px;
   left: 10px;
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
+  font-size: 1.2rem;
   cursor: pointer;
+  color: #fff;
+}
+i.close-button:hover {
+  color: #c7800e;
 }
 .img-container {
   width: 100%;
+  text-align: center;
+  margin-bottom: 8%;
 }
 .img {
   width: 100% !important;
-  /* max-height: 100%; */
-  border-radius: 20px;
-  border: #ddd 1px solid;
-  box-shadow: 0px 0px 1px 1px #000;
-  margin-bottom: 4%;
+  border-radius: 10px;
 }
 .name,
 .category,
@@ -155,12 +176,15 @@ export default {
 }
 .category {
   font-size: 1rem;
-  color: #ffd711;
+  color: #c7800e;
   margin-bottom: 7%;
 }
 a {
+  color: #ffd711;
+  text-decoration: underline;
+}
+a:hover {
   color: #c7800e;
-  /* text-decoration: underline; */
 }
 .slide-in-enter-active,
 .slide-in-leave-active {
@@ -192,8 +216,9 @@ a {
   color: #ffd711;
   font-weight: 600;
 }
-i {
+.fas {
   color: #c7800e;
+  margin-right: 2%;
 }
 .stars {
   margin-bottom: 0;
@@ -201,6 +226,21 @@ i {
 .rated-by {
   font-size: 0.7rem;
 }
+.direction-button {
+  position: absolute;
+  bottom: 5%;
+  z-index: 100;
+  width: 45%;
+  padding: 1% 0;
+  font-size: 1.3rem;
+  border-radius: 8px;
+  background: #ffd711;
+}
+.direction-button:hover {
+  /* color: #fff; */
+  background: #c7800e;
+}
+.direction-button:focus {
+  outline: none;
+}
 </style>
-
-

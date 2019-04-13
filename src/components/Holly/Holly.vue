@@ -1,21 +1,28 @@
 <!-- Parent component to everything: Holly (landing) and InfoScreen!!! -->
 
 <template>
+  <transition name="fade" mode="out-in">
+
   <div class="home">
     <HollyMap
       @$setLandingFalse="setLanding(false)"
       @$markerClicked="markerClicked"
       @$setMarkerFalse="setMarkerIsActive(false)"
+      @$setIsGettingLuckyFalse="setIsGettingLucky(false)"
+      @$setIsGettingDirectionsFalse="setIsGettingDirections(false)"
       :landing="landing"
       :category="category"
       :markerIsActive="markerIsActive"
       :searchQuery="searchQuery"
+      :isGettingLucky="isGettingLucky"
+      :isGettingDirections="isGettingDirections"
     />
     <HollyLanding
       v-if="landing"
       @$setLandingFalse="setLanding(false)"
       @$categorySelected="categorySelected"
       @$searchForQuery="searchForQuery"
+      @$getLucky="getLucky"
       :landing="landing"
     />
     <HollyInfoScreen
@@ -26,6 +33,7 @@
       @$closeInfoContainer="closeInfoContainer"
       @$searchForQuery="searchForQuery"
       @$setCategoryNull="setCategory(null)"
+      @$getDirections="getDirections"
       :landing="landing"
       :category="category"
       :placeData="placeData"
@@ -33,6 +41,8 @@
       :searchQuery="searchQuery"
     />
   </div>
+    </transition>
+
 </template>
 
 <script>
@@ -56,7 +66,9 @@ export default {
       category: null,
       markerIsActive: false,
       searchQuery: null,
-      placeData: {}
+      placeData: {},
+      isGettingLucky: false,
+      isGettingDirections: false
     };
   },
   methods: {
@@ -77,6 +89,13 @@ export default {
       this.setSearchQuery(query);
       this.setCategory(null);
     },
+    getLucky: function() {
+      this.isGettingLucky = true;
+      this.setLanding(false);
+    },
+    getDirections: function() {
+      this.isGettingDirections = true;
+    },
     setLanding: function(bool) {
       if(bool) {
         this.setSearchQuery(null);
@@ -94,6 +113,12 @@ export default {
     },
     setSearchQuery: function(value) {
       value == null ? this.searchQuery = null : this.searchQuery = value;
+    },
+    setIsGettingLucky: function(bool) {
+      bool ? this.isGettingLucky = true : this.isGettingLucky = false;
+    },
+    setIsGettingDirections: function(bool) {
+      bool ? this.isGettingDirections = true : this.isGettingDirections = false;
     }
   }
 };
@@ -102,24 +127,14 @@ export default {
 
 <style scoped>
 .home {
-  font-family: "Amatic SC", cursive;
-  font-family: "Cabin", sans-serif;
-  /* search */
-  /* font-family: 'Cuprum', sans-serif; */
-  /* font-family: 'Dokdo', cursive; */
-  /* search? */
-  /* font-family: 'Exo', sans-serif; */
-  /* font-family: 'Indie Flower', cursive; */
-  /* best */
-  /* font-family: 'Istok Web', sans-serif; */
-  /* font-family: 'Julius Sans One', sans-serif; */
-  /* font-family: 'Nanum Gothic', sans-serif; */
-  /* other best */
-  /* font-family: 'Nobile', sans-serif; */
-  /* font-family: 'Raleway', sans-serif; */
-  /* font-family: 'Reenie Beanie', cursive; */
-  /* font-family: 'Source Code Pro', monospace; */
   font-family: "Spinnaker", sans-serif;
-  /* font-family: 'Viga', sans-serif; */
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.4s ease-in-out, transform 1.5s ease-in-out;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

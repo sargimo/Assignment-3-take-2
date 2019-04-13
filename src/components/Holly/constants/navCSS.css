@@ -31,13 +31,31 @@
     .searchLanding, .searchInfo {
         font-family: 'Nanum Gothic', sans-serif;
     }
+    .input-group-text.amber.lighten-3 {
+        background: #fff;
+    }
+    .input-group-text.amber.lighten-3 i {
+        color: #c7800e;
+    }
+    .input-group-text.amber.lighten-3:hover {
+        background: #c7800e;
+    }
+    .input-group-text.amber.lighten-3:hover i {
+        color: #fff;
+    }
+    .input-group-text.amber.lighten-3:focus,
+    .form-control.my-0.py-1:focus {
+        outline: none !important;
+    }
+    input.form-control.my-0.py-1:focus {
+        outline: none !important;
+    }
     .searchLanding {
         width: 28vw;
     }
     .searchLanding input {
         font-size: 1.8em;
         margin-top: 2%;
-        box-shadow: 0px 0px 10px 2px #291E02;
     }
     .searchInfo {
         width: 75%;
@@ -101,4 +119,3 @@
         margin-bottom: 4%;
         font-family: 'Cabin', sans-serif;
     }
-      

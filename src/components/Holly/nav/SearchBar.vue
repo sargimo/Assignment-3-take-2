@@ -7,7 +7,7 @@
     <input
       @click="setCategoryNull"
       :value="searchQuery"
-      class="form-control my-0 py-1 amber-border"
+      class="form-control my-0 py-1"
       ref="searchBar"
       type="text"
       placeholder="Search"
