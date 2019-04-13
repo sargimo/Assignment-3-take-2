@@ -311,6 +311,7 @@ export default {
       }
     },
     searchForQuery: function() {
+      this.clearDirections();
       this.$emit("$setLandingFalse");
       this.refreshMap();
       this.$http
@@ -332,7 +333,7 @@ export default {
         )
         .then(function(result) {
           this.deleteMarkers();
-          this.addMarkers(result);
+          this.addMarkers(result.body.response.venues);
         });
     },
     getRandomActivity: function() {
