@@ -18,7 +18,7 @@
               id="0"
               value="festivals"
               class="category-btn"
-            >FESTIVALS</button>
+            >MUSIC FESTIVALS</button>
           </div>
           <div class="col">
             <button
@@ -77,6 +77,10 @@ export default {
       );
       this.setActive(evt);
     },
+    // festivalsClickHandler(evt) {
+    //   this.$emit("$festivalsClickHandler", evt.target.id);
+    //   this.setActive(evt);
+    // },
     radiusChanged: function(evt) {
       this.$emit("$radiusChanged", evt.target.value);
     },

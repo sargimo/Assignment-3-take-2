@@ -3,7 +3,7 @@
     <div class="details">
       <div class="venue-title">
         <h2 :v-if="source">{{source[index].month}} {{source[index].location}}</h2>
-        <h1>{{source[index].title}}</h1>
+        <h1>{{source[index].name}}</h1>
       </div>
       <div class="contact-icons">
         <p><a :href="this.source[index].website"><i class="fas fa-globe"></i> {{source[index].website}}</a></p>

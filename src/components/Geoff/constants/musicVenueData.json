@@ -3,7 +3,7 @@
         {
             "id": "0",
             "catId": "1",
-            "title": "MEOW",
+            "name": "MEOW",
             "location": "9 EDWARD ST, TE ARO",
             "description": "From hosting their own jazz festival, to nights with a distinctly rock ‘n’ roll vibe, Meow is the place to be on any day of the week. A restaurant bar during the day, Meow also boasts an extensive calendar of events. Their intimate venue backs onto floor to ceiling windows that cast the performers in striking silhouettes and evokes the open and creative space of an art studio. The venue is spacious with minimal furnishing and high ceilings where you can really immerse yourself in the local talent on show.",
             "website": "http://www.welovemeow.co.nz/",
@@ -19,7 +19,7 @@
         {
             "id": "1",
             "catId": "1",
-            "title": "SAN FRAN",
+            "name": "SAN FRAN",
             "location": "171 CUBA STREET",
             "description": "San Fran in Wellington is a venue that shows genuine love for great service and live music. Though traditionally a more rock ‘n’ roll establishment, in recent years it has broadened its demographic to welcome a far more diverse range of musical genres. The San Fran also serves pizzas, snacks, and an array of beverages.",
             "website": "http://sanfran.co.nz/",
@@ -35,7 +35,7 @@
         {
             "id": "2",
             "catId": "1",
-            "title": "VALHALLA TAVERN",
+            "name": "VALHALLA TAVERN",
             "location": "MICHAEL FOWLER CENTRE",
             "description": "Valhalla - (formerly Medusa/Hole In The Wall/Valve) is Wellington's only dedicated alternative music venue. Located at 154 Vivian Street, between Cuba Street and Marion Street, Valhalla is a self-contained mead hall of the Gods in the heart of the city. A subtly Norse themed bunker with a punk rock drinking ethic.",
             "website": "https://www.valhallatavern.com/",
@@ -51,7 +51,7 @@
         {
             "id": "3",
             "catId": "1",
-            "title": "THE ROGUE & VAGABOND",
+            "name": "THE ROGUE & VAGABOND",
             "location": "18 Garrett St, Te Aro",
             "description": "Attention dog lovers, The Rogue & Vagabond is definitely the place for you, as they openly welcome dogs and their owners to relax and lounge outside of their venue on Cuba Street. With various draft beers on tap, many delicious snacks, and a wide array of live musical acts performing all genres, there’s little not to like here. The décor of the venue is psychedelic and colorful, creating a fun and expressive space.",
             "website": "http://www.rogueandvagabond.co.nz/",
@@ -67,7 +67,7 @@
         {
             "id": "4",
             "catId": "1",
-            "title": "SOUTHERN CROSS GARDEN BAR RESTAURANT",
+            "name": "SOUTHERN CROSS GARDEN BAR RESTAURANT",
             "location": "39 Abel Smith St",
             "description": "The Cross has something for everyone - have a look around and choose the perfect spot to suit your mood. Each area has been designed to create a different experience, a different ambience. There’s no room for getting bored here – they're not just a place to grab a drink. Each week is chocka with entertainment – from massages for new parents, to live gigs, to quizzes, to life drawing!",
             "website": "https://www.thecross.co.nz/",

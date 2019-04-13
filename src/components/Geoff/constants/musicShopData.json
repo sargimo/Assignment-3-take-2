@@ -3,7 +3,7 @@
         {
             "id": "0",
             "catId": "3",
-            "title": "MUSIC PLANET",
+            "name": "MUSIC PLANET",
             "location": "158 VICTORIA STREET, TE ARO",
             "description": "At Music Planet, we live and breathe music and are passionately dedicated to helping hobbyists, students and musicians succeed in their musical endeavours. Their goal was always the total satisfaction of his customers and they continue to strive for that today. A quick read of their testimonials section will show you that we are finding a measure of success in customer satisfaction not only in New Zealand, but across several countries around the world.",
             "website": "https://www.musicplanet.co.nz/",
@@ -18,7 +18,7 @@
         {
             "id": "1",
             "catId": "3",
-            "title": "ALISTAIR'S MUSIC",
+            "name": "ALISTAIR'S MUSIC",
             "location": "215 CUBA STREET, TE ARO",
             "description": "Founded in 2001 on the smell of an oily rag, they aim to provide good quality instruments to students, teachers, musicians and the musical community at large. Owners Alistair and Catriona believe musical instruments are works of art and should be viewed as such, and have the knowledge to boot.",
             "website": "https://www.facebook.com/pg/alistairsmusic/",
@@ -32,7 +32,7 @@
         {
             "id": "2",
             "catId": "3",
-            "title": "WETA GUITARS",
+            "name": "WETA GUITARS",
             "location": "36 HAPPY VALLEY ROAD, OWHIRO BAY",
             "description": "If you're looking for a more custom musical instrument experience, look no further than Weta Guitars. Malcom is one of the best when it comes to craftsmanship and custom build or restored guitars. A large assortment of parts for repairs and resale are available. Ready to handle any custom guitar job you can imagine.",
             "website": "https://www.facebook.com/Weta-Guitars-guitar-repairs-153583381426974/",

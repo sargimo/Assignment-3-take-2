@@ -3,7 +3,7 @@
         {
             "id": "0",
             "catId": "0",
-            "title": "JIM BEAM HOME GROWN",
+            "name": "JIM BEAM HOME GROWN",
             "month": "MARCH ANNUALLY",
             "location": "WELLINGTON WATERFRONT",
             "description": "Kiwi music’s biggest party will celebrate its 12th year on March 23rd 2019. Organizers have adjusted the festival site across its five Wellington Waterfront stages to cater for demand as tickets for the event are selling 40% quicker than last year’s record sell out. The additions to the line-up in this announcement mean that another sell out is expected even earlier for the 2019 festival.",
@@ -18,7 +18,7 @@
         {
             "id": "1",
             "catId": "0",
-            "title": "COASTELLA",
+            "name": "COASTELLA",
             "month": "FEBRUARY ANNUALLY",
             "location": "PARAPARAUMU",
             "description": "New Zealand’s most talked about boutique music festival Coastella returns to the stunning Kapiti Coast with an eclectic trans tasman lineup. Taking place on Saturday 23rd February, the 2019 programme will showcase a diverse range of acts, from jungle-rock-blues and slow-burning soul to psych-rock jams and up-and-coming indie pop.",
@@ -33,13 +33,14 @@
         {
             "id": "2",
             "catId": "0",
-            "title": "WELLINGTON JAZZ FESTIVAL",
+            "name": "WELLINGTON JAZZ FESTIVAL",
             "month": "JUNE ANNUALLY",
             "location": "MICHAEL FOWLER CENTRE",
             "description": "Get ready to find your jazz hot spot! From a sold-out crowd to a cosy booth for two, the cool capital comes out to play at this mid-winter musical feast, featuring some of music’s finest national and international artists.",
-            "website": "info@jazzfestival.co.nz",
+            "website": "https://www.jazzfestival.nz/",
+            "email": "info@jazzfestival.co.nz",
             "facebook": "https://www.facebook.com/welljazzfest/",
-            "mapId": "ChIJv8yk7NavOG0R8aZ-ux2QtH4",
+            "mapId": "ChIJsfu0yNavOG0RcqRjUyzG9CI",
             "category": "Music Festival",
             "instagram": "https://www.instagram.com/welljazzfest/",
             "style": "{\"position\": \"absolute\", \"left\": \"320px\", \"top\": \"550px\"}" 

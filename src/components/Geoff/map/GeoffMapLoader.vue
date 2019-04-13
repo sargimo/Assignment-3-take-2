@@ -60,8 +60,8 @@ export default {
       placeInfoPanel: false,
       placeData: "",
       gPlaceId: "",
-      gPlaceData: {},
-      categoryIds: ["test", "4bf58dd8d48988d1e5931735", "4bf58dd8d48988d10d951735", "4bf58dd8d48988d1fe941735", "4f04b10d2fb6e1c99f3db0be"],
+      gplaceData: Object,
+      categoryIds: ["5267e4d9e4b0ec79466e48d1", "4bf58dd8d48988d1e5931735", "4bf58dd8d48988d10d951735", "4bf58dd8d48988d1fe941735", "4f04b10d2fb6e1c99f3db0be"],
       featureData: [festivalData.venues, musicVenueData.venues, recordStoresData.venues, musicShopData.venues, musicSchoolData.venues],
       featuredMarkers: []
     };
@@ -74,7 +74,9 @@ export default {
     });
     this.google = googleMapApi;
     this.initializeMap();
-    // this.categoryClickHandler(this.$route.params.id, "test")
+    if(this.$route.params.id) {
+      this.categoryClickHandler(this.$route.params.id)
+    }
   },
   created: function() {
     
@@ -84,7 +86,6 @@ export default {
       const mapContainer = this.$refs.googleMap;
       this.map = new this.google.maps.Map(mapContainer, {
         zoom: 13,
-        minZoom: 10,
         center: { lat: -41.2865, lng: 174.7762 },
         styles: mapStyle,
         mapTypeControl: false,
@@ -135,14 +136,19 @@ export default {
       });
       gMarkers = [];
     },
-    showFeaturedFestivals() {
+    showFeaturedFestivals(id) {
       let that = this;
-      let category = this.featureData[0];
+      this.deleteMarkers(this.markers);
+      this.deleteMarkers(this.featuredMarkers)
+      // this.currentSearchData = [];
+      let category = this.featureData[id];
+      that.map.setZoom(9);
       $.each(category, function(i, marker) {
         let request = {
           placeId: category[i].mapId
         };
         let service = new google.maps.places.PlacesService(that.map);
+        service.getDetails(request, callback);
           function callback(place, status) {
           if (status === google.maps.places.PlacesServiceStatus.OK) {
             let newGMarker = new that.google.maps.Marker({
@@ -151,6 +157,7 @@ export default {
               id: place.id,
               map: that.map,
               name: marker.name,
+              desc: marker.description,
               address: marker.location,
               addressLoc: place.address_components[3].short_name,
               category: marker.category
@@ -159,7 +166,9 @@ export default {
               that.map.setZoom(15);
               that.map.setCenter(newGMarker.getPosition());
               that.placeInfoPanel = true;
-              that.storePlaceDetails(marker);
+              that.placeData = {name: marker.name, category: marker.category}
+              that.gPlaceData = {address: marker.location, website: marker.website, desc: marker.description}
+              // that.storePlaceDetails(marker);
               // that.getGooglePlaceId(that.placeData.name);
             });
             that.featuredMarkers.push(newGMarker);
@@ -184,7 +193,7 @@ export default {
     },
     categoryClickHandler: function(id, value) {
       if (id === "0") {
-        this.showFeaturedFestivals()
+        this.showFeaturedFestivals(id)
       } else {
       this.getSearchData(this.categoryIds[id], this.currentRadius);
       this.deleteMarkers(this.featuredMarkers)

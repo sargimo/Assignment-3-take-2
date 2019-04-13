@@ -13,6 +13,9 @@
             <span class="detail-title">ADDRESS:</span>
             {{gPlaceData.address}}
           </p>
+          <p v-if="gPlaceData.desc">
+            {{gPlaceData.desc}}
+          </p>
           <p v-if="gPlaceData.distance">
             <span class="detail-title">DISTANCE:</span>
             {{gPlaceData.distance}}m
