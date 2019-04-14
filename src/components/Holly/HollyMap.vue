@@ -17,6 +17,8 @@ import { SEARCH_RADIUS } from "./constants/data.js";
 import { DEFAULT_ZOOM } from "./constants/data.js";
 import { MARKER_ZOOM } from "./constants/data.js";
 import { CURRENT_LOCATION } from "./constants/data.js";
+import { DEFAULT_MARKER_ICON } from "./constants/data.js";
+import { LUCKY_MARKER_ICON } from "./constants/data.js";
 import { setTimeout } from "timers";
 import { defaultCoreCipherList } from 'constants';
 
@@ -30,7 +32,7 @@ export default {
     isGettingLucky: Boolean,
     isGettingDirections: Boolean
   },
-  data() {
+  data: function() {
     return {
       google: null,
       map: null,
@@ -40,9 +42,7 @@ export default {
       markers: [],
       activeMarker: null,
       directionsService: null,
-      directionsDisplay: null,
-      defaultIcon: "http://maps.google.com/mapfiles/ms/icons/orange-dot.png",
-      luckyIcon: "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png"
+      directionsDisplay: null
     };
   },
   computed: {
@@ -53,14 +53,6 @@ export default {
       });
       return categories;
     }
-  },
-  async mounted() {
-    const googleMapApi = await GoogleMapsApiLoader({
-      apiKey: this.apiKey,
-      libraries: ["places"]
-    });
-    this.google = googleMapApi;
-    this.initializeMap();
   },
   watch: {
     category: function() {
@@ -90,28 +82,28 @@ export default {
     },
     isGettingLucky: function() {
       if(this.isGettingLucky) {
+        this.$emit('$setCategoryNull');
         this.getRandomActivity();
-        this.$emit('$setIsGettingLuckyFalse');
       }
     },
     isGettingDirections: function() {
       if(this.isGettingDirections) {
         this.findAndDisplayRoute(this.directionsService, this.directionsDisplay);
-        this.$emit('$setIsGettingDirectionsFalse');
       }else {
-        // Do something!!!
+        this.clearDirections();
       }
     }
   },
   methods: {
-    refreshMap() {
+    refreshMap: function() {
       this.map.getStreetView().setVisible(false);
       this.deleteMarkers();
       this.$emit("$setMarkerFalse");
+      this.$emit('$setIsGettingDirectionsFalse');
       this.map.setZoom(DEFAULT_ZOOM);
       this.map.setCenter({ lat: CENTER_LAT_LONG[0], lng: CENTER_LAT_LONG[1] });
     },
-    initializeMap() {
+    initializeMap: function() {
       const mapContainer = this.$refs.googleMap;
       this.map = new this.google.maps.Map(mapContainer, {
         zoom: DEFAULT_ZOOM,
@@ -146,7 +138,7 @@ export default {
       this.directionsDisplay = new this.google.maps.DirectionsRenderer();
       this.directionsDisplay.setMap(this.map);
     },
-    getData() {
+    getData: function() {
       this.$http
         .get(
           "https://api.foursquare.com/v2/venues/search?" +
@@ -167,7 +159,7 @@ export default {
           this.addMarkers(data);
         });
     },
-    getRandomData(categoryId) {
+    getRandomData: function(categoryId) {
       this.$http
         .get(
           "https://api.foursquare.com/v2/venues/search?" +
@@ -184,7 +176,8 @@ export default {
             "&v=20190404"
         )
         .then(function(result) {
-          // Select random activity and send it to addMarkers in an array. 
+          // Select random activity and send it to addMarkers in an array.
+          // Catch incorrect/very inconsistent FourSquare/Google Places API data (specific IDs)
           let data = result.body.response.venues;
           let randomActivity = data[Math.floor(Math.random()*data.length)];
           if (
@@ -193,18 +186,17 @@ export default {
             randomActivity == "569b39c3498e633a3cd9670a" ||
             randomActivity == "563fe2f2cd10e0967a0b8cde"
           ) {
-            console.log('error');
             this.getRandomData(categoryId);
           }else {
             this.addMarkers([randomActivity]);
           }
         });
     },
-    addMarkers(data) {
+    addMarkers: function(data) {
       let that = this;
       let markers = data;
       $.each(markers, function(i, marker) {
-        // Catch incorrect/very inconsistent FourSquare/Google Places API data 
+        // Catch incorrect/very inconsistent FourSquare/Google Places API data (specific IDs)
         if (
           marker.id != "55ab791a498e4ade94d4770c" &&
           marker.id != "4ecb32e68b813b34fddbcf53" &&
@@ -215,10 +207,11 @@ export default {
           if(that.isGettingLucky) {
             newMarker = new that.google.maps.Marker({
               position: { lat: marker.location.lat, lng: marker.location.lng },
+              animation: that.google.maps.Animation.DROP,
               map: that.map,
               category: marker.categories[0].name,
               name: marker.name,
-              icon: "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
+              icon: LUCKY_MARKER_ICON
             });
           }else {
             newMarker = new that.google.maps.Marker({
@@ -226,20 +219,14 @@ export default {
               map: that.map,
               category: marker.categories[0].name,
               name: marker.name,
-              icon: "http://maps.google.com/mapfiles/ms/icons/orange-dot.png"
+              icon: DEFAULT_MARKER_ICON
             });
           }
-          // let newMarker = new that.google.maps.Marker({
-          //   position: { lat: marker.location.lat, lng: marker.location.lng },
-          //   map: that.map,
-          //   category: marker.categories[0].name,
-          //   name: marker.name,
-          //   icon: that.defaultIcon
-          // });
           newMarker.addListener("click", function() {
             // Smooth transition here somehow
             that.clearDirections();
-            if (that.map.getCenter() == newMarker.getPosition()) {
+            that.$emit('$setIsGettingDirectionsFalse');
+            if (newMarker === that.activeMarker) {
               that.map.setZoom(DEFAULT_ZOOM);
               that.$emit("$setMarkerFalse");
               that.activeMarker = null;
@@ -252,18 +239,19 @@ export default {
             }
             that.map.setCenter(newMarker.getPosition());
           });
+          that.$emit('$setIsGettingLuckyFalse');
           that.markers.push(newMarker);
         }
       });
     },
-    deleteMarkers() {
+    deleteMarkers: function() {
       let that = this;
       $.each(that.markers, function(i, marker) {
         marker.setMap(null);
       });
       this.markers = [];
     },
-    getGooglePlaceId(name, category, position) {
+    getGooglePlaceId: function(name, category, position) {
       let that = this;
       let query = {
         query: name,
@@ -287,7 +275,7 @@ export default {
         }
       });
     },
-    getGooglePlaceDetails(id, category, position) {
+    getGooglePlaceDetails: function(id, category, position) {
       let that = this;
       let request = {
         placeId: id
@@ -387,6 +375,14 @@ export default {
         this.directionsDisplay.set('directions', null);
       }
     }
+  },
+  async mounted() {
+    const googleMapApi = await GoogleMapsApiLoader({
+      apiKey: this.apiKey,
+      libraries: ["places"]
+    });
+    this.google = googleMapApi;
+    this.initializeMap();
   }
 };
 </script>

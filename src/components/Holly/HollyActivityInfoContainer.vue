@@ -45,7 +45,7 @@
           </div>
         </div>
       </div>
-      <button @click="getDirections" class="direction-button">Get Directions</button>
+      <button @click="getDirections" class="directions-button"><i class="fas fa-location-arrow"></i>GET DIRECTIONS</button>
     </div>
   </transition>
 </template>
@@ -93,7 +93,7 @@ export default {
   width: 4px;
 }
 ::-webkit-scrollbar-track {
-  background: #291E02; 
+  background: #291e02; 
 }
 ::-webkit-scrollbar-thumb {
   background: #c7800e; 
@@ -108,19 +108,19 @@ export default {
   right: 0;
   bottom: 0;
   top: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
   margin: auto 0;
   width: 25%;
   height: 75%;
   border-top-left-radius: 20px;
   border-bottom-left-radius: 20px;
-  border: solid #c7800e 8px;
-  color: #fff;
+  border: #c7800e solid 8px;
+  color: #f4f4f4;
   border-right: none;
   font-family: "Spinnaker", sans-serif;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
   overflow: hidden;
   padding-bottom: 6%;
   padding-right: 0;
@@ -151,7 +151,7 @@ i.close-button {
   left: 10px;
   font-size: 1.2rem;
   cursor: pointer;
-  color: #fff;
+  color: #f4f4f4;
 }
 i.close-button:hover {
   color: #c7800e;
@@ -180,7 +180,7 @@ i.close-button:hover {
   margin-bottom: 7%;
 }
 a {
-  color: #ffd711;
+  color: #edca2f;
   text-decoration: underline;
 }
 a:hover {
@@ -213,7 +213,7 @@ a:hover {
 }
 .stars-inner:before {
   content: "\f005 \f005 \f005 \f005 \f005";
-  color: #ffd711;
+  color: #ffe523;
   font-weight: 600;
 }
 .fas {
@@ -226,21 +226,32 @@ a:hover {
 .rated-by {
   font-size: 0.7rem;
 }
-.direction-button {
+.directions-button {
   position: absolute;
   bottom: 5%;
   z-index: 100;
-  width: 45%;
-  padding: 1% 0;
-  font-size: 1.3rem;
+  width: 50%;
+  padding: 2.5% 1.5%;
+  font-size: 1.2rem;
   border-radius: 8px;
-  background: #ffd711;
+  background: #edca2f;
+  border: #ffffff solid 1px;
+  color: #291e02;
 }
-.direction-button:hover {
-  /* color: #fff; */
+.directions-button .fas {
+  color: #291e02;
+}
+.directions-button:hover .fas {
+  color: #edca2f;
+}
+.directions-button:hover {
+  color: #f4f4f4;
   background: #c7800e;
 }
-.direction-button:focus {
+.directions-button:focus {
   outline: none;
+}
+.directions-button:active {
+  border: #edca2f solid 1px;
 }
 </style>

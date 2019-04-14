@@ -20,8 +20,3 @@ export default {
 
 <style scoped src="../constants/navCSS.css">
 </style>
-
-<style scoped>
-
-</style>
-

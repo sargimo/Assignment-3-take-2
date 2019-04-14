@@ -49,4 +49,3 @@ export default {
 
 <style scoped src="../constants/navCSS.css">
 </style>
-

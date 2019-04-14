@@ -21,6 +21,8 @@ export const API_CATEGORIES = [
     }
 ];
 
+export const DEFAULT_MARKER_ICON = "https://i.ibb.co/5jcRbmz/orangelighter.png?fbclid=IwAR2UXvcayTdwyyO3R-A2JKhxRHwNDlJbNDh70eFaTNqbEhiMwf-EMk4tmDI";
+export const LUCKY_MARKER_ICON = "https://i.ibb.co/pbWVx2s/brownquestionmark.png?fbclid=IwAR3wJMbrJ6Gms9HTxok9H7FfZldoi0fZKIMCh6qEjsLKADXxhlwCPIeqipA";
 export const CENTER_POSITION = "-38.079881,176.271883";
 export const CENTER_LAT_LONG = [-38.1368, 176.2497];
 export const CURRENT_LOCATION = [-43.5321, 172.6362];

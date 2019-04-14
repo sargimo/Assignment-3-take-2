@@ -10,6 +10,7 @@
       @$setMarkerFalse="setMarkerIsActive(false)"
       @$setIsGettingLuckyFalse="setIsGettingLucky(false)"
       @$setIsGettingDirectionsFalse="setIsGettingDirections(false)"
+      @$setCategoryNull="setCategory(null)"
       :landing="landing"
       :category="category"
       :markerIsActive="markerIsActive"
@@ -82,6 +83,7 @@ export default {
       this.setMarkerIsActive(true);
     },
     closeInfoContainer: function() {
+      this.isGettingDirections = false;
       this.setMarkerIsActive(false);
     },
     searchForQuery: function(query) {
@@ -100,6 +102,7 @@ export default {
       if(bool) {
         this.setSearchQuery(null);
         this.landing = true;
+        this.setCategory(null);
         this.setMarkerIsActive(false)
       }else {
         this.landing = false;
@@ -123,7 +126,6 @@ export default {
   }
 };
 </script>
-
 
 <style scoped>
 .home {

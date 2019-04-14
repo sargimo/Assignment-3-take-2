@@ -28,9 +28,6 @@ import ButtonActivities from "./nav/ButtonActivities.vue";
 
 export default {
   name: "HollyLanding",
-  props: {
-    landing: Boolean
-  },
   components: {
     Logo,
     SearchBar,
@@ -38,6 +35,9 @@ export default {
     ButtonHiking,
     ButtonWater,
     ButtonActivities
+  },
+  props: {
+    landing: Boolean
   },
   methods: {
     categorySelected: function(id) {
@@ -80,24 +80,30 @@ export default {
   margin-bottom: 0;
   background: none;
   border: none;
-  color: #fff;
+  color: #ffffff;
   font-size: 2rem;
 }
 .homeButton:focus {
   outline: none;
 }
 .feeling-lucky-button {
-  background: #c7800e;
+  margin-top: 2%;
+  background: #edca2f;
   border-radius: 4px;
   padding: 0.5% 1%;
-  color: #fff;
+  color: #291e02;
+  font-size: 1.4rem;
+  border: #ffffff solid 1px;
 }
 .feeling-lucky-button:hover {
-  background: #ffd711;
-  color: #291E02;
+  background: #c78003;
+  color: #f4f4f4;
 }
 .feeling-lucky-button:focus {
   outline: none;
+}
+.feeling-lucky-button:active {
+  border: #edca2f solid 1px;
 }
 
 </style>

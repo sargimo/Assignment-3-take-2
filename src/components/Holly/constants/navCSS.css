@@ -5,7 +5,8 @@
         align-items: center;
         align-content: center;
         cursor: pointer;
-        margin: 3%;
+        margin-top: 1%;
+        margin-bottom: 2%;
     }
     .logoLinkLanding {
         width: 50%;
@@ -32,7 +33,7 @@
         font-family: 'Nanum Gothic', sans-serif;
     }
     .input-group-text.amber.lighten-3 {
-        background: #fff;
+        background: #ffffff;
     }
     .input-group-text.amber.lighten-3 i {
         color: #c7800e;
@@ -41,17 +42,22 @@
         background: #c7800e;
     }
     .input-group-text.amber.lighten-3:hover i {
-        color: #fff;
+        color: #ffffff;
     }
-    .input-group-text.amber.lighten-3:focus,
-    .form-control.my-0.py-1:focus {
+    .input-group-text.amber.lighten-3:focus {
         outline: none !important;
     }
-    input.form-control.my-0.py-1:focus {
+    input.form-control:focus {
         outline: none !important;
+        -webkit-appearance: none !important;
+        box-shadow: none;
+        border: 1px solid #ced4da;
+    }
+    input.form-control:focus::placeholder {
+        color: #c6ccd2;
     }
     .searchLanding {
-        width: 28vw;
+        width: 30vw;
     }
     .searchLanding input {
         font-size: 1.8em;
@@ -86,7 +92,7 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        color: #fff;
+        color: #f4f4f4;
         width: 100%;
     }
     .buttonInfo {
@@ -111,10 +117,10 @@
         height: 100px;
     }
     .buttonImgLanding:hover, .buttonImgInfo:hover, .buttonImgIsActive {
-        border: rgba(255, 255, 255, 0.8) solid 6px;
+        border: #f4f4f4 solid 6px;
     }
     h1 {
-        color: #fff;
+        color: #ffffff;
         font-size: 3rem;
         margin-bottom: 4%;
         font-family: 'Cabin', sans-serif;
