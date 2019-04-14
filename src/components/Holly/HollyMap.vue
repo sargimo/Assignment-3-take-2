@@ -18,6 +18,7 @@ import { DEFAULT_ZOOM } from "./constants/data.js";
 import { MARKER_ZOOM } from "./constants/data.js";
 import { CURRENT_LOCATION } from "./constants/data.js";
 import { setTimeout } from "timers";
+import { defaultCoreCipherList } from 'constants';
 
 export default {
   name: "HollyMap",
@@ -39,7 +40,9 @@ export default {
       markers: [],
       activeMarker: null,
       directionsService: null,
-      directionsDisplay: null
+      directionsDisplay: null,
+      defaultIcon: "http://maps.google.com/mapfiles/ms/icons/orange-dot.png",
+      luckyIcon: "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png"
     };
   },
   computed: {
@@ -208,14 +211,31 @@ export default {
           marker.id != "569b39c3498e633a3cd9670a" &&
           marker.id != "563fe2f2cd10e0967a0b8cde"
         ) {
-          let newMarker = new that.google.maps.Marker({
-            position: { lat: marker.location.lat, lng: marker.location.lng },
-            map: that.map,
-            // id: marker.id,
-            category: marker.categories[0].name,
-            name: marker.name,
-            icon: "http://maps.google.com/mapfiles/ms/icons/orange-dot.png"
-          });
+          let newMarker = {};
+          if(that.isGettingLucky) {
+            newMarker = new that.google.maps.Marker({
+              position: { lat: marker.location.lat, lng: marker.location.lng },
+              map: that.map,
+              category: marker.categories[0].name,
+              name: marker.name,
+              icon: "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
+            });
+          }else {
+            newMarker = new that.google.maps.Marker({
+              position: { lat: marker.location.lat, lng: marker.location.lng },
+              map: that.map,
+              category: marker.categories[0].name,
+              name: marker.name,
+              icon: "http://maps.google.com/mapfiles/ms/icons/orange-dot.png"
+            });
+          }
+          // let newMarker = new that.google.maps.Marker({
+          //   position: { lat: marker.location.lat, lng: marker.location.lng },
+          //   map: that.map,
+          //   category: marker.categories[0].name,
+          //   name: marker.name,
+          //   icon: that.defaultIcon
+          // });
           newMarker.addListener("click", function() {
             // Smooth transition here somehow
             that.clearDirections();
@@ -225,11 +245,11 @@ export default {
               that.activeMarker = null;
             } else {
               that.activeMarker = newMarker;
+              that.getGooglePlaceId(newMarker.name, newMarker.category, newMarker.position);
               if(that.map.getZoom() <= MARKER_ZOOM){
                 that.map.setZoom(MARKER_ZOOM);
               }
             }
-            that.getGooglePlaceId(newMarker.name, newMarker.category, newMarker.position);
             that.map.setCenter(newMarker.getPosition());
           });
           that.markers.push(newMarker);
