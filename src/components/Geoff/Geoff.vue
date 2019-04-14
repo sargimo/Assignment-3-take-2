@@ -27,6 +27,11 @@ export default {
 </script>
 
 <style scoped>
+@font-face {
+  font-family: 'BigNoodleTitling';
+  src: url('../../assets/geoff/bignoodletitling/big_noodle_titling.ttf') format('truetype');
+}
+
 .home-bg {
   background-image: url(../../assets/geoff/home-bg.jpg);
   background-size: cover;
@@ -48,6 +53,7 @@ export default {
   position: absolute;
   top: 55%;
   right: 15%;
+  font-family: "BigNoodleTitling", sans-serif;
 }
 
 .nz-outline {
@@ -61,7 +67,7 @@ export default {
 }
 
 .title-top {
-  font-family: "Oswald", sans-serif;
+  /* font-family: "Oswald", sans-serif; */
   text-align: right;
   color: #fff;
   font-size: 90px;
