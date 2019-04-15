@@ -135,6 +135,7 @@ export default {
       this.$emit("$setCategoryNull");
     },
     getDirections: function() {
+      this.setMobileNavIsDisplayed(false);
       this.$emit("$getDirections");
     },
     setMobileNavIsDisplayed: function(bool) {
