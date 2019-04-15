@@ -154,7 +154,7 @@ i.close-button {
   color: #f4f4f4;
 }
 i.close-button:hover {
-  color: #c7800e;
+  color: #edca2f;
 }
 .img-container {
   width: 100%;
@@ -235,7 +235,7 @@ a:hover {
   font-size: 1.2rem;
   border-radius: 8px;
   background: #edca2f;
-  border: #ffffff solid 1px;
+  border: #f4f4f4 solid 1px;
   color: #291e02;
 }
 .directions-button .fas {

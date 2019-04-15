@@ -222,6 +222,7 @@ export default {
               icon: DEFAULT_MARKER_ICON
             });
           }
+          // Handle marker click events
           newMarker.addListener("click", function() {
             // Smooth transition here somehow
             that.clearDirections();
@@ -238,6 +239,10 @@ export default {
               }
             }
             that.map.setCenter(newMarker.getPosition());
+          });
+          // Handle maker hover events: show info popup
+          newMarker.addListener("mouseover", function() {
+            // Show info window
           });
           that.$emit('$setIsGettingLuckyFalse');
           that.markers.push(newMarker);

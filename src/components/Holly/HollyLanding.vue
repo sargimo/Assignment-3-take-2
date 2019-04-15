@@ -80,7 +80,7 @@ export default {
   margin-bottom: 0;
   background: none;
   border: none;
-  color: #ffffff;
+  color: #f4f4f4;
   font-size: 2rem;
 }
 .homeButton:focus {
@@ -88,22 +88,22 @@ export default {
 }
 .feeling-lucky-button {
   margin-top: 2%;
-  background: #edca2f;
+  background: #c78003;
   border-radius: 4px;
   padding: 0.5% 1%;
-  color: #291e02;
+  color: #f4f4f4;
   font-size: 1.4rem;
-  border: #ffffff solid 1px;
+  border: #f4f4f4 solid 1px;
 }
 .feeling-lucky-button:hover {
-  background: #c78003;
-  color: #f4f4f4;
+  background: #edca2f;
+  color: #291e02;
 }
 .feeling-lucky-button:focus {
   outline: none;
 }
 .feeling-lucky-button:active {
-  border: #edca2f solid 1px;
+  border: #c7800e solid 1px;
 }
 
 </style>
