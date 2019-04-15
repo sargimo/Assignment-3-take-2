@@ -53,8 +53,12 @@ export default {
   name: "GeoffMapCategories",
 
   methods: {
+    /** 
+      * Emits to parent when a category button is clicked to be handled within 
+      * map, then sets the chosen category to an active state
+      * @param {Event} evt
+    */
     categoryClickHandler: function(evt) {
-      // console.log(evt)
       this.$emit(
         "$categoryClickHandler",
         evt.target.id,
@@ -63,13 +67,19 @@ export default {
       );
       this.setActive(evt.target.value);
     },
-    // festivalsClickHandler(evt) {
-    //   this.$emit("$festivalsClickHandler", evt.target.id);
-    //   this.setActive(evt);
-    // },
+    /** 
+      * Emits to parent when the radius is changed in the drop down with the 
+      * value of the chosen radius
+      * @param {Event} evt
+    */
     radiusChanged: function(evt) {
       this.$emit("$radiusChanged", evt.target.value);
     },
+    /** 
+      * Switch case to turn the value of each button into a true false array for 
+      * active states. Almost certainly not the cleanest solution.
+      * @param {String} value
+    */
     setActive(value) {
       switch (value) {
         case "festivals":
@@ -91,6 +101,8 @@ export default {
     }
   },
   watch: {
+    //watches the landingId value sent from previous page and turns the id into 
+    //a string for setActive to deal with it. Both could be refactored if time allowed.
     landingId: function() {
       let value = this.landingId;
       switch (value) {
@@ -114,6 +126,7 @@ export default {
     }
   },
   created: function() {
+    //gets landingId from previous page
     this.landingId = this.$route.params.id;
   },
   data: function() {
@@ -124,6 +137,9 @@ export default {
   }
 };
 </script>
+
+<style scoped src="../constants/customFonts.css">
+</style>
 
 <style scoped>
 .filters-container {
@@ -163,12 +179,12 @@ export default {
 }
 
 .category-btn {
-  font-family: "Oswald", sans-serif;
+  font-family: "BigNoodleTitling", sans-serif;
   transform: scale(1);
-  font-size: 15px;
+  font-size: 20px;
   border-radius: 10px;
   background-color: transparent;
-  padding: 10px 35px;
+  padding: 5px 35px;
   border: 1px solid lightgray;
   transition: all 0.2s linear;
 }

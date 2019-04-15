@@ -31,6 +31,7 @@ export default {
       categoryId: Number,
       categoryData: [festivalData.venues, musicVenueData.venues, recordStoresData.venues, musicShopData.venues, musicSchoolData.venues],
       selectedCategoryData: [],
+      //used for active states of static map icons
       selectedIndex: 0
     };
   },
@@ -39,15 +40,17 @@ export default {
       this.setCategory();     
     },
   methods: {
+    //called on categoryId changing from previous page. Takes id from $route 
+    //params and stores it for use in category data. 
     getCategoryId() {
-      // if (this.$route.params.categoryId){
-        console.log(this.$route.params.categoryId)
         this.categoryId = this.$route.params.categoryId;
-      // }
     },
+    //handles active states for static map icons
     featureIconClicked(id){
       this.selectedIndex = id;
     },
+    //uses the categoryId from the previous page to select the correct JSON file
+    //and send the data to child components
     setCategory() {
       this.selectedCategoryData = this.categoryData[this.categoryId];
     }

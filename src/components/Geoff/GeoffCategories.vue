@@ -10,40 +10,48 @@
         </router-link>
       </div>
       <div @click="getCategoryId" class="category music-venues" id="1">
-        <div class="cat-title">
-          <h3>
-            MUSIC
-            <br>VENUES
-          </h3>
-          <p>LIVE WEEKEND MUSIC VENUES</p>
-        </div>
+        <router-link :to="'/geofffeaturelanding'" exact>
+          <div class="cat-title">
+            <h3>
+              MUSIC
+              <br>VENUES
+            </h3>
+            <p>LIVE WEEKEND MUSIC VENUES</p>
+          </div>
+        </router-link>
       </div>
       <div @click="getCategoryId" class="category record-stores" id="2">
-        <div class="cat-title">
-          <h3>
-            RECORD
-            <br>STORES
-          </h3>
-          <p>VINYL, CDS AND EVERYTHING INBETWEEN</p>
-        </div>
+        <router-link :to="'/geofffeaturelanding'" exact>
+          <div class="cat-title">
+            <h3>
+              RECORD
+              <br>STORES
+            </h3>
+            <p>VINYL, CDS AND EVERYTHING INBETWEEN</p>
+          </div>
+        </router-link>
       </div>
       <div @click="getCategoryId" class="category music-shops" id="3">
-        <div class="cat-title">
-          <h3>
-            MUSIC
-            <br>SHOPS
-          </h3>
-          <p>FOR ALL YOUR MUSICAL NEEDS</p>
-        </div>
+        <router-link :to="'/geofffeaturelanding'" exact>
+          <div class="cat-title">
+            <h3>
+              MUSIC
+              <br>SHOPS
+            </h3>
+            <p>FOR ALL YOUR MUSICAL NEEDS</p>
+          </div>
+        </router-link>
       </div>
       <div @click="getCategoryId" class="category music-schools" id="4">
-        <div class="cat-title">
-          <h3>
-            MUSIC
-            <br>SCHOOLS
-          </h3>
-          <p>LEARN FROM THE BEST</p>
-        </div>
+        <router-link :to="'/geofffeaturelanding'" exact>
+          <div class="cat-title">
+            <h3>
+              MUSIC
+              <br>SCHOOLS
+            </h3>
+            <p>LEARN FROM THE BEST</p>
+          </div>
+        </router-link>
       </div>
     </div>
   </transition>
@@ -70,7 +78,14 @@ export default {
 };
 </script>
 
+<style scoped src="./constants/customFonts.css">
+</style>
+
 <style scoped>
+a:hover {
+  text-decoration: none;
+}
+
 .categories-container {
   display: flex;
   flex-flow: row nowrap;
@@ -201,6 +216,8 @@ export default {
 }
 
 .cat-title {
+  font-family: "BigNoodleTitling", sans-serif;
+  font-size: 25px;
   transition: all 0.3s linear;
   position: relative;
   z-index: 1;
@@ -208,6 +225,8 @@ export default {
 
 .cat-title p {
   color: #ffe96b;
+  font-size: 20px;
+  padding-top: 15px;
 }
 
 .cat-title h3 {

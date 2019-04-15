@@ -17,11 +17,19 @@ export default {
     }
   },
   methods: {
+    /** 
+      * Gets click event to take the id of the clicked item, emit to parent for 
+      * data retrieval and then uses iconActive for active state of icons.
+      * @param {Event} evt
+    */
     featureIconClicked(evt){
       let selected = evt.target.id;
       this.$emit("$featureIconClicked", evt.target.id);
       this.iconActive = evt.target.id;
     },
+    //Uses hard coded absolute positioning from JSON to position markers. Certainly
+    //not the most robust solution but a choice was made that function was more 
+    //important due to time restraints. 
     getStyles() {
       let that = this;
       this.styles = [];

@@ -75,14 +75,17 @@ export default {
   components: {},
   props: ["placeData", "gPlaceData"],
   methods: {
+    //turns a number rating into a visual representation of stars
     convertRating() {
       let starPercentage = (this.gPlaceData.rating / this.starTotal) * 100;
       let starPercentRounded = `${Math.round(starPercentage / 10) * 10}`;
       this.width = starPercentRounded;
     },
+    //emits to parent to close info panel
     emitBack() {
       this.$emit("$closeInfoPanel");
     },
+    //emits to parent get directions has been clicked
     getDirections() {
       this.$emit("$getDirections");
     }
@@ -90,6 +93,7 @@ export default {
   data: function() {
     return {
       starTotal: 5,
+      //used in star conversion
       width: Number
     };
   },
@@ -101,6 +105,9 @@ export default {
   }
 };
 </script>
+
+<style scoped src="../constants/customFonts.css">
+</style>
 
 <style scoped>
 .place-container {
@@ -131,18 +138,20 @@ export default {
 }
 
 .details {
-  /* padding: 20px 20px 20px 40px; */
-  /* justify-content: center; */
-  /* align-items: center; */
   width: 70%;
 }
 
 .name-text {
-  font-family: "Oswald", sans-serif;
+  font-family: "BigNoodleTitling", sans-serif;
   text-align: right;
+  font-size: 50px;
+  line-height: 43px;
 }
 
 .category-text {
+  font-family: "BigNoodleTitling", sans-serif;
+  margin-top: -12px;
+  font-size: 20px;
   width: 100%;
   text-align: right;
   color: #ffe96b;
@@ -155,9 +164,10 @@ export default {
 }
 
 .detail-title {
-  font-family: "Oswald", sans-serif;
+  font-family: "BigNoodleTitling", sans-serif;
   font-weight: bold;
-  font-size: 14px;
+  font-size: 16px;
+  letter-spacing: 2px;
   padding-right: 20px;
   text-decoration: none;
   cursor: pointer !important;
@@ -166,6 +176,13 @@ export default {
 .detail-title a {
   color: #3fcbca;
   cursor: pointer !important;
+  transform: scale(1);
+  transition: all 0.2s linear;
+}
+
+.detail-title a:hover {
+  transform: scale(1.1);
+  color: #ffe96b;
 }
 
 .stars-outer {
@@ -202,14 +219,23 @@ export default {
 }
 
 .directions button {
-  font-family: "Oswald", sans-serif;
+  font-family: "BigNoodleTitling", sans-serif;
+  font-size: 23px;
   color: #222;
   background-color: #ffe96b;
   text-align: center;
-  padding: 10px 60px 10px 60px;
-  margin-top: 50px;
+  padding: 5px 60px;
+  margin-top: 25px;
   border: none;
   border-radius: 10px;
+  transform: scale(1);
+  transition: all 0.2s linear;
+}
+
+.directions button:hover {
+  background-color: #3fcbca;
+  color: #fff;
+  transform: scale(1.1)
 }
 
 .back-btn {
