@@ -97,7 +97,7 @@ export default {
   data: function() {
     return {
       mobileNavIsActive: false,
-      mobileNavIsDisplayed: true,
+      mobileNavIsDisplayed: false,
       viewPortWidth: 0
     };
   },
@@ -105,7 +105,7 @@ export default {
     viewPortWidth: function() {
       if (this.viewPortWidth <= 550) {
         this.mobileNavIsActive = true;
-        this.setMobileNavIsDisplayed(true);
+        this.setMobileNavIsDisplayed(false);
       } else {
         this.mobileNavIsActive = false;
         this.setMobileNavIsDisplayed(false);
@@ -114,15 +114,14 @@ export default {
   },
   methods: {
     categorySelected: function(id) {
-      if(this.mobileNavIsActive) {
-        this.setMobileNavIsDisplayed(false);
-      }
       this.$emit("$categorySelected", id);
+      this.setMobileNavIsDisplayed(false);
     },
     setLandingTrue: function() {
       this.$emit("$setLandingTrue");
     },
     closeInfoContainer: function() {
+      this.setMobileNavIsDisplayed(false);
       this.$emit("$closeInfoContainer");
     },
     searchForQuery: function(query) {
@@ -148,8 +147,12 @@ export default {
     }
   },
   created: function() {
+    let that = this;
     window.addEventListener("resize", this.changeViewportWidth);
     this.changeViewportWidth();
+    setTimeout(function() {
+      that.setMobileNavIsDisplayed(false);
+    }, 1);
   }
 };
 </script>
