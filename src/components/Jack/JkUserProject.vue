@@ -8,14 +8,13 @@
     <div>
   <h1>{{ project.name }}</h1>
   </div>
-  </div>
-<div class="jk-users container">
-    <h4 target="_blank" >{{ project.name }}</h4>
-    <div v-for="modules in project" v-bind:key="modules.type">
-      <img target="_blank" class="shadow-sm" v-bind:src="modules.src">
+      <div class="jk-previous-button">
+  <a class="nav-item nav-link"><router-link v-bind:to="'/jkdesigners'">Previous Page</router-link></a>
     </div>
-
-</div>
+  </div>
+    <div class="project-images container" v-for="image in project.modules" v-bind:key="image.sizes">
+      <img class="shadow-sm" v-bind:src="image.sizes.original">
+    </div>
 
 </div>
 </template>
@@ -27,7 +26,7 @@ export default {
   name: "JkDesigners",
   data: function() {
     return {
-      project: []
+      project: [],
     };
   },
   components: {
@@ -96,5 +95,11 @@ export default {
 
 .jk-designers h4 {
   font-weight: 700;
+}
+
+.project-images img {
+   max-width:100%;
+   height:auto;
+   max-height:100%;
 }
 </style>
