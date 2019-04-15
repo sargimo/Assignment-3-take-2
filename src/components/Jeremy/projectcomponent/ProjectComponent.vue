@@ -48,7 +48,7 @@
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel" v-bind:href="project.ame" target="_blank">{{ project.name }}</h5>
+                  <h5 class="modal-title" id="exampleModalLabel" v-bind:href="project.name" target="_blank">{{ project.name }}</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
@@ -204,5 +204,9 @@ export default {
 .modal-dialog {
     max-width: 1200px;
     margin: 1.75rem auto;
+}
+
+.modal-body {
+  text-align: center;
 }
 </style>

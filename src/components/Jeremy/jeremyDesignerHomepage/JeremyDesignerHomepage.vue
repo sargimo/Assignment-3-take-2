@@ -13,9 +13,9 @@
         <h1>Our Designers</h1>
       </div>
 
-      <div v-for="user in users" v-bind:key="user.id" class="d-inline-flex designer-element">
+      <div v-for="user in users" v-bind:key="user.id" class="d-inline-flex">
         <router-link to="/projectcomponent" exact>
-          <div @click="getProjectsByUser(user.id);" class="ddelement container">
+          <div @click="getProjectsByUser(user.id);" class="ddelement container row">
             <div class="p-2">
               <img :id="user.id" class="user-image" v-bind:src="user.images[138]">
             </div>
@@ -71,6 +71,14 @@ export default {
 
 <style scoped>
 
+li, h4, h6{
+  text-align:left;
+}
+
+/* h6{
+  text-align:left;
+} */
+
 .ddelement {
   padding: 20px;
   margin: 50px;
@@ -84,6 +92,7 @@ export default {
 
 .designer-component {
   margin-top: 70px;
+  text-align: center;
 }
 
 .designer {
