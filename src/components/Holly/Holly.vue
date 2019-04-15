@@ -40,6 +40,7 @@
       :placeData="placeData"
       :markerIsActive="markerIsActive"
       :searchQuery="searchQuery"
+      :isGettingDirections="isGettingDirections"
     />
   </div>
     </transition>
@@ -47,12 +48,9 @@
 </template>
 
 <script>
-import GoogleMapsApiLoader from "google-maps-api-loader";
 import HollyMap from "./HollyMap.vue";
 import HollyLanding from "./HollyLanding.vue";
 import HollyInfoScreen from "./HollyInfoScreen.vue";
-import { mapSettings } from "./constants/mapSettings.js";
-import { CENTER_LAT_LONG } from "./constants/data.js";
 
 export default {
   name: "Holly",
@@ -83,7 +81,7 @@ export default {
       this.setMarkerIsActive(true);
     },
     closeInfoContainer: function() {
-      this.isGettingDirections = false;
+      this.setIsGettingDirections(false);
       this.setMarkerIsActive(false);
     },
     searchForQuery: function(query) {
@@ -96,7 +94,7 @@ export default {
       this.setLanding(false);
     },
     getDirections: function() {
-      this.isGettingDirections = true;
+      this.setIsGettingDirections(true);
     },
     setLanding: function(bool) {
       if(bool) {
@@ -112,7 +110,7 @@ export default {
       bool ? this.markerIsActive = true : this.markerIsActive = false;
     },
     setCategory: function(value) {
-      value = null ? this.category = null : this.category = value;
+      value == null ? this.category = null : this.category = value;
     },
     setSearchQuery: function(value) {
       value == null ? this.searchQuery = null : this.searchQuery = value;

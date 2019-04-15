@@ -13,7 +13,8 @@
         <div class="place-details">
           <div v-if="placeData.address">
             <p>
-              <i class="fas fa-map-marker-alt"></i>{{ placeData.address }}
+              <i class="fas fa-map-marker-alt"></i>
+              {{ placeData.address }}
             </p>
           </div>
           <div v-if="placeData.phoneNumber">
@@ -35,7 +36,7 @@
           <div v-if="placeData.rating" class="rating">
             <p class="stars">
               <span class="stars-outer">
-                <span :style="{ width: width + '%' }" class="stars-inner"></span>
+                <span :style="{ width: starWidth + '%' }" class="stars-inner"></span>
               </span>
             </p>
             <span v-if="placeData.userRatings" class="rated-by">Rated by {{ placeData.userRatings }}</span>
@@ -45,7 +46,9 @@
           </div>
         </div>
       </div>
-      <button @click="getDirections" class="directions-button"><i class="fas fa-location-arrow"></i>GET DIRECTIONS</button>
+      <button @click="getDirections" class="directions-button">
+        <i class="fas fa-location-arrow"></i>GET DIRECTIONS
+      </button>
     </div>
   </transition>
 </template>
@@ -59,7 +62,8 @@ export default {
   data: function() {
     return {
       starTotal: 5,
-      width: Number
+      starWidth: Number,
+
     };
   },
   computed: {
@@ -79,10 +83,10 @@ export default {
     convertRating: function() {
       let starPercentage = (this.placeData.rating / this.starTotal) * 100;
       let starPercentRounded = `${Math.round(starPercentage / 10) * 10}`;
-      this.width = starPercentRounded;
+      this.starWidth = starPercentRounded;
     },
     getDirections: function() {
-      this.$emit('$getDirections');
+      this.$emit("$getDirections");
     }
   }
 };
@@ -93,13 +97,13 @@ export default {
   width: 4px;
 }
 ::-webkit-scrollbar-track {
-  background: #291e02; 
+  background: #291e02;
 }
 ::-webkit-scrollbar-thumb {
-  background: #c7800e; 
+  background: #c7800e;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #ffd711; 
+  background: #ffd711;
 }
 .activity-info-container {
   background: url("../../assets/holly/pattern-background.png") center / cover;
@@ -253,5 +257,167 @@ a:hover {
 }
 .directions-button:active {
   border: #edca2f solid 1px;
+}
+
+/* Media queries */
+@media screen and (max-width: 1900px) {
+  .activity-info-container {
+    width: 30%;
+    z-index: 2000;
+  }
+  .place-container {
+    height: 70%;
+  }
+  .directions-button {
+    width: 50%;
+    padding: 2% 0;
+    font-size: 1.3rem;
+  }
+}
+@media screen and (max-width: 1700px) {
+  .activity-info-container {
+    width: 40%;
+    z-index: 2000;
+  }
+  .place-container {
+    height: 68%;
+  }
+  .directions-button {
+    width: 40%;
+    padding: 2% 0;
+    font-size: 1.3rem;
+  }
+}
+@media screen and (max-width: 1400px) {
+  .activity-info-container {
+    width: 40%;
+    z-index: 2000;
+  }
+  .place-container {
+    height: 68%;
+  }
+  .directions-button {
+    width: 48%;
+    padding: 2% 0;
+    font-size: 1.3rem;
+  }
+}
+@media screen and (max-width: 1200px) {
+  .activity-info-container {
+    width: 77%;
+    height: 100%;
+    border-radius: 0;
+  }
+  .place-container{
+    height: 66%;
+  }
+  .img-container {
+    margin-bottom: 4%;
+  }
+  .name {
+    font-size: 2.4rem;
+  }
+  .category {
+    font-size: 1.6rem;
+    margin-bottom: 1%;
+  }
+  .directions-button {
+    width: 40%;
+    padding: 1.8% 0;
+    font-size: 1.3rem;
+  }
+}
+@media screen and (max-width: 800px) {
+  .activity-info-container {
+    width: 70%;
+    height: 100%;
+    border-radius: 0;
+  }
+  .place-container {
+    height: 65%;
+  }
+  .directions-button {
+    width: 64%;
+    padding: 2% 0;
+    font-size: 1.4rem;
+  }
+}
+@media screen and (max-width: 550px) {
+  .activity-info-container {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    border-right: #c7800e solid 8px;
+  }
+  .place-container {
+    height: 64%;
+  }
+  .place-details {
+    height: 35%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .place-details p {
+    font-size: 1rem;
+  }
+  .name {
+    font-size: 2rem;
+    margin-bottom: 1%;
+  }
+  .category {
+    font-size: 1.2rem;
+    margin-bottom: 2%;
+  }
+  a {
+    font-size: 1.3rem;
+  }
+  .stars-outer {
+    font-size: 1.8rem;
+  }
+  .stars {
+    margin-bottom: 1%;
+  }
+  .rated-by {
+    font-size: 0.8rem;
+    margin-bottom: 2%;
+  }
+  .directions-button {
+    width: 70%;
+    padding: 4%;
+    font-size: 1.4rem;
+  }
+}
+@media screen and (max-width: 400px) {
+  .activity-info-container {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    border-right: #c7800e solid 8px;
+  }
+  .title-container {
+    margin-top: -3%;
+  }
+  .place-container {
+    height: 60%;
+  }
+  .name {
+    font-size: 1.4rem;
+  }
+  .category {
+    font-size: 1rem;
+    margin-bottom: 6%;
+  }
+  .img {
+    margin-bottom: 2%;
+  }
+  .stars-outer {
+    font-size: 1.4rem;
+  }
+  .directions-button {
+    font-size: 1rem;
+    width: 60%;
+    padding: 2%;
+  }
 }
 </style>

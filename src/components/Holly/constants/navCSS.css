@@ -24,6 +24,7 @@
     }
     .logoInfo {
         width: 50%;
+        margin-bottom: 6%;
     }
     .logoLanding:hover, .logoInfo:hover,
     .buttonImgLanding:hover, .buttonImgInfo:hover {
@@ -78,6 +79,7 @@
     .buttonsLanding {
         width: 45%;
         flex-direction: row;
+        margin-bottom: 2%;
     }
     .buttonsInfo {
         width: 100%;
@@ -125,3 +127,278 @@
         margin-bottom: 4%;
         font-family: 'Cabin', sans-serif;
     }
+    .feeling-lucky-button {
+        background: #c78003;
+        border-radius: 4px;
+        padding: 0.5% 1%;
+        color: #f4f4f4;
+        font-size: 1.4rem;
+        border: #f4f4f4 solid 1px;
+      }
+      .feeling-lucky-button:hover {
+        background: #edca2f;
+        color: #291e02;
+      }
+      .feeling-lucky-button:focus {
+        outline: none;
+      }
+      .feeling-lucky-button:active {
+        border: #c7800e solid 1px;
+      }
+
+      /* Landing */
+      .landing {
+        position: absolute;
+        z-index: 1000;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        background: rgba(0, 0, 0, 0.55);
+      }
+      .homeButton {
+        align-self: flex-start;
+        margin: 2%;
+        margin-bottom: 0;
+        background: none;
+        border: none;
+        color: #f4f4f4;
+        font-size: 2rem;
+      }
+      .homeButton:focus {
+        outline: none;
+      }
+
+      /* InfoScreen */
+      .info-screen {
+        width: 100%;
+        height: 100%;
+      }
+      .lhs-nav {
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 2;
+        width: 18vw;
+        height: 100vh;
+        overflow: hidden;
+        background: #c7800e;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+      }
+      .activity-info-container {
+        position: absolute;
+        z-index: 100;
+      }
+      .fas.openNav, .fas.closeNav {
+          z-index: 1000;
+          padding: 1%;
+          color: #f4f4f4;
+          position: absolute;
+          top: 12px;
+          right: 8px;
+          font-size: 1.4rem;
+          cursor: pointer;
+      }
+      .navIsHidden {
+          left: -228px;
+          transition: left 0.8s ease-in-out;
+      }
+
+        /* Media queries */
+        @media screen and (max-width: 1600px) {
+            .logoLanding {
+                width: 30%;
+            }
+            .buttonsLanding {
+                width: 60%;
+            }
+            .feeling-lucky-button {
+                margin-top: 0;
+                padding: 0.8% 1.2%;
+            }
+            /* InfoScreen */
+            .lhs-nav {
+                width: 18%;
+            }
+            .searchInfo {
+                width: 75%;
+            }
+        }
+        @media screen and (max-width: 1200px) {
+            .logoLanding {
+                width: 40%;
+            }
+            .searchLanding {
+                width: 50%;
+            }
+            .buttonsLanding {
+                width: 80%;
+                margin: 4%;
+            }
+            /* InfoScreen */
+            .lhs-nav {
+                width: 24%;
+            }
+            .logoInfo {
+                width: 50%;
+                margin-bottom: 10%;
+            }
+            .searchInfo {
+                width: 85%;
+                margin-bottom: 4%;
+            }
+        }
+        @media screen and (max-width: 800px) {
+            .logoLanding {
+                width: 40%;
+                margin-bottom: 10%;
+            }
+            h1 {
+                font-size: 2.6rem;
+            }
+            .searchLanding {
+                width: 60%;
+            }
+            .buttonsLanding {
+                width: 80%;
+                margin: 10%;
+            }
+            .buttonImgLanding {
+                width: 120px;
+                height: 120px;
+            }
+            .buttonTitle {
+                font-size: 75%;
+            }
+            .feeling-lucky-button {
+                font-size: 1.2rem;
+                padding: 1.5% 2.5%;
+            }
+            /* InfoScreen */
+            .lhs-nav {
+                width: 30%;
+            }
+            .logoInfo {
+                width: 60%;
+                margin-bottom: 10%;
+            }
+            .searchInfo {
+                width: 88%;
+                margin-bottom: 10%;
+            }
+        }
+        @media screen and (max-width: 550px) {
+            /* Landing */
+            .logoLinkLanding {
+                margin-top: 0;
+            }
+            .logoLanding {
+                width: 60%;
+                margin-bottom: 1.5%;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+            .searchLanding {
+                width: 70%;
+                font-size: 0.6rem;
+                margin-bottom: 2%;
+            }
+            .buttonsLanding {
+                width: 80%;
+                flex-direction: column;
+                margin: 3%;
+            }
+            .buttonImgLanding {
+                width: 90px;
+                height: 90px;
+                margin-bottom: 0;
+            }
+
+            /* InfoScreen */
+            .lhs-nav {
+                width: 60%;
+                transition: left 0.8s ease-in-out;
+            }
+            .logoInfo {
+                width: 60%;
+                margin-bottom: 6%;
+            }
+            .searchInfo {
+                margin-bottom: 6%;
+                width: 85%;
+            }
+        }
+        @media screen and (max-width: 420px) {
+            /* Landing */
+            .homeButton {
+                font-size: 1.6rem;
+            }
+            .logoLinkLanding {
+                margin-top: 0;
+            }
+            .logoLanding {
+                width: 60%;
+                margin: 0;
+                margin-top: -10px;
+            }
+            h1 {
+                font-size: 1rem;
+                margin-bottom: 4%;
+            }
+            .searchLanding {
+                width: 70%;
+                font-size: 0.5rem;
+                margin-bottom: 4%;
+            }
+            .buttonsLanding {
+                width: 80%;
+                flex-direction: column;
+                margin: 0;
+                margin-bottom: 4%;
+            }
+            .buttonLanding {
+                margin: 0;
+                padding: 0;
+            }
+            .buttonImgLanding {
+                width: 60px;
+                height: 60px;
+                margin: 0;
+            }
+            .buttonTitle {
+                font-size: 0.6rem;
+                margin-top: 0;
+                margin-bottom: 0;
+            }
+            .feeling-lucky-button {
+                font-size: 0.8rem;
+            }
+
+            /* InfoScreen */
+            .logoInfo {
+                width: 40%;
+                margin-top: 2%;
+                margin-bottom: 2%;
+            }
+            .searchInfo {
+                margin-bottom: 2%;
+            }
+            .buttonImgInfo {
+                width: 70px;
+                height: 70px;
+                margin-bottom: 0;
+            }
+            .navIsHidden {
+                left: -155px;
+                transition: left 0.8s ease-in-out;
+            }
+        }

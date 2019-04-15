@@ -20,7 +20,6 @@ import { CURRENT_LOCATION } from "./constants/data.js";
 import { DEFAULT_MARKER_ICON } from "./constants/data.js";
 import { LUCKY_MARKER_ICON } from "./constants/data.js";
 import { setTimeout } from "timers";
-import { defaultCoreCipherList } from 'constants';
 
 export default {
   name: "HollyMap",
@@ -135,7 +134,13 @@ export default {
         }
       });
       this.directionsService = new this.google.maps.DirectionsService();
-      this.directionsDisplay = new this.google.maps.DirectionsRenderer();
+      this.directionsDisplay = new this.google.maps.DirectionsRenderer({
+        polylineOptions: {
+          strokeColor: '#c7800e',
+          strokeWeight: 5,
+          geodesic: false
+        }
+      });
       this.directionsDisplay.setMap(this.map);
     },
     getData: function() {
@@ -359,9 +364,8 @@ export default {
     findAndDisplayRoute: function() {
       let that = this;
       // Check if marker is active!!!
-      // this.map.setZoom(MARKER_ZOOM);
       that.directionsService.route({
-        origin: {lat: CENTER_LAT_LONG[0], lng: CENTER_LAT_LONG[1]},
+        origin: {lat: CURRENT_LOCATION[0], lng: CURRENT_LOCATION[1]},
         destination: that.activeMarker.position,
         travelMode: 'DRIVING'
       }, function(response, status) {

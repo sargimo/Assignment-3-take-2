@@ -2,9 +2,7 @@ import Vue from "vue";
 import App from "./App.vue";
 import VueRouter from "vue-router";
 import VueResource from "vue-resource";
-
 import Home from "./components/Home.vue";
-
 import Geoff from "./components/Geoff/Geoff.vue";
 import GeoffCategories from "./components/Geoff/GeoffCategories.vue";
 import GeoffMap from "./components/Geoff/map/GeoffMap.vue";
@@ -34,8 +32,9 @@ const router = new VueRouter({
   mode: "history"
 });
 
-
+$(document).ready(function() {
   new Vue({
     render: h => h(App), 
     router
   }).$mount("#app");
+});

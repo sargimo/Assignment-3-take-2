@@ -25,7 +25,7 @@ export const DEFAULT_MARKER_ICON = "https://i.ibb.co/5jcRbmz/orangelighter.png?f
 export const LUCKY_MARKER_ICON = "https://i.ibb.co/pbWVx2s/brownquestionmark.png?fbclid=IwAR3wJMbrJ6Gms9HTxok9H7FfZldoi0fZKIMCh6qEjsLKADXxhlwCPIeqipA";
 export const CENTER_POSITION = "-38.079881,176.271883";
 export const CENTER_LAT_LONG = [-38.1368, 176.2497];
-export const CURRENT_LOCATION = [-43.5321, 172.6362];
+export const CURRENT_LOCATION = CENTER_LAT_LONG;
 export const SEARCH_RADIUS = 20000;
 export const DEFAULT_ZOOM = 11;
 export const MARKER_ZOOM = 13;

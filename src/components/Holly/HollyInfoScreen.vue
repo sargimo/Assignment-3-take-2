@@ -1,37 +1,66 @@
 <template>
   <div class="info-screen">
-    <div class="lhs-nav">
-      <Logo @$setLandingTrue="setLandingTrue" :landing="landing"/>
-      <SearchBar @$searchForQuery="searchForQuery" @setCategoryNull="setCategoryNull" :landing="landing" :searchQuery="searchQuery"/>
-      <div :class="{buttonsLanding: landing, buttonsInfo: !landing}">
-        <ButtonBike
-          :buttonIsActive="category==0"
-          @$categorySelected="categorySelected"
+    <div class="lhs-nav" :class="{navIsHidden: mobileNavIsActive && !mobileNavIsDisplayed}">
+      <i
+        class="fas fa-chevron-left closeNav"
+        v-if="mobileNavIsActive && mobileNavIsDisplayed"
+        @click="setMobileNavIsDisplayed(false)"
+      ></i>
+      <i
+        class="fas fa-chevron-right openNav"
+        v-if="mobileNavIsActive && !mobileNavIsDisplayed"
+        @click="setMobileNavIsDisplayed(true)"
+      ></i>
+      <transition name="fade" mode="out-in">
+        <Logo
+          v-if="!mobileNavIsActive || mobileNavIsDisplayed"
+          @$setLandingTrue="setLandingTrue"
           :landing="landing"
         />
-        <ButtonHiking
-          :buttonIsActive="category==1"
-          @$categorySelected="categorySelected"
+      </transition>
+      <transition name="fade" mode="out-in">
+        <SearchBar
+          v-if="!mobileNavIsActive || mobileNavIsDisplayed"
+          @$searchForQuery="searchForQuery"
+          @setCategoryNull="setCategoryNull"
           :landing="landing"
+          :searchQuery="searchQuery"
         />
-        <ButtonWater
-          :buttonIsActive="category==2"
-          @$categorySelected="categorySelected"
-          :landing="landing"
-        />
-        <ButtonActivities
-          :buttonIsActive="category==3"
-          @$categorySelected="categorySelected"
-          :landing="landing"
-        />
-      </div>
+      </transition>
+      <transition name="fade" mode="out-in">
+        <div
+          v-if="!mobileNavIsActive || mobileNavIsDisplayed"
+          :class="{buttonsLanding: landing, buttonsInfo: !landing}"
+        >
+          <ButtonBike
+            :buttonIsActive="category==0"
+            @$categorySelected="categorySelected"
+            :landing="landing"
+          />
+          <ButtonHiking
+            :buttonIsActive="category==1"
+            @$categorySelected="categorySelected"
+            :landing="landing"
+          />
+          <ButtonWater
+            :buttonIsActive="category==2"
+            @$categorySelected="categorySelected"
+            :landing="landing"
+          />
+          <ButtonActivities
+            :buttonIsActive="category==3"
+            @$categorySelected="categorySelected"
+            :landing="landing"
+          />
+        </div>
+      </transition>
     </div>
     <!-- Transition on v-if?? -->
     <HollyActivityInfoContainer
       @$closeInfoContainer="closeInfoContainer"
       @$getDirections="getDirections"
       :placeData="placeData"
-      v-show="markerIsActive"
+      v-show="markerIsActive && !isGettingDirections"
       class="activity-info-container"
     />
   </div>
@@ -62,10 +91,32 @@ export default {
     category: null,
     markerIsActive: Boolean,
     placeData: Object,
-    searchQuery: null
+    searchQuery: null,
+    isGettingDirections: Boolean
+  },
+  data: function() {
+    return {
+      mobileNavIsActive: false,
+      mobileNavIsDisplayed: true,
+      viewPortWidth: 0
+    };
+  },
+  watch: {
+    viewPortWidth: function() {
+      if (this.viewPortWidth <= 550) {
+        this.mobileNavIsActive = true;
+        this.setMobileNavIsDisplayed(true);
+      } else {
+        this.mobileNavIsActive = false;
+        this.setMobileNavIsDisplayed(false);
+      }
+    }
   },
   methods: {
     categorySelected: function(id) {
+      if(this.mobileNavIsActive) {
+        this.setMobileNavIsDisplayed(false);
+      }
       this.$emit("$categorySelected", id);
     },
     setLandingTrue: function() {
@@ -75,14 +126,29 @@ export default {
       this.$emit("$closeInfoContainer");
     },
     searchForQuery: function(query) {
+      if(this.mobileNavIsActive) {
+        this.setMobileNavIsDisplayed(false);
+      }
       this.$emit("$searchForQuery", query);
     },
     setCategoryNull: function() {
-      this.$emit('$setCategoryNull');
+      this.$emit("$setCategoryNull");
     },
     getDirections: function() {
-      this.$emit('$getDirections');
+      this.$emit("$getDirections");
+    },
+    setMobileNavIsDisplayed: function(bool) {
+      bool
+        ? (this.mobileNavIsDisplayed = true)
+        : (this.mobileNavIsDisplayed = false);
+    },
+    changeViewportWidth: function() {
+      this.viewPortWidth = window.innerWidth;
     }
+  },
+  created: function() {
+    window.addEventListener("resize", this.changeViewportWidth);
+    this.changeViewportWidth();
   }
 };
 </script>
@@ -91,28 +157,12 @@ export default {
 </style>
 
 <style scoped>
-.info-screen {
-  width: 100%;
-  height: 100%;
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.4s ease-in-out, transform 1.5s ease-in-out;
 }
-.lhs-nav {
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: 2;
-  width: 18vw;
-  height: 100vh;
-  overflow: hidden;
-  background: #c7800e;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  align-content: center;
-  justify-content: center;
-}
-.activity-info-container {
-  position: absolute;
-  z-index: 100;
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
-
