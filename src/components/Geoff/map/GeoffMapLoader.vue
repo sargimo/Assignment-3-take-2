@@ -41,12 +41,9 @@ export default {
     GeoffMapCategories,
     GeoffPlaceInformation
   },
-
-  props: {},
-
   data: function() {
     return {
-      //Could be refactored to reduce redundancy of data. CurrentSearchData, 
+      //Could be refactored to reduce redundancy of data. CurrentSearchData,
       //placeData and gPlaceData do not all need to exist. A product of the giant
       //restructure needed when it was discovered foursquare wasn't usable for details
       google: null,
@@ -141,65 +138,69 @@ export default {
       });
       this.directionsDisplay.setMap(this.map);
     },
-    /** 
-      * takes array of objects containing map data and place info data 
-      * @param {Array} places
-    */
+
+    /**
+     * takes array of objects containing map data and place info data
+     * @param {Array} places
+     */
     addMarkers(places) {
       let that = this;
       $.each(places, function(i, place) {
-        console.log(place)
         //catches currently known bad markers from incorrect foursquare data and does not render them. Hardcoded IDs. Would not be needed if there was time to refactor to only use google places.
-        if ( 
+        if (
           place.id != "51282985e4b016a0d5c349bb" &&
           place.id != "4f18fe7ee4b0808f61c5fe7d" &&
           place.id != "4c93d727f244b1f7f7751c1d" &&
           place.id != "51f19f81498e4abbea0feca4" &&
           place.id != "5166230ee4b0dc749a1f949d" &&
           place.id != "4de584ed814db55dc23649e4" &&
-          place.id != "4dfd5508b61c84188ef03f40" && 
+          place.id != "4dfd5508b61c84188ef03f40" &&
           place.id != "4b15d5eaf964a520deb423e3" &&
           place.id != "4b2d7154f964a520c3d624e3" &&
           place.id != "4bb94fb698c7ef3bd9053202" &&
           place.id != "4f94b335e4b04c3ffac0885e" &&
           place.id != "4fb32341e4b0d1c733ebe6ce"
-          ) {
-        let newGMarker = new that.google.maps.Marker({
-          position: place.position,
-          icon: "https://i.ibb.co/MGR4s7m/geoff-map-marker.png",
-          id: place.id,
-          map: that.map,
-          name: place.name,
-          address: place.address,
-          addressLoc: place.addressLoc,
-          distance: place.distance,
-          category: place.category
-        });
-        that.markers.push(newGMarker);
-          }
+        ) {
+          let newGMarker = new that.google.maps.Marker({
+            position: place.position,
+            icon: "https://i.ibb.co/MGR4s7m/geoff-map-marker.png",
+            hovericon: "https://i.ibb.co/d5V63PX/marker-hover.png",
+            activeicon: "https://i.ibb.co/Z13r9JL/marker-active.png",
+            id: place.id,
+            map: that.map,
+            name: place.name,
+            address: place.address,
+            addressLoc: place.addressLoc,
+            distance: place.distance,
+            category: place.category
+          });
+          that.markers.push(newGMarker);
+        }
       });
       this.initMarkerClickListeners(that.markers);
     },
-    /** 
-      * takes array of objects containing map data and sets their map to null, 
-      * removing them from the map
-      * @param {Array} array
-    */
+
+    /**
+     * takes array of objects containing map data and sets their map to null,
+     * removing them from the map
+     * @param {Array} array
+     */
     deleteMarkers(array) {
       let gMarkers = array;
       $.each(gMarkers, function(i, gMarker) {
         gMarker.setMap(null);
-      })
+      });
       //empties storage data of previous markers that have been removed from map
       gMarkers = [];
     },
-    /** 
-      * Takes an id representing the category. Written to handle showing of 
-      * featured festivals which has no data from the API and is hard coded in 
-      * JSON. If time allowed, could use major refactor along with the the other
-      * data request and storage methods.
-      * @param {Number} id
-    */
+
+    /**
+     * Takes an id representing the category. Written to handle showing of
+     * featured festivals which has no data from the API and is hard coded in
+     * JSON. If time allowed, could use major refactor along with the the other
+     * data request and storage methods.
+     * @param {Number} id
+     */
     showFeaturedFestivals(id) {
       let that = this;
       this.deleteMarkers(this.markers);
@@ -243,21 +244,28 @@ export default {
                 desc: marker.description
               };
             });
-            //stores markers in seperate array from normal markers to be able 
+            //stores markers in seperate array from normal markers to be able
             //to handle them independantly if required
             that.featuredMarkers.push(newGMarker);
           }
         }
       });
     },
-    /** 
-      * Takes array of markers and initialises the click listeners on them
-      * @param {Array} array
-    */
+
+    /**
+     * Takes array of markers and initialises the click listeners on them
+     * @param {Array} array
+     */
     initMarkerClickListeners(markers) {
       let that = this;
       $.each(markers, function(i, marker) {
         marker.addListener("click", function(evt) {
+          if (that.activeMarker) {
+            that.activeMarker.setIcon(
+              "https://i.ibb.co/MGR4s7m/geoff-map-marker.png"
+            );
+          }
+          marker.setIcon("https://i.ibb.co/g9fdzF7/marker-active.png");
           that.clearDirections();
           that.map.setZoom(15);
           that.map.setCenter(marker.getPosition());
@@ -267,14 +275,24 @@ export default {
           that.getGooglePlaceId(that.placeData.name);
           that.activeMarker = marker;
         });
+        marker.addListener("mouseover", function() {
+          if (that.activeMarker !== marker) {
+            marker.setIcon("https://i.ibb.co/XjX5b95/marker-hover.png");
+          }
+        });
+        marker.addListener("mouseout", function() {
+          if (that.activeMarker !== marker) {
+            marker.setIcon("https://i.ibb.co/MGR4s7m/geoff-map-marker.png");
+          }
+        });
       });
     },
-    /** 
-      * Takes an id. Id represents the category chosen. 
-      * Called once when page initialises, and then each time a new category 
-      * is clicked. 
-      * @param {Number} id
-    */
+    /**
+     * Takes an id. Id represents the category chosen.
+     * Called once when page initialises, and then each time a new category
+     * is clicked.
+     * @param {Number} id
+     */
     categoryClickHandler: function(id) {
       this.clearDirections();
       if (id === "0") {
@@ -286,19 +304,21 @@ export default {
         this.showFeatureMarkers(id);
       }
     },
-    /** 
-      * Called on watching for when the radius has been changed from dropdown. 
-      * Stores the number in data inside MapLoader for use in other methods.
-      * @param {Number} radius
-    */
+
+    /**
+     * Called on watching for when the radius has been changed from dropdown.
+     * Stores the number in data inside MapLoader for use in other methods.
+     * @param {Number} radius
+     */
     radiusChanged: function(radius) {
       this.currentRadius = radius;
       this.changeZoom(radius);
     },
-    /** 
-      * switch case to convert radius numbers into appropriate zoom levels on the map
-      * @param {Number} radius
-    */
+
+    /**
+     * switch case to convert radius numbers into appropriate zoom levels on the map
+     * @param {Number} radius
+     */
     changeZoom(radius) {
       switch (radius) {
         case "1000":
@@ -315,11 +335,12 @@ export default {
           break;
       }
     },
-    /** 
-      * Handles showing featured markers. Takes the google places ID from JSON 
-      * and returns google data for markers.
-      * @param {Number} id
-    */
+
+    /**
+     * Handles showing featured markers. Takes the google places ID from JSON
+     * and returns google data for markers.
+     * @param {Number} id
+     */
     showFeatureMarkers(id) {
       let that = this;
       let category = this.featureData[id];
@@ -360,13 +381,14 @@ export default {
         }
       });
     },
-    /** 
-      * Takes a categoryId and a radius number. categoryId is a foursquare ID. 
-      * Returns all foursquare data from chosen category within selected radius.
-      * With more time, needs to be refactored to be more reusable by other methods.
-      * @param {Number} categoryId
-      * @param {Number} radius
-    */
+
+    /**
+     * Takes a categoryId and a radius number. categoryId is a foursquare ID.
+     * Returns all foursquare data from chosen category within selected radius.
+     * With more time, needs to be refactored to be more reusable by other methods.
+     * @param {Number} categoryId
+     * @param {Number} radius
+     */
     getSearchData(categoryId, radius) {
       this.$http
         .get(
@@ -400,10 +422,11 @@ export default {
           this.addMarkers(this.currentSearchData);
         });
     },
-    /** 
-      * Stores the data from clicked marker to put placed in the place details screen
-      * @param {Object} marker
-    */
+
+    /**
+     * Stores the data from clicked marker to put placed in the place details screen
+     * @param {Object} marker
+     */
     storePlaceDetails(marker) {
       this.placeData = {
         position: marker.position,
@@ -414,13 +437,14 @@ export default {
         category: marker.category
       };
     },
-    /** 
-      * Takes name of venue from foursquare, and searches it against google 
-      * places data. If there is no match, alerts the user the venue is permanently 
-      * closed. Not an ideal solution but with a major breaking issue with foursquare
-      * it was required to finish in time and meet use cases.
-      * @param {String} name
-    */    getGooglePlaceId(name) {
+
+    /**
+     * Takes name of venue from foursquare, and searches it against google
+     * places data. If there is no match, alerts the user the venue is permanently
+     * closed. Not an ideal solution but with a major breaking issue with foursquare
+     * it was required to finish in time and meet use cases.
+     * @param {String} name
+     */ getGooglePlaceId(name) {
       let that = this;
       let query = {
         query: name,
@@ -441,12 +465,13 @@ export default {
         }
       });
     },
-    /** 
-      * Takes google place id for details request. Still uses some information 
-      * from foursquare and some from google. Needs to be refactored to use one 
-      * or the other eventually.
-      * @param {Number} id
-    */
+
+    /**
+     * Takes google place id for details request. Still uses some information
+     * from foursquare and some from google. Needs to be refactored to use one
+     * or the other eventually.
+     * @param {Number} id
+     */
     getGooglePlaceDetails(id) {
       let that = this;
       let request = {
@@ -490,12 +515,18 @@ export default {
         }
       }
     },
+
     //handles the closing of more details panel on map
     closeInfoPanel() {
       this.placeInfoPanel = false;
+      this.activeMarker.setIcon(
+        "https://i.ibb.co/MGR4s7m/geoff-map-marker.png"
+      );
+      this.clearDirections();
     },
-    //gets directions from hardcoded position to chosen venue. If going to 
-    //production, hard coded location would need to become a get location of 
+
+    //gets directions from hardcoded position to chosen venue. If going to
+    //production, hard coded location would need to become a get location of
     //user request
     getDirections() {
       let that = this;
@@ -514,6 +545,7 @@ export default {
         }
       );
     },
+
     //removes polyline of directions
     clearDirections: function() {
       if (this.directionsDisplay != null) {

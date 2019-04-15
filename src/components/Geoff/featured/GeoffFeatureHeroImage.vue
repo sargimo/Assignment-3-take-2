@@ -8,7 +8,10 @@
 export default {
   name: "GeoffFeatureHeroImage",
   components: {},
-  props: ['source', 'index'],
+  props: {
+    'source': Array, 
+    'index': Number
+  },
   data: function() {
     return {
       url: String,

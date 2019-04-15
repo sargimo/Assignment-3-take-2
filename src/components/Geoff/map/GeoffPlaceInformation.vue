@@ -13,9 +13,7 @@
             <span class="detail-title">ADDRESS:</span>
             {{gPlaceData.address}}
           </p>
-          <p v-if="gPlaceData.desc">
-            {{gPlaceData.desc}}
-          </p>
+          <p v-if="gPlaceData.desc">{{gPlaceData.desc}}</p>
           <p v-if="gPlaceData.distance">
             <span class="detail-title">DISTANCE:</span>
             {{gPlaceData.distance}}m
@@ -25,8 +23,7 @@
             {{gPlaceData.phoneNumber}}
           </p>
           <p v-if="gPlaceData.openNow">
-            <span class="detail-title">OPEN NOW:</span>
-            {{gPlaceData.openNow}}
+            <span class="detail-title open-now">OPEN NOW!</span>
           </p>
           <p v-if="gPlaceData.openTimes">
             <span class="detail-title">OPEN TIMES:</span>
@@ -51,7 +48,10 @@
             {{gPlaceData.userRatings}}
           </p>
           <p v-if="gPlaceData.website">
-            <span class="detail-title"><a class="detail-title" :href="this.gPlaceData.website">WEBSITE</a></span>          </p>
+            <span class="detail-title">
+              <a class="detail-title" :href="this.gPlaceData.website">WEBSITE</a>
+            </span>
+          </p>
           <!-- <p v-if="gPlaceData.photos">PHOTOS: {{gPlaceData.photos}}</p> -->
           <p v-if="gPlaceData.rating">
             <span class="detail-title">RATING:</span>
@@ -73,7 +73,10 @@
 export default {
   name: "GeoffPlaceInformation",
   components: {},
-  props: ["placeData", "gPlaceData"],
+  props: {
+    "placeData": Object, 
+    "gPlaceData": Object
+  },
   methods: {
     //turns a number rating into a visual representation of stars
     convertRating() {
@@ -81,15 +84,18 @@ export default {
       let starPercentRounded = `${Math.round(starPercentage / 10) * 10}`;
       this.width = starPercentRounded;
     },
+
     //emits to parent to close info panel
     emitBack() {
       this.$emit("$closeInfoPanel");
     },
+
     //emits to parent get directions has been clicked
     getDirections() {
       this.$emit("$getDirections");
     }
   },
+
   data: function() {
     return {
       starTotal: 5,
@@ -97,6 +103,7 @@ export default {
       width: Number
     };
   },
+
   watch: {
     gPlaceData: function() {
       this.convertRating();
@@ -185,6 +192,10 @@ export default {
   color: #ffe96b;
 }
 
+.open-now {
+  color: #ffe96b;
+}
+
 .stars-outer {
   display: inline-block;
   position: relative;
@@ -235,7 +246,7 @@ export default {
 .directions button:hover {
   background-color: #3fcbca;
   color: #fff;
-  transform: scale(1.1)
+  transform: scale(1.1);
 }
 
 .back-btn {

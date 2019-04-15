@@ -9,7 +9,9 @@
 <script>
 export default {
   name: "GeoffFeatureMapIcons",
-  props: ['source'],
+  props: {
+    'source': Array
+  },
   data: function() {
     return {
       styles: [],
@@ -23,10 +25,10 @@ export default {
       * @param {Event} evt
     */
     featureIconClicked(evt){
-      let selected = evt.target.id;
       this.$emit("$featureIconClicked", evt.target.id);
       this.iconActive = evt.target.id;
     },
+
     //Uses hard coded absolute positioning from JSON to position markers. Certainly
     //not the most robust solution but a choice was made that function was more 
     //important due to time restraints. 

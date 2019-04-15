@@ -1,17 +1,17 @@
 <template>
   <transition name="page-fade-in" mode="out-in">
     <div class="categories-container">
-      <div @click="getCategoryId" class="category festivals" id="0">
+      <div id="0" @click="getCategoryId('0')" class="category festivals">
         <router-link :to="'/geofffeaturelanding'" exact>
-          <div class="cat-title">
+          <div @click="getCategoryId('0')" class="cat-title">
             <h3>FESTIVALS</h3>
             <p>THE BIGGEST EVENTS IN WELLINGTON</p>
           </div>
         </router-link>
       </div>
-      <div @click="getCategoryId" class="category music-venues" id="1">
+      <div @click="getCategoryId('1')" class="category music-venues" id="1">
         <router-link :to="'/geofffeaturelanding'" exact>
-          <div class="cat-title">
+          <div @click="getCategoryId('1')" class="cat-title">
             <h3>
               MUSIC
               <br>VENUES
@@ -20,9 +20,9 @@
           </div>
         </router-link>
       </div>
-      <div @click="getCategoryId" class="category record-stores" id="2">
+      <div @click="getCategoryId('2')" class="category record-stores" id="2">
         <router-link :to="'/geofffeaturelanding'" exact>
-          <div class="cat-title">
+          <div @click="getCategoryId('2')" class="cat-title">
             <h3>
               RECORD
               <br>STORES
@@ -31,9 +31,9 @@
           </div>
         </router-link>
       </div>
-      <div @click="getCategoryId" class="category music-shops" id="3">
+      <div @click="getCategoryId('3')" class="category music-shops" id="3">
         <router-link :to="'/geofffeaturelanding'" exact>
-          <div class="cat-title">
+          <div @click="getCategoryId('3')" class="cat-title">
             <h3>
               MUSIC
               <br>SHOPS
@@ -42,9 +42,9 @@
           </div>
         </router-link>
       </div>
-      <div @click="getCategoryId" class="category music-schools" id="4">
+      <div @click="getCategoryId('4')" class="category music-schools" id="4">
         <router-link :to="'/geofffeaturelanding'" exact>
-          <div class="cat-title">
+          <div @click="getCategoryId('4')" class="cat-title">
             <h3>
               MUSIC
               <br>SCHOOLS
@@ -67,8 +67,12 @@ export default {
     };
   },
   methods: {
-    getCategoryId(evt) {
-      this.catId = evt.target.id
+    getCategoryId(value) {
+      this.catId = value;
+    }
+  },
+  watch: {
+    catId: function() {
       this.$router.push({
         name: "geofffeaturelanding",
         params: { categoryId: this.catId }
@@ -205,7 +209,7 @@ a:hover {
 
 .category:hover {
   transition: 0.5s;
-  max-width: 40% !important;
+  max-width: 40%;
   flex-grow: 2;
   cursor: pointer;
 }
@@ -234,4 +238,31 @@ a:hover {
   font-size: 2em;
   margin: auto;
 }
+
+@media only screen and (max-width: 850px) {
+  .category {
+    max-height: 20%;
+    width: 100vw;
+    min-height: 10%;
+    height: 20vh;
+    max-width: 100vw;
+  }
+
+  .categories-container {
+    flex-flow: column; 
+  }
+
+.category:hover {
+  transition: 0.5s;
+  max-height: 40% !important;
+  height: 40vh;
+  max-width: 100%;
+  width: 100vw;
+  }
+
+.category:hover .cat-title {
+  transform: translateY(-5px)
+  }
+}
+
 </style>

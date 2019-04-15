@@ -1,21 +1,21 @@
 <template>
   <!-- <transition name="page-fade-in" mode="in-out"> -->
-    <div class="home-bg">
-      <div class="container">
-        <div class="nz-outline">
-          <img src="../../assets/geoff/nz-outline.png">
-        </div>
-        <div class="title">
-          <h1 class="title-top">WELLINGTON</h1>
-          <h2 class="sub-title">A MUSIC ENTHUSIAST'S GUIDE</h2>
-          <div class="flex-center">
-            <router-link :to="'/GeoffCategories'" exact>
-              <button class="btn-yellow">GET STARTED</button>
-            </router-link>
-          </div>
+  <div class="home-bg">
+    <div class="container">
+      <div class="nz-outline">
+        <img src="../../assets/geoff/nz-outline.png">
+      </div>
+      <div class="title">
+        <h1 class="title-top">WELLINGTON</h1>
+        <h2 class="sub-title">A MUSIC ENTHUSIAST'S GUIDE</h2>
+        <div class="flex-center">
+          <router-link :to="'/GeoffCategories'" exact>
+            <button class="btn-yellow">GET STARTED</button>
+          </router-link>
         </div>
       </div>
     </div>
+  </div>
   <!-- </transition> -->
 </template>
 
@@ -33,6 +33,7 @@ export default {
 .home-bg {
   background-image: url(../../assets/geoff/home-bg.jpg);
   background-size: cover;
+  background-position: center;
   width: 100vw;
   height: 100vh;
 }
@@ -101,5 +102,63 @@ export default {
   display: flex;
   justify-content: center;
   align-content: center;
+}
+
+@media only screen and (max-width: 1000px) {
+  .home-bg {
+    background-position: 30% 0%;
+  }
+
+  .title {
+    right: 10%;
+  }
+
+  .nz-outline img {
+    height: 500px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .nz-outline img {
+    height: 400px;    
+  }
+
+  .nz-outline {
+    top: 5%;
+    right: 25%;
+  }
+
+  .title {
+    top: 60%;
+  }
+
+  .title-top, .sub-title {
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: black;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .title-top {
+    font-size: 75px;
+  }
+
+  .sub-title {
+    font-size: 40px;
+  }
+
+  .nz-outline {
+    right: 10%;
+    top: 15%;
+  }
+
+  .nz-outline img {
+    height: 350px;
+
+  }
+
+  .title {
+    right: 4%
+  }
 }
 </style>

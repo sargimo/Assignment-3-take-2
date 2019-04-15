@@ -67,6 +67,7 @@ export default {
       );
       this.setActive(evt.target.value);
     },
+    
     /** 
       * Emits to parent when the radius is changed in the drop down with the 
       * value of the chosen radius
@@ -75,6 +76,7 @@ export default {
     radiusChanged: function(evt) {
       this.$emit("$radiusChanged", evt.target.value);
     },
+
     /** 
       * Switch case to turn the value of each button into a true false array for 
       * active states. Almost certainly not the cleanest solution.
