@@ -1,50 +1,46 @@
-<!-- Parent component to everything: Holly (landing) and InfoScreen!!! -->
-
 <template>
   <transition name="fade" mode="out-in">
-
-  <div class="home">
-    <HollyMap
-      @$setLandingFalse="setLanding(false)"
-      @$markerClicked="markerClicked"
-      @$setMarkerFalse="setMarkerIsActive(false)"
-      @$setIsGettingLuckyFalse="setIsGettingLucky(false)"
-      @$setIsGettingDirectionsFalse="setIsGettingDirections(false)"
-      @$setCategoryNull="setCategory(null)"
-      :landing="landing"
-      :category="category"
-      :markerIsActive="markerIsActive"
-      :searchQuery="searchQuery"
-      :isGettingLucky="isGettingLucky"
-      :isGettingDirections="isGettingDirections"
-    />
-    <HollyLanding
-      v-if="landing"
-      @$setLandingFalse="setLanding(false)"
-      @$categorySelected="categorySelected"
-      @$searchForQuery="searchForQuery"
-      @$getLucky="getLucky"
-      :landing="landing"
-    />
-    <HollyInfoScreen
-      v-if="!landing"
-      @$setLandingFalse="setLanding(false)"
-      @$setLandingTrue="setLanding(true)"
-      @$categorySelected="categorySelected"
-      @$closeInfoContainer="closeInfoContainer"
-      @$searchForQuery="searchForQuery"
-      @$setCategoryNull="setCategory(null)"
-      @$getDirections="getDirections"
-      :landing="landing"
-      :category="category"
-      :placeData="placeData"
-      :markerIsActive="markerIsActive"
-      :searchQuery="searchQuery"
-      :isGettingDirections="isGettingDirections"
-    />
-  </div>
-    </transition>
-
+    <div class="home">
+      <HollyMap
+        @$setLandingFalse="setLanding(false)"
+        @$markerClicked="markerClicked"
+        @$setMarkerFalse="setMarkerIsActive(false)"
+        @$setIsGettingLuckyFalse="setIsGettingLucky(false)"
+        @$setIsGettingDirectionsFalse="setIsGettingDirections(false)"
+        @$setCategoryNull="setCategory(null)"
+        :landing="landing"
+        :category="category"
+        :markerIsActive="markerIsActive"
+        :searchQuery="searchQuery"
+        :isGettingLucky="isGettingLucky"
+        :isGettingDirections="isGettingDirections"
+      />
+      <HollyLanding
+        v-if="landing"
+        @$setLandingFalse="setLanding(false)"
+        @$categorySelected="categorySelected"
+        @$searchForQuery="searchForQuery"
+        @$getLucky="getLucky"
+        :landing="landing"
+      />
+      <HollyInfoScreen
+        v-if="!landing"
+        @$setLandingFalse="setLanding(false)"
+        @$setLandingTrue="setLanding(true)"
+        @$categorySelected="categorySelected"
+        @$closeInfoContainer="closeInfoContainer"
+        @$searchForQuery="searchForQuery"
+        @$setCategoryNull="setCategory(null)"
+        @$getDirections="getDirections"
+        :landing="landing"
+        :category="category"
+        :placeData="placeData"
+        :markerIsActive="markerIsActive"
+        :searchQuery="searchQuery"
+        :isGettingDirections="isGettingDirections"
+      />
+    </div>
+  </transition>
 </template>
 
 <script>
@@ -97,29 +93,31 @@ export default {
       this.setIsGettingDirections(true);
     },
     setLanding: function(bool) {
-      if(bool) {
+      if (bool) {
         this.setSearchQuery(null);
         this.landing = true;
         this.setCategory(null);
-        this.setMarkerIsActive(false)
-      }else {
+        this.setMarkerIsActive(false);
+      } else {
         this.landing = false;
       }
     },
     setMarkerIsActive: function(bool) {
-      bool ? this.markerIsActive = true : this.markerIsActive = false;
+      bool ? (this.markerIsActive = true) : (this.markerIsActive = false);
     },
     setCategory: function(value) {
-      value == null ? this.category = null : this.category = value;
+      value == null ? (this.category = null) : (this.category = value);
     },
     setSearchQuery: function(value) {
-      value == null ? this.searchQuery = null : this.searchQuery = value;
+      value == null ? (this.searchQuery = null) : (this.searchQuery = value);
     },
     setIsGettingLucky: function(bool) {
-      bool ? this.isGettingLucky = true : this.isGettingLucky = false;
+      bool ? (this.isGettingLucky = true) : (this.isGettingLucky = false);
     },
     setIsGettingDirections: function(bool) {
-      bool ? this.isGettingDirections = true : this.isGettingDirections = false;
+      bool
+        ? (this.isGettingDirections = true)
+        : (this.isGettingDirections = false);
     }
   }
 };

@@ -1,5 +1,4 @@
 <template>
-  <transition name="slide-in" mode="out-in">
     <div class="activity-info-container">
       <i @click="closeInfoContainer" class="fas fa-times-circle close-button"></i>
       <div class="title-container">
@@ -50,7 +49,6 @@
         <i class="fas fa-location-arrow"></i>GET DIRECTIONS
       </button>
     </div>
-  </transition>
 </template>
 
 <script>
@@ -107,8 +105,8 @@ export default {
 }
 .activity-info-container {
   background: url("../../assets/holly/pattern-background.png") center / cover;
-  position: relative;
-  z-index: 1000;
+  position: absolute;
+  z-index: 3;
   right: 0;
   bottom: 0;
   top: 0;
@@ -190,14 +188,6 @@ a {
 a:hover {
   color: #c7800e;
 }
-.slide-in-enter-active,
-.slide-in-leave-active {
-  transition: width 0.2s ease-in-out, transform 0.2s ease-in-out;
-}
-.slide-in-enter,
-.slide-in-leave-to {
-  width: 0%;
-}
 .stars-outer {
   display: inline-block;
   position: relative;
@@ -233,7 +223,7 @@ a:hover {
 .directions-button {
   position: absolute;
   bottom: 5%;
-  z-index: 100;
+  z-index: 4;
   width: 50%;
   padding: 2.5% 1.5%;
   font-size: 1.2rem;
@@ -256,14 +246,13 @@ a:hover {
   outline: none;
 }
 .directions-button:active {
-  border: #edca2f solid 1px;
+  border: #291e02 solid 1px;
 }
 
 /* Media queries */
 @media screen and (max-width: 1900px) {
   .activity-info-container {
     width: 30%;
-    z-index: 2000;
   }
   .place-container {
     height: 70%;
@@ -277,7 +266,6 @@ a:hover {
 @media screen and (max-width: 1700px) {
   .activity-info-container {
     width: 40%;
-    z-index: 2000;
   }
   .place-container {
     height: 68%;
@@ -291,7 +279,6 @@ a:hover {
 @media screen and (max-width: 1400px) {
   .activity-info-container {
     width: 40%;
-    z-index: 2000;
   }
   .place-container {
     height: 68%;

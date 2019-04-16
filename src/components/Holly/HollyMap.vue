@@ -36,8 +36,6 @@ export default {
       google: null,
       map: null,
       apiKey: API_KEY,
-      clientID: CLIENT_ID,
-      clientSecret: CLIENT_SECRET,
       markers: [],
       activeMarker: null,
       directionsService: null,
@@ -45,7 +43,7 @@ export default {
     };
   },
   computed: {
-    ALL_CATEGORIES: function() {
+    allCategories: function() {
       let categories = "";
       $.each(API_CATEGORIES, function(i, category) {
         categories += category.categories + ",";
@@ -81,7 +79,7 @@ export default {
     },
     isGettingLucky: function() {
       if(this.isGettingLucky) {
-        this.$emit('$setCategoryNull');
+        this.$emit("$setCategoryNull");
         this.getRandomActivity();
       }
     },
@@ -98,7 +96,7 @@ export default {
       this.map.getStreetView().setVisible(false);
       this.deleteMarkers();
       this.$emit("$setMarkerFalse");
-      this.$emit('$setIsGettingDirectionsFalse');
+      this.$emit("$setIsGettingDirectionsFalse");
       this.map.setZoom(DEFAULT_ZOOM);
       this.map.setCenter({ lat: CENTER_LAT_LONG[0], lng: CENTER_LAT_LONG[1] });
     },
@@ -136,7 +134,7 @@ export default {
       this.directionsService = new this.google.maps.DirectionsService();
       this.directionsDisplay = new this.google.maps.DirectionsRenderer({
         polylineOptions: {
-          strokeColor: '#c7800e',
+          strokeColor: "#c7800e",
           strokeWeight: 5,
           geodesic: false
         }
@@ -154,9 +152,9 @@ export default {
             "&radius=" +
             SEARCH_RADIUS +
             "&client_id=" +
-            this.clientID +
+            CLIENT_ID +
             "&client_secret=" +
-            this.clientSecret +
+            CLIENT_SECRET +
             "&v=20190404"
         )
         .then(function(result) {
@@ -164,7 +162,7 @@ export default {
           this.addMarkers(data);
         });
     },
-    getRandomData: function(categoryId) {
+    getRandomActivityData: function(categoryId) {
       this.$http
         .get(
           "https://api.foursquare.com/v2/venues/search?" +
@@ -175,9 +173,9 @@ export default {
             "&radius=" +
             SEARCH_RADIUS +
             "&client_id=" +
-            this.clientID +
+            CLIENT_ID +
             "&client_secret=" +
-            this.clientSecret +
+            CLIENT_SECRET +
             "&v=20190404"
         )
         .then(function(result) {
@@ -191,7 +189,7 @@ export default {
             randomActivity == "569b39c3498e633a3cd9670a" ||
             randomActivity == "563fe2f2cd10e0967a0b8cde"
           ) {
-            this.getRandomData(categoryId);
+            this.getRandomActivityData(categoryId);
           }else {
             this.addMarkers([randomActivity]);
           }
@@ -231,7 +229,7 @@ export default {
           newMarker.addListener("click", function() {
             // Smooth transition here somehow
             that.clearDirections();
-            that.$emit('$setIsGettingDirectionsFalse');
+            that.$emit("$setIsGettingDirectionsFalse");
             if (newMarker === that.activeMarker) {
               that.map.setZoom(DEFAULT_ZOOM);
               that.$emit("$setMarkerFalse");
@@ -249,7 +247,7 @@ export default {
           newMarker.addListener("mouseover", function() {
             // Show info window
           });
-          that.$emit('$setIsGettingLuckyFalse');
+          that.$emit("$setIsGettingLuckyFalse");
           that.markers.push(newMarker);
         }
       });
@@ -342,11 +340,11 @@ export default {
             "&query=" +
             this.searchQuery +
             "&categoryId=" +
-            this.ALL_CATEGORIES +
+            this.allCategories +
             "&client_id=" +
-            this.clientID +
+            CLIENT_ID +
             "&client_secret=" +
-            this.clientSecret +
+            CLIENT_SECRET +
             "&v=20190404"
         )
         .then(function(result) {
@@ -355,10 +353,10 @@ export default {
         });
     },
     getRandomActivity: function() {
-      let activityIds = this.ALL_CATEGORIES.split(',');
+      let activityIds = this.allCategories.split(",");
       activityIds.splice(activityIds.length-1, 1);
       let randomCategoryId = activityIds[Math.floor(Math.random()*activityIds.length)];
-      this.getRandomData(randomCategoryId);
+      this.getRandomActivityData(randomCategoryId);
     },
     // https://developers.google.com/maps/documentation/javascript/examples/directions-simple
     findAndDisplayRoute: function() {
@@ -367,13 +365,13 @@ export default {
       that.directionsService.route({
         origin: {lat: CURRENT_LOCATION[0], lng: CURRENT_LOCATION[1]},
         destination: that.activeMarker.position,
-        travelMode: 'DRIVING'
+        travelMode: "DRIVING"
       }, function(response, status) {
-        if (status === 'OK') {
+        if (status === "OK") {
           that.directionsDisplay.setDirections(response);
         } else {
           setTimeout(function(){
-            window.alert('Directions request failed due to ' + status);
+            window.alert("Directions request failed due to " + status);
           }, 700);
           that.refreshMap();
         }
@@ -381,7 +379,7 @@ export default {
     },
     clearDirections: function() {
       if(this.directionsDisplay != null) {
-        this.directionsDisplay.set('directions', null);
+        this.directionsDisplay.set("directions", null);
       }
     }
   },

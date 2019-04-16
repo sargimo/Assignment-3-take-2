@@ -33,22 +33,22 @@
           :class="{buttonsLanding: landing, buttonsInfo: !landing}"
         >
           <ButtonBike
-            :buttonIsActive="category==0"
+            :buttonIsActive="category == 0"
             @$categorySelected="categorySelected"
             :landing="landing"
           />
           <ButtonHiking
-            :buttonIsActive="category==1"
+            :buttonIsActive="category == 1"
             @$categorySelected="categorySelected"
             :landing="landing"
           />
           <ButtonWater
-            :buttonIsActive="category==2"
+            :buttonIsActive="category == 2"
             @$categorySelected="categorySelected"
             :landing="landing"
           />
           <ButtonActivities
-            :buttonIsActive="category==3"
+            :buttonIsActive="category == 3"
             @$categorySelected="categorySelected"
             :landing="landing"
           />
@@ -56,13 +56,15 @@
       </transition>
     </div>
     <!-- Transition on v-if?? -->
-    <HollyActivityInfoContainer
-      @$closeInfoContainer="closeInfoContainer"
-      @$getDirections="getDirections"
-      :placeData="placeData"
-      v-show="markerIsActive && !isGettingDirections"
-      class="activity-info-container"
-    />
+    <transition name="slide-in" mode="out-in">
+      <HollyActivityInfoContainer
+        @$closeInfoContainer="closeInfoContainer"
+        @$getDirections="getDirections"
+        :placeData="placeData"
+        v-show="markerIsActive && !isGettingDirections"
+        class="activity-info-container"
+      />
+    </transition>
   </div>
 </template>
 
@@ -168,5 +170,13 @@ export default {
 .fade-enter,
 .fade-leave-to {
   opacity: 0;
+}
+.slide-in-enter-active,
+.slide-in-leave-active {
+  transition: width 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+.slide-in-enter,
+.slide-in-leave-to {
+  width: 0%;
 }
 </style>
