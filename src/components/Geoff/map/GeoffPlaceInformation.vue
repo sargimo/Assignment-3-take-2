@@ -196,7 +196,7 @@ export default {
 }
 
 .directions button {
-  font-family: "Oswald", sans-serif;
+  /* font-family: "Oswald", sans-serif; */
   color: #222;
   background-color: #ffe96b;
   text-align: center;

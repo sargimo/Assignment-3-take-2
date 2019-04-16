@@ -2,10 +2,12 @@
   <form
     @submit.prevent="searchForQuery"
     class="input-group md-form form-sm form-2 pl-0"
-    :class="{searchLanding: this.$parent.$parent.$parent.$data.landing, searchInfo: this.$parent.$parent.$parent.$data.info}"
+    :class="{searchLanding: landing, searchInfo: !landing}"
   >
     <input
-      class="form-control my-0 py-1 amber-border"
+      @click="setCategoryNull"
+      :value="searchQuery"
+      class="form-control my-0 py-1"
       ref="searchBar"
       type="text"
       placeholder="Search"
@@ -22,11 +24,24 @@
 <script>
 export default {
   name: "SearchBar",
+  props: {
+    landing: Boolean,
+    searchQuery: null
+  },
   methods: {
     searchForQuery: function() {
-      this.$refs.searchBar.focus();
       let query = this.$refs.searchBar.value;
-      this.$emit('$searchForQuery', query);
+      this.$emit("$searchForQuery", query);
+    },
+    setCategoryNull: function() {
+      this.$emit("$setCategoryNull");
+    }
+  },
+  created: function() {
+    if (this.searchQuery != null) {
+      this.$nextTick(function() {
+        return this.$refs.searchBar.focus();
+      });
     }
   }
 };
