@@ -12,7 +12,7 @@
   <a class="nav-item nav-link"><router-link v-bind:to="'/jkdesigners'">Previous Page</router-link></a>
     </div>
   </div>
-    <div class="project-images container" v-for="image in project.modules" v-bind:key="image.sizes">
+    <div class="project-images container" v-for="image in project.modules">
       <img class="shadow-sm" v-bind:src="image.sizes.original">
     </div>
 
