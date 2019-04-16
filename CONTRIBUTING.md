@@ -1,13 +1,13 @@
 # Contributing Guide
 
-Thanks for checking out our Star Wars project! :star:
+Thanks for checking out our group project!
 
-The following is a set of guidelines for contributing and use. Please follow them as best you can, asking about any changes you wish to make in an [issue](https://github.com/jkilmartin/StarwarsVueStyleGuide/issues) first (including to this document).
+The following is a set of guidelines for contributing and use. Please follow them as best you can, asking about any changes you wish to make in an [issue](https://github.com/sargimo/Assignment-3-take-2/issues) first (including to any documentation).
 
 ## Issues, Branching, Development, and Pull Requests
 
 ### Issues
-Before forking and contributing, please open an [issue](https://github.com/jkilmartin/StarwarsVueStyleGuide/issues) with a relevant title and description of intentions.
+Before forking and contributing, please open an [issue](https://github.com/sargimo/Assignment-3-take-2/issues) with a relevant title and description of intentions.
 
 ### Branching and Development
 - Development is done using the `dev` branch. The `master` branch is the latest stable version. 
@@ -22,26 +22,34 @@ Your topic branch should follow this syntax: *`issue-number/short-description`*.
 
 ### Pull Requests
 1. Ensure your topic branch is up to date with the latest version in this repository, and ensure all changes are committed.
-2. Ensure you are merging to the `dev` branch in this repository.
-3. If there are any pending pull requests in `dev`, check the *Files Changed* section to address conflicts.
-4. If there are no conflicts, go ahead and open your [Pull Request](https://github.com/jkilmartin/StarwarsVueStyleGuide/pulls).
-5. Enter a title and description. The description should include the keyword `resolve` and the `issue number`.
-6. Submit and we'll get to work!
+2. Please check you have no errors in your console.
+3. Ensure you are merging to the `dev` branch in this repository.
+4. If there are any pending pull requests in `dev`, check the *Files Changed* section to address conflicts.
+5. If there are no conflicts, go ahead and open your [Pull Request](https://github.com/sargimo/Assignment-3-take-2/pulls).
+6. Enter a title and description. The description should include the keyword `resolve` and the `issue number`.
+7. Submit!
 
 ### Git Commits
-As much as possible ensure only one logical change per commit is made.
+As much as possible please make only one logical change per commit.
 Commit messages should describe the original issue, why a change was made, and how the change addresses the issue.
 
 ## JavaScript/Vue.js/CSS Styleguide
 
 #### ES5/6
 - Use `let` and `const` rather than `var`.
-- We avoid arrow functions because of scope issues when using `this`.
+- We like to avoid arrow functions because of scope issues when using `this`. 
+Our function convention is the following:
+```
+methodName: function(params) {
+  // ...
+}
+```
+
 - Use ES6 syntax to import/export: 
 ```
   export default TestModule;
 
-  import TestModule from './TestModule';
+  import TestModule from "./TestModule";
   ```
 - Use Promises as async functions.
 
@@ -49,8 +57,9 @@ Commit messages should describe the original issue, why a change was made, and h
 - Functions and variables use camelCase.
 - Constants should be named as CONSTANT_VALUE.
 
-#### Semicolons
-Always use semicolons to close statements.
+#### Semicolons/Quotes
+- Always use semicolons to close statements.
+- Prefer double quotes with nested single quotes.
 
 #### Commenting
 Functions should be commented.
