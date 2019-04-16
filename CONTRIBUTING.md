@@ -20,6 +20,18 @@ Your topic branch should follow this syntax: *`issue-number/short-description`*.
 
 - Please work in the `src` folder and avoid `dist`.
 
+- The map-based apps use the [Google Maps JS/Places/Directions](https://developers.google.com/maps/documentation/) and [FourSquare Places](https://developer.foursquare.com/places-api) APIs. 
+To run them, a `config.js` file must be added to `src/components/Geoff/constants` and `src/components/Holly/constants` that exports a Google Maps API key and FourSquare client id and client secret:
+```
+/* Geoff/constants/config.js */
+
+
+/* Holly/constants/config.js */
+export const API_KEY = "[your Google Maps API key]"
+export const CLIENT_ID = "[your FourSquare client ID]"
+export const CLIENT_SECRET = "[your FourSquare client secret]"
+```
+
 ### Pull Requests
 1. Ensure your topic branch is up to date with the latest version in this repository, and ensure all changes are committed.
 2. Please check you have no errors in your console.
