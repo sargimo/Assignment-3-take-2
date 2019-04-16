@@ -247,22 +247,29 @@ a:hover {
     height: 20vh;
     max-width: 100vw;
   }
+  .cat-title h3 {
+    font-size: 30px;
+  }
+
+  .cat-title p {
+    padding-top: 5px;
+    font-size: 18px;
+  }
 
   .categories-container {
-    flex-flow: column; 
+    flex-flow: column;
   }
 
-.category:hover {
-  transition: 0.5s;
-  max-height: 40% !important;
-  height: 40vh;
-  max-width: 100%;
-  width: 100vw;
+  .category:hover {
+    transition: 0.5s;
+    max-height: 40% !important;
+    height: 40vh;
+    max-width: 100%;
+    width: 100vw;
   }
 
-.category:hover .cat-title {
-  transform: translateY(-5px)
+  .category:hover .cat-title {
+    transform: translateY(-5px);
   }
 }
-
 </style>

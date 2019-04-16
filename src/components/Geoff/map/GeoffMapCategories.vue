@@ -1,70 +1,66 @@
 <template>
-    <transition name="page-slide" mode="out-in">
-
   <div>
-      <div class="filters">
-        <div class="filters-container">
-          <select class="dropdown" @change="radiusChanged">
-            <option value="1000">WITHIN 1KM</option>
-            <option value="5000">WITHIN 5KM</option>
-            <option value="10000">WITHIN 10KM</option>
-            <option value="20000">WITHIN 20K</option>
-          </select>
-          <button
-            @click.prevent="categoryClickHandler"
-            :class="{active: buttonIsActive[0]}"
-            id="0"
-            value="festivals"
-            class="category-btn"
-          >MUSIC FESTIVALS</button>
-          <button
-            @click.prevent="categoryClickHandler"
-            :class="{active: buttonIsActive[1]}"
-            id="1"
-            value="music venues"
-            class="category-btn"
-          >MUSIC VENUES</button>
-          <button
-            @click.prevent="categoryClickHandler"
-            :class="{active: buttonIsActive[2]}"
-            id="2"
-            value="record stores"
-            class="category-btn"
-          >RECORD STORES</button>
-          <button
-            @click.prevent="categoryClickHandler"
-            :class="{active: buttonIsActive[3]}"
-            id="3"
-            value="music stores"
-            class="category-btn"
-          >MUSIC STORES</button>
-          <button
-            @click.prevent="categoryClickHandler"
-            :class="{active: buttonIsActive[4]}"
-            id="4"
-            value="music schools"
-            class="category-btn"
-          >MUSIC SCHOOLS</button>
-        </div>
+    <div class="filters">
+      <div class="filters-container">
+        <select class="dropdown" @change="radiusChanged">
+          <option value="1000">WITHIN 1KM</option>
+          <option value="5000">WITHIN 5KM</option>
+          <option value="10000">WITHIN 10KM</option>
+          <option value="20000">WITHIN 20K</option>
+        </select>
+        <button
+          @click.prevent="categoryClickHandler"
+          :class="{active: buttonIsActive[0]}"
+          id="0"
+          value="festivals"
+          class="category-btn"
+        >MUSIC FESTIVALS</button>
+        <button
+          @click.prevent="categoryClickHandler"
+          :class="{active: buttonIsActive[1]}"
+          id="1"
+          value="music venues"
+          class="category-btn"
+        >MUSIC VENUES</button>
+        <button
+          @click.prevent="categoryClickHandler"
+          :class="{active: buttonIsActive[2]}"
+          id="2"
+          value="record stores"
+          class="category-btn"
+        >RECORD STORES</button>
+        <button
+          @click.prevent="categoryClickHandler"
+          :class="{active: buttonIsActive[3]}"
+          id="3"
+          value="music stores"
+          class="category-btn"
+        >MUSIC STORES</button>
+        <button
+          @click.prevent="categoryClickHandler"
+          :class="{active: buttonIsActive[4]}"
+          id="4"
+          value="music schools"
+          class="category-btn"
+        >MUSIC SCHOOLS</button>
       </div>
+    </div>
   </div>
-      </transition>
-
 </template>
 
 <script>
 export default {
   name: "GeoffMapCategories",
   props: {
-    "isMobile": Boolean, 
-    "viewPortWidth": Number
+    isMobile: Boolean,
+    viewPortWidth: Number
   },
   methods: {
-    /** 
-      * Emits to parent when a category button is clicked to be handled within 
-      * map, then sets the chosen category to an active state
-      * @param {Event} evt
-    */
+    /**
+     * Emits to parent when a category button is clicked to be handled within
+     * map, then sets the chosen category to an active state
+     * @param {Event} evt
+     */
     categoryClickHandler: function(evt) {
       if (this.mobileActive) {
         this.toggleCategories();
@@ -77,21 +73,21 @@ export default {
       );
       this.setActive(evt.target.value);
     },
-    
-    /** 
-      * Emits to parent when the radius is changed in the drop down with the 
-      * value of the chosen radius
-      * @param {Event} evt
-    */
+
+    /**
+     * Emits to parent when the radius is changed in the drop down with the
+     * value of the chosen radius
+     * @param {Event} evt
+     */
     radiusChanged: function(evt) {
       this.$emit("$radiusChanged", evt.target.value);
     },
 
-    /** 
-      * Switch case to turn the value of each button into a true false array for 
-      * active states. Almost certainly not the cleanest solution.
-      * @param {String} value
-    */
+    /**
+     * Switch case to turn the value of each button into a true false array for
+     * active states. Almost certainly not the cleanest solution.
+     * @param {String} value
+     */
     setActive(value) {
       switch (value) {
         case "festivals":
@@ -118,7 +114,7 @@ export default {
     }
   },
   watch: {
-    //watches the landingId value sent from previous page and turns the id into 
+    //watches the landingId value sent from previous page and turns the id into
     //a string for setActive to deal with it. Both could be refactored if time allowed.
     landingId: function() {
       let value = this.landingId;
@@ -142,7 +138,12 @@ export default {
       this.setActive(value);
     },
     isMobile: function() {
-      this.mobileActive = this.isMobile;
+      if (this.isMobile) {
+        this.mobileActive = true;
+      } else {
+        this.mobileActive = false;
+      }
+      // this.mobileActive = this.isMobile;
     }
   },
   created: function() {
@@ -163,16 +164,6 @@ export default {
 </style>
 
 <style scoped>
-.page-slide-enter-active,
-.page-slide-leave-active {
-  transition: all 1s ease;
-}
-
-.page-slide-enter,
-.page-slide-leave-to {
-  transform: translateX(-300px);
-}
-
 .filters-container {
   display: flex;
   height: 100%;
@@ -254,7 +245,7 @@ export default {
   }
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 800px) {
   .filters {
     width: 100vw;
   }

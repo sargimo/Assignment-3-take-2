@@ -38,16 +38,6 @@ export default {
   height: 100vh;
 }
 
-/* .page-fade-in-enter-active,
-.page-fade-in-leave-active {
-  transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
-}
-
-.page-fade-in-enter,
-.page-fade-in-leave-to {
-  opacity: 0;
-} */
-
 .title {
   position: absolute;
   top: 55%;
@@ -120,7 +110,7 @@ export default {
 
 @media only screen and (max-width: 600px) {
   .nz-outline img {
-    height: 400px;    
+    height: 400px;
   }
 
   .nz-outline {
@@ -132,7 +122,8 @@ export default {
     top: 60%;
   }
 
-  .title-top, .sub-title {
+  .title-top,
+  .sub-title {
     -webkit-text-stroke-width: 2px;
     -webkit-text-stroke-color: black;
   }
@@ -149,16 +140,16 @@ export default {
 
   .nz-outline {
     right: 10%;
-    top: 15%;
+    top: 5%;
   }
 
   .nz-outline img {
     height: 350px;
-
   }
 
   .title {
-    right: 4%
+    right: 4%;
+    top: 45%;
   }
 }
 </style>

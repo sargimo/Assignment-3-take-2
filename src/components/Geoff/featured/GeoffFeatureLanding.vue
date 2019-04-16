@@ -1,20 +1,24 @@
 <template>
   <div class="category-landing">
-    <router-link :to="'/GeoffCategories'" exact>
-      <GeoffBackBtn/>
-    </router-link>
     <GeoffFeatureDetails
       v-if="categoryId&&selectedCategoryData"
       :index="selectedIndex"
       :source="selectedCategoryData"
     />
-    <GeoffFeatureMapIcons v-if="!isMobile" @$featureIconClicked="featureIconClicked" :source="selectedCategoryData"/>
-    <GeoffFeaturedList v-if="isMobile" @$featureItemClicked="featureIconClicked" :source="selectedCategoryData" />
+    <GeoffFeatureMapIcons
+      v-if="!isMobile"
+      @$featureIconClicked="featureIconClicked"
+      :source="selectedCategoryData"
+    />
+    <GeoffFeaturedList
+      v-if="isMobile"
+      @$featureItemClicked="featureIconClicked"
+      :source="selectedCategoryData"
+    />
   </div>
 </template>
 
 <script>
-import GeoffBackBtn from "../GeoffBackBtn.vue";
 import GeoffFeatureDetails from "./GeoffFeatureDetails.vue";
 import GeoffFeatureMapIcons from "./GeoffFeatureMapIcons.vue";
 import GeoffFeaturedList from "./GeoffFeaturedList.vue";
@@ -24,11 +28,9 @@ import recordStoresData from "../constants/recordStoreData.json";
 import musicShopData from "../constants/musicShopData.json";
 import musicSchoolData from "../constants/musicSchoolData.json";
 
-
 export default {
   name: "GeoffFeatureLanding",
   components: {
-    GeoffBackBtn,
     GeoffFeatureDetails,
     GeoffFeatureMapIcons,
     GeoffFeaturedList
@@ -41,7 +43,7 @@ export default {
         musicVenueData.venues,
         recordStoresData.venues,
         musicShopData.venues,
-        musicSchoolData.venues,
+        musicSchoolData.venues
       ],
       selectedCategoryData: [],
       //used for active states of static map icons
@@ -65,7 +67,7 @@ export default {
 
     //handles active states for static map icons
     featureIconClicked(id) {
-      this.selectedIndex = (parseInt(id));
+      this.selectedIndex = parseInt(id);
     },
 
     //uses the categoryId from the previous page to select the correct JSON file
@@ -99,5 +101,12 @@ export default {
   background-position: left;
   height: 100vh;
   width: 100vw;
+}
+
+@media only screen and (max-width: 1050px) {
+  .category-landing {
+    background-image: none;
+    background-color: #222;
+  }
 }
 </style>

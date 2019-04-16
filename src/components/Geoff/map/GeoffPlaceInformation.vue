@@ -74,8 +74,8 @@ export default {
   name: "GeoffPlaceInformation",
   components: {},
   props: {
-    "placeData": Object, 
-    "gPlaceData": Object
+    placeData: Object,
+    gPlaceData: {}
   },
   methods: {
     //turns a number rating into a visual representation of stars
@@ -105,9 +105,9 @@ export default {
   },
 
   watch: {
+    //converts number into star visual each time a new venue is clicked
     gPlaceData: function() {
       this.convertRating();
-      // console.log(this.gPlaceData);
     }
   }
 };
@@ -260,5 +260,31 @@ export default {
 
 .back-btn:focus {
   outline: none;
+}
+
+@media only screen and (max-width: 1200px) {
+  .place-container {
+    padding-top: 25px;
+  }
+
+  .back-btn {
+    top: 50px;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .place-container {
+    width: 100vw;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .name-text {
+    font-size: 38px;
+    line-height: 34px;
+  }
+  .category-text {
+    font-size: 16px;
+  }
 }
 </style>

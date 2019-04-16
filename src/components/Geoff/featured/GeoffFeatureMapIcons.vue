@@ -1,7 +1,14 @@
 <template>
   <div>
     <div :key="index" v-for="(sources, index) in source" :style="styles[index]">
-      <img @click="featureIconClicked" :class="{iconActive:iconActive==index}" class="featured-icon" :id="index" :ref="index" src="../../../assets/geoff/geoff-map-marker.png">
+      <img
+        @click="featureIconClicked"
+        :class="{iconActive:iconActive==index}"
+        class="featured-icon"
+        :id="index"
+        :ref="index"
+        src="../../../assets/geoff/geoff-map-marker.png"
+      >
     </div>
   </div>
 </template>
@@ -10,44 +17,44 @@
 export default {
   name: "GeoffFeatureMapIcons",
   props: {
-    'source': Array
+    source: Array
   },
   data: function() {
     return {
       styles: [],
       iconActive: 0
-    }
+    };
   },
   methods: {
-    /** 
-      * Gets click event to take the id of the clicked item, emit to parent for 
-      * data retrieval and then uses iconActive for active state of icons.
-      * @param {Event} evt
-    */
-    featureIconClicked(evt){
+    /**
+     * Gets click event to take the id of the clicked item, emit to parent for
+     * data retrieval and then uses iconActive for active state of icons.
+     * @param {Event} evt
+     */
+    featureIconClicked(evt) {
       this.$emit("$featureIconClicked", evt.target.id);
       this.iconActive = evt.target.id;
     },
 
     //Uses hard coded absolute positioning from JSON to position markers. Certainly
-    //not the most robust solution but a choice was made that function was more 
-    //important due to time restraints. 
+    //not the most robust solution but a choice was made that function was more
+    //important due to time restraints.
     getStyles() {
       let that = this;
       this.styles = [];
       $.each(that.source, function(i, venue) {
-        let style = JSON.parse(venue.style)
+        let style = JSON.parse(venue.style);
         that.styles.push(style);
-      })
+      });
     }
   },
-  created: function () {
+  created: function() {
     this.getStyles();
   },
   watch: {
     source: function() {
       this.getStyles();
-    } 
+    }
   }
 };
 </script>
@@ -63,7 +70,7 @@ export default {
 
 .featured-icon:hover {
   transform: scale(1.3);
-  border: 3px solid #3fcbca;  
+  border: 3px solid #3fcbca;
   border-radius: 50px;
 }
 

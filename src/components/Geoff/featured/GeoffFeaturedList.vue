@@ -1,7 +1,13 @@
 <template>
   <div>
     <ul class="featured-list">
-      <li @click="featureItemClicked" :key="index" v-for="(sources, index) in source" :class="{iconActive:iconActive==index}" :id="index">{{source[index].name}}</li>
+      <li
+        @click="featureItemClicked"
+        :key="index"
+        v-for="(sources, index) in source"
+        :class="{iconActive:iconActive==index}"
+        :id="index"
+      >{{source[index].name}}</li>
     </ul>
   </div>
 </template>
@@ -10,55 +16,102 @@
 export default {
   name: "GeoffFeaturedList",
   props: {
-    'source': Array
+    source: Array
   },
   data: function() {
     return {
       iconActive: 0
-    }
+    };
   },
   methods: {
-    /** 
-      * Gets click event to take the id of the clicked item, emit to parent for 
-      * data retrieval and then uses iconActive for active state of icons.
-      * @param {Event} evt
-    */
-    featureItemClicked(evt){
+    /**
+     * Gets click event to take the id of the clicked item, emit to parent for
+     * data retrieval and then uses iconActive for active state of icons.
+     * @param {Event} evt
+     */
+    featureItemClicked(evt) {
       this.$emit("$featureItemClicked", evt.target.id);
       this.iconActive = evt.target.id;
     }
-  },
+  }
 };
 </script>
 
 <style scoped>
 .featured-list {
-    text-decoration: none;
-    position: absolute;
-    top: 30%;
-    left: 5%;
-    max-width: 25%;
-    list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  text-decoration: none;
+  flex-direction: flex-start;
+  position: absolute;
+  top: 15%;
+  left: 10%;
+  max-width: 75%;
+  overflow: auto;
+  white-space: nowrap;
+  list-style-type: none;
+  text-align: center;
+  padding: 10px;
 }
 
 .featured-list li {
-    font-family: "BigNoodleTitling", sans-serif;
-    font-size: 25px;
-    background-color: rgba(63, 63, 63, 0.2);
-    margin-bottom: 15px;
-    padding: 10px 5px;
-    text-align: center;
-    color: #fff;
-    border: 1px solid #3fcbca;
-    transition: all 0.2s linear;
-    cursor: pointer;
-    border-radius: 50px;
+  font-family: "BigNoodleTitling", sans-serif;
+  font-size: 25px;
+  padding: 0 20px;
+  /* margin-bottom: 15px;
+    padding: 10px 5px; */
+  text-align: center;
+  color: #fff;
+  /* border: 1px solid #3fcbca; */
+  cursor: pointer;
+  position: relative;
+  /* border-radius: 50px; */
+  /* margin: 0 auto; */
 }
 
+.featured-list li:before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #333;
+  visibility: hidden;
+  -webkit-transform: scaleX(0);
+  transform: scaleX(0);
+  -webkit-transition: all 0.2s ease-in-out 0s;
+  transition: all 0.2s ease-in-out 0s;
+}
+
+.featured-list li:hover:before {
+  visibility: visible;
+  background-color: #3fcbca;
+  -webkit-transform: scaleX(1);
+  transform: scaleX(1);
+}
+
+/* .featured-list li:hover {
+  border-bottom: 1px solid #3fcbca;
+} */
+
 .featured-list li.iconActive {
-    background-color: #ffe96b;
-    border: 1px solid #ffe96b;
-    color: #222;
-    border-radius: 50px;
+  background-color: #ffe96b;
+  border: 1px solid #ffe96b;
+  color: #222;
+  border-radius: 10px;
+}
+
+.featured-list::-webkit-scrollbar {
+  /* width: 3px; */
+  height: 3px;
+}
+
+.featured-list::-webkit-scrollbar-track {
+  background: #333;
+}
+
+.featured-list::-webkit-scrollbar-thumb {
+  background: #555;
 }
 </style>

@@ -1,5 +1,10 @@
 <template>
   <div class="cust-container">
+    <router-link :to="'/GeoffCategories'" exact>
+      <div class="back-btn">
+        <i class="fas fa-chevron-circle-left"></i>
+      </div>
+    </router-link>
     <div class="page-title">
       <h1>
         WELLINGTON'S BEST
@@ -59,9 +64,9 @@ export default {
   name: "GeoffFeatureDetails",
   components: {},
   props: {
-    "source": Array,
-    "index": Number
-    },
+    source: Array,
+    index: Number
+  },
   methods: {
     /**
      * Click event used to get id from the button to have map ready to deal with
@@ -83,6 +88,22 @@ export default {
 </style>
 
 <style scoped>
+.back-btn {
+  position: absolute;
+  z-index: 3;
+  top: 50px;
+  left: 50px;
+  font-size: 40px;
+  color: #fff;
+  transition: all 0.2s linear;
+  transform: scale(1);
+}
+
+.back-btn:hover {
+  color: #3fcbca;
+  transform: scale(1.2);
+}
+
 .cust-container {
   display: flex;
   justify-content: flex-end;
@@ -200,7 +221,7 @@ export default {
 @media only screen and (max-width: 1050px) {
   .page-title h1 {
     font-size: 60px;
-    left: 23%;
+    left: 20%;
   }
 
   .venue-title h1 {
@@ -213,13 +234,123 @@ export default {
   }
 }
 
+@media only screen and (max-width: 1050px) {
+  .page-title h1 {
+    top: 3%;
+  }
+
+  .cust-container {
+    justify-content: center;
+    /* align-items: flex-start; */
+  }
+
+  .details {
+    padding-right: 50px;
+  }
+}
+
+@media only screen and (max-width: 900px) {
+  .page-title h1 {
+    left: 15%;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .page-title h1 {
+    left: 12%;
+  }
+  .details {
+    max-width: 80%;
+  }
+  .back-btn {
+    position: absolute;
+    z-index: 3;
+    top: 10px;
+    left: 10px;
+    font-size: 20px;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .page-title h1 {
+    left: 8%;
+  }
+  .description p {
+    max-height: 20vh;
+    overflow-y: scroll;
+  }
+  .description p::-webkit-scrollbar {
+    width: 3px;
+  }
+
+  .description p::-webkit-scrollbar-track {
+    background: #333;
+  }
+
+  .description p::-webkit-scrollbar-thumb {
+    background: #555;
+  }
+}
+
+@media only screen and (max-width: 650px) {
+  .page-title h1 {
+    font-size: 45px;
+    left: 15%;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  .page-title h1 {
+    left: 8%;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .page-title h1 {
+    left: 5%;
+  }
+  .contact-icons {
+    padding: 5px 0;
+    font-size: 14px;
+  }
+  .contact-icons i {
+    font-size: 18px;
+  }
+  .explore-welly {
+    padding-top: 10px;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .page-title h1 {
+    font-size: 35px;
+    text-align: center;
+    left: 10px;
+  }
+
+  .venue-title h1 {
+    font-size: 50px;
+    line-height: 65px;
+  }
+
+  .venue-title h2 {
+    margin-bottom: -5px;
+    font-size: 25px;
+    color: #ffe96b;
+  }
+  .description p {
+    max-height: 10vh;
+  }
+}
+
 @media only screen and (max-width: 800px) {
   /* .cust-container {
     background-color: rgba(0, 0, 0, 0.2);
   } */
-  .page-title h1 {
+  /* .page-title h1 {
     font-size: 48px;
     top: 5%;
-  }
+    left: 10%;
+  } */
 }
 </style>
