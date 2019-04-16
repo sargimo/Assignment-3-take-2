@@ -14,6 +14,7 @@ import Jack from "./components/Jack/Jack.vue";
 import Jeremy from "./components/Jeremy/Jeremy.vue";
 import DesignerPortfolio from "./components/Jeremy/designerportfolio/DesignerPortfolio.vue";
 import ProjectComponent from "./components/Jeremy/projectcomponent/ProjectComponent.vue";
+import SingleProject from "./components/Jeremy/singleproject/SingleProject.vue";
 
 Vue.config.productionTip = false;
 
@@ -39,6 +40,12 @@ const routes = [
     name: "designerportfolio",
     path: "/designerportfolio",
     component: DesignerPortfolio,
+    props: true
+  },
+  {
+    name: "singleproject",
+    path: "/singleproject",
+    component: SingleProject,
     props: true
   }
   

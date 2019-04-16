@@ -29,15 +29,12 @@
             >Comments: {{ project.stats.comments }}</h6>
           </div>
           <!-- Button trigger modal -->
-          <button
-            type="button"
-            class="btn btn-primary"
-            data-toggle="modal"
-            data-target="#exampleModal"
-          >View Project</button>
+          <router-link to="/singleproject" exact>
+          <button type="button" class="btn btn-primary" v-on:click="getAProject(project.id)">View Project</button>
+          </router-link>
 
           <!-- Modal -->
-          <div
+          <!-- <div
             class="modal fade"
             id="exampleModal"
             tabindex="-1"
@@ -48,20 +45,31 @@
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel" v-bind:href="project.name" target="_blank">{{ project.name }}</h5>
+                  <h5
+                    class="modal-title"
+                    id="exampleModalLabel"
+                    v-bind:href="project.name"
+                    target="_blank"
+                  >{{ project.name }}</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
-                <div class="modal-body"><div v-for="photo in project.modules" v-bind:key="photo.sizes" class="project-photos-cover">
-          <img class="project-images" v-bind:src="photo.sizes.max_1200">
-        </div></div>
+                <div class="modal-body">
+                  <div
+                    v-for="photo in project.modules"
+                    v-bind:key="photo.sizes"
+                    class="project-photos-cover"
+                  >
+                    <img class="project-images" v-bind:src="photo.sizes.max_1200">
+                  </div>
+                </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
               </div>
             </div>
-          </div>
+          </div>-->
         </div>
       </div>
 
@@ -145,6 +153,12 @@ export default {
         .then(function(data) {
           this.projects = data.body.projects;
         });
+    },
+    getAProject: function(projectId) {
+      this.$router.push({
+        name: "singleproject",
+        params: { projectId: projectId }
+      });
     }
   },
   created: function() {
@@ -202,8 +216,8 @@ export default {
 }
 
 .modal-dialog {
-    max-width: 1200px;
-    margin: 1.75rem auto;
+  max-width: 1200px;
+  margin: 1.75rem auto;
 }
 
 .modal-body {
