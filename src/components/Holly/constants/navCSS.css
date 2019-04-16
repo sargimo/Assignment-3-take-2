@@ -143,13 +143,13 @@
         outline: none;
       }
       .feeling-lucky-button:active {
-        border: #c7800e solid 1px;
+        border: #291e02 solid 1px;
       }
 
       /* Landing */
       .landing {
         position: absolute;
-        z-index: 1000;
+        z-index: 2;
         top: 0;
         left: 0;
         width: 100vw;
@@ -193,12 +193,7 @@
         align-content: center;
         justify-content: center;
       }
-      .activity-info-container {
-        position: absolute;
-        z-index: 100;
-      }
       .fas.openNav, .fas.closeNav {
-          z-index: 1000;
           padding: 1%;
           color: #f4f4f4;
           position: absolute;

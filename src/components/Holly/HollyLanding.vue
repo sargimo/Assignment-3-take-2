@@ -51,7 +51,7 @@ export default {
       this.$emit("$searchForQuery", query);
     },
     getLucky: function() {
-      this.$emit('$getLucky');
+      this.$emit("$getLucky");
     }
   }
 };
