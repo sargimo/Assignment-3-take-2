@@ -1,21 +1,21 @@
 <template>
-    <div class="landing">
-      <router-link class="homeButton" :to="'/'">
-        <i class="fas fa-chevron-left"></i>
-      </router-link>
-      <Logo @$setLandingTrue="setLandingTrue" :landing="landing"/>
-      <div>
-        <h1>Find your next adventure...</h1>
-      </div>
-      <SearchBar @$searchForQuery="searchForQuery" :landing="landing"/>
-      <div :class="{buttonsLanding: landing, buttonsInfo: !landing}">
-        <ButtonBike @$categorySelected="categorySelected" :landing="landing"/>
-        <ButtonHiking @$categorySelected="categorySelected" :landing="landing"/>
-        <ButtonWater @$categorySelected="categorySelected" :landing="landing"/>
-        <ButtonActivities @$categorySelected="categorySelected" :landing="landing"/>
-      </div>
-      <button @click="getLucky" class="feeling-lucky-button">FEELING LUCKY?</button>
+  <div class="landing">
+    <router-link class="homeButton" :to="'/'">
+      <i class="fas fa-chevron-left"></i>
+    </router-link>
+    <Logo @$setLandingTrue="setLandingTrue" :landing-is-active="landingIsActive"/>
+    <div>
+      <h1>Find your next adventure...</h1>
     </div>
+    <SearchBar @$searchForQuery="searchForQuery" :landing-is-active="landingIsActive"/>
+    <div :class="{buttonsLanding: landingIsActive, buttonsInfo: !landingIsActive}">
+      <ButtonBike @$categorySelected="categorySelected" :landing-is-active="landingIsActive"/>
+      <ButtonHiking @$categorySelected="categorySelected" :landing-is-active="landingIsActive"/>
+      <ButtonWater @$categorySelected="categorySelected" :landing-is-active="landingIsActive"/>
+      <ButtonActivities @$categorySelected="categorySelected" :landing-is-active="landingIsActive"/>
+    </div>
+    <button @click="getLucky" class="feeling-lucky-button">FEELING LUCKY?</button>
+  </div>
 </template>
 
 <script>
@@ -28,6 +28,7 @@ import ButtonActivities from "./nav/ButtonActivities.vue";
 
 export default {
   name: "HollyLanding",
+
   components: {
     Logo,
     SearchBar,
@@ -36,20 +37,39 @@ export default {
     ButtonWater,
     ButtonActivities
   },
+
   props: {
-    landing: Boolean
+    landingIsActive: Boolean
   },
+  
   methods: {
+    /**
+     * Emits method call to handle category selection (or deselection).
+     * @param {Number} id
+     */
     categorySelected: function(id) {
       this.$emit("$categorySelected", id);
     },
+
+    /**
+     * Refreshes window and emits method call to handle changing to landing screen.
+     */
     setLandingTrue: function() {
       location.reload();
       this.$emit("$setLandingTrue");
     },
+
+    /**
+     * Emits method call to handle user searching a query.
+     * @param {String} query
+     */
     searchForQuery: function(query) {
       this.$emit("$searchForQuery", query);
     },
+
+    /**
+     * Emits method call to handle user clicking "Get Lucky" button.
+     */
     getLucky: function() {
       this.$emit("$getLucky");
     }
@@ -57,5 +77,5 @@ export default {
 };
 </script>
 
-<style scoped src="./constants/navCSS.css">
+<style scoped src="./styles/nav.css">
 </style>
