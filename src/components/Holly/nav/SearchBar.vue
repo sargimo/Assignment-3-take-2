@@ -2,7 +2,7 @@
   <form
     @submit.prevent="searchForQuery"
     class="input-group md-form form-sm form-2 pl-0"
-    :class="{searchLanding: landing, searchInfo: !landing}"
+    :class="{searchLanding: landingIsActive, searchInfo: !landingIsActive}"
   >
     <input
       @click="setCategoryNull"
@@ -25,18 +25,28 @@
 export default {
   name: "SearchBar",
   props: {
-    landing: Boolean,
+    landingIsActive: Boolean,
     searchQuery: null
   },
   methods: {
+    /** 
+    * Passes input search query and emits method call to handle search.
+    */
     searchForQuery: function() {
       let query = this.$refs.searchBar.value;
       this.$emit("$searchForQuery", query);
     },
+
+    /** 
+    * Emits method call to reset category value to null.
+    */
     setCategoryNull: function() {
       this.$emit("$setCategoryNull");
     }
   },
+  /** 
+  * Sets focus to search query input element on infoscreen page if user search query from landing.
+  */
   created: function() {
     if (this.searchQuery != null) {
       this.$nextTick(function() {
@@ -47,5 +57,5 @@ export default {
 };
 </script>
 
-<style scoped src="../constants/navCSS.css">
+<style scoped src="../styles/nav.css">
 </style>

@@ -8,7 +8,7 @@
         @$setIsGettingLuckyFalse="setIsGettingLucky(false)"
         @$setIsGettingDirectionsFalse="setIsGettingDirections(false)"
         @$setCategoryNull="setCategory(null)"
-        :landing="landing"
+        :landingIsActive="landingIsActive"
         :category="category"
         :markerIsActive="markerIsActive"
         :searchQuery="searchQuery"
@@ -16,15 +16,15 @@
         :isGettingDirections="isGettingDirections"
       />
       <HollyLanding
-        v-if="landing"
+        v-if="landingIsActive"
         @$setLandingFalse="setLanding(false)"
         @$categorySelected="categorySelected"
         @$searchForQuery="searchForQuery"
         @$getLucky="getLucky"
-        :landing="landing"
+        :landingIsActive="landingIsActive"
       />
       <HollyInfoScreen
-        v-if="!landing"
+        v-if="!landingIsActive"
         @$setLandingFalse="setLanding(false)"
         @$setLandingTrue="setLanding(true)"
         @$categorySelected="categorySelected"
@@ -32,7 +32,7 @@
         @$searchForQuery="searchForQuery"
         @$setCategoryNull="setCategory(null)"
         @$getDirections="getDirections"
-        :landing="landing"
+        :landingIsActive="landingIsActive"
         :category="category"
         :placeData="placeData"
         :markerIsActive="markerIsActive"
@@ -57,7 +57,7 @@ export default {
   },
   data: function() {
     return {
-      landing: true,
+      landingIsActive: true,
       category: null,
       markerIsActive: false,
       searchQuery: null,
@@ -67,57 +67,121 @@ export default {
     };
   },
   methods: {
+    /**
+     * Handles states when a category is selected (or deselected).
+     * @param {Number} id
+     */
     categorySelected: function(id) {
       this.setLanding(false);
       this.setCategory(id);
       this.setSearchQuery(null);
     },
+
+    /**
+     * Handles marker click events, updating states and current place data.
+     * @param {Object} placeData
+     */
     markerClicked: function(placeData) {
       this.placeData = placeData;
       this.setMarkerIsActive(true);
     },
+
+    /**
+     * Handles closing of activity information container.
+     */
     closeInfoContainer: function() {
       this.setIsGettingDirections(false);
       this.setMarkerIsActive(false);
     },
+
+    /**
+     * Handles user submitting a search query.
+     * @param {String} query
+     */
     searchForQuery: function(query) {
       this.setLanding(false);
       this.setSearchQuery(query);
       this.setCategory(null);
     },
+
+    /**
+     * Handles user clicking "Feeling Lucky?" button.
+     */
     getLucky: function() {
-      this.isGettingLucky = true;
+      this.setIsGettingLucky(true);
       this.setLanding(false);
     },
+
+    /**
+     * Handles user clicking "Get Directions" button.
+     */
     getDirections: function() {
       this.setIsGettingDirections(true);
     },
+
+    /**
+     * Handles states for whether or not landing screen is displayed.
+     * @param {Boolean} bool
+     */
     setLanding: function(bool) {
       if (bool) {
         this.setSearchQuery(null);
-        this.landing = true;
+        this.setLandingIsActive(true);
         this.setCategory(null);
         this.setMarkerIsActive(false);
       } else {
-        this.landing = false;
+        this.setLandingIsActive(false);
       }
     },
+
+    /**
+     * Sets markerIsActive state according to whether or not a marker is active (clicked on).
+     * @param {Boolean} bool
+     */
     setMarkerIsActive: function(bool) {
       bool ? (this.markerIsActive = true) : (this.markerIsActive = false);
     },
+
+    /**
+     * Sets category value according to user selection (or deselection). May be null.
+     * @param {Number} value
+     */
     setCategory: function(value) {
       value == null ? (this.category = null) : (this.category = value);
     },
+
+    /**
+     * Sets value of searchQuery according to user input. May be null.
+     * @param {String} value
+     */
     setSearchQuery: function(value) {
       value == null ? (this.searchQuery = null) : (this.searchQuery = value);
     },
+
+    /**
+     * Sets isGettingLucky state regarding user clicking "Feeling Lucky?" button.
+     * @param {Boolean} bool
+     */
     setIsGettingLucky: function(bool) {
       bool ? (this.isGettingLucky = true) : (this.isGettingLucky = false);
     },
+
+    /**
+     * Sets isGettingDirections state regarding user clicking "Get Directions" button.
+     * @param {number} id
+     */
     setIsGettingDirections: function(bool) {
       bool
         ? (this.isGettingDirections = true)
         : (this.isGettingDirections = false);
+    },
+
+    /**
+     * Sets landingIsActive state regarding whether landing screen is displayed.
+     * @param {Boolean} bool
+     */
+    setLandingIsActive: function(bool) {
+      bool ? (this.landingIsActive = true) : (this.landingIsActive = false);
     }
   }
 };

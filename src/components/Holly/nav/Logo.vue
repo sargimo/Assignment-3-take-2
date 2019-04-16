@@ -1,22 +1,29 @@
 <template>
-  <div :class="{logoLinkLanding: landing, logoLinkInfo: !landing}">
-    <img @click="setLandingTrue" :class="{logoLanding: landing, logoInfo: !landing}" src="../../../assets/holly/logo-final.png">
+  <div :class="{logoLinkLanding: landingIsActive, logoLinkInfo: !landingIsActive}">
+    <img
+      @click="setLandingTrue"
+      :class="{logoLanding: landingIsActive, logoInfo: !landingIsActive}"
+      src="../../../assets/holly/logo-final.png"
+    >
   </div>
 </template>
 
 <script>
 export default {
-    name: "Logo",
-    props: {
-      landing: Boolean
-    },
-    methods: {
-      setLandingTrue: function() {
-        this.$emit("$setLandingTrue");
-      }
+  name: "Logo",
+  props: {
+    landingIsActive: Boolean
+  },
+  methods: {
+    /**
+     * Emits method call to display landing screen.
+     */
+    setLandingTrue: function() {
+      this.$emit("$setLandingTrue");
     }
+  }
 };
 </script>
 
-<style scoped src="../constants/navCSS.css">
+<style scoped src="../styles/nav.css">
 </style>

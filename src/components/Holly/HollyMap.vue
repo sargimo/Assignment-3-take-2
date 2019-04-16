@@ -6,7 +6,7 @@
 
 <script>
 import GoogleMapsApiLoader from "google-maps-api-loader";
-import { mapStyles } from "./constants/mapSettings.js";
+import { mapStyles } from "./styles/mapStyles.js";
 import { API_KEY } from "./constants/config.js";
 import { CLIENT_ID } from "./constants/config.js";
 import { CLIENT_SECRET } from "./constants/config.js";
@@ -24,7 +24,7 @@ import { setTimeout } from "timers";
 export default {
   name: "HollyMap",
   props: {
-    landing: Boolean,
+    landingIsActive: Boolean,
     category: null,
     markerIsActive: Boolean,
     searchQuery: null,
@@ -35,7 +35,6 @@ export default {
     return {
       google: null,
       map: null,
-      apiKey: API_KEY,
       markers: [],
       activeMarker: null,
       directionsService: null,
@@ -43,6 +42,10 @@ export default {
     };
   },
   computed: {
+    /**
+     * Returns string of all FourSquare Places API category IDs formatted for API request.
+     * @return {String} categories
+     */
     allCategories: function() {
       let categories = "";
       $.each(API_CATEGORIES, function(i, category) {
@@ -52,6 +55,9 @@ export default {
     }
   },
   watch: {
+    /**
+     * Handles map UI when category is changed.
+     */
     category: function() {
       if (this.category != null) {
         this.refreshMap();
@@ -59,15 +65,28 @@ export default {
         this.getData();
       }
     },
-    landing: function() {
-      this.initializeMap();
+
+    /**
+     * Reinitlializes map when navigating to landing screen.
+     */
+    landingIsActive: function() {
+      this.initialiseMap();
     },
+
+    /**
+     * Sets map zoom back to default when marker becomes inactive (reclicked).
+     */
     markerIsActive: function() {
       if (!this.markerIsActive) {
         this.map.setZoom(DEFAULT_ZOOM);
       }
     },
+
+    /**
+     * Handles user searching for a (null, empty, or string) query.
+     */
     searchQuery: function() {
+      // If searchQuery is not null or empty string
       if (
         this.searchQuery != null &&
         this.searchQuery.replace(/\s+/g, "") != ""
@@ -77,30 +96,50 @@ export default {
         this.refreshMap();
       }
     },
+
+    /**
+     * Handles user clicking "Feeling Lucky?" button and emits method call to set category state to null.
+     */
     isGettingLucky: function() {
-      if(this.isGettingLucky) {
-        this.$emit("$setCategoryNull");
+      if (this.isGettingLucky) {
         this.getRandomActivity();
+        this.$emit("$setCategoryNull");
       }
     },
+
+    /**
+     * Handles user clicking "Get Directions" button and clearing directions when state is false.
+     */
     isGettingDirections: function() {
-      if(this.isGettingDirections) {
-        this.findAndDisplayRoute(this.directionsService, this.directionsDisplay);
-      }else {
+      if (this.isGettingDirections) {
+        this.findAndDisplayRoute(
+          this.directionsService,
+          this.directionsDisplay
+        );
+      } else {
         this.clearDirections();
       }
     }
   },
   methods: {
+    /**
+     * Handles refreshing the map, resetting UI and states to default values.
+     */
     refreshMap: function() {
       this.map.getStreetView().setVisible(false);
       this.deleteMarkers();
+      this.clearDirections();
       this.$emit("$setMarkerFalse");
       this.$emit("$setIsGettingDirectionsFalse");
+      this.$emit("$setIsGettingLuckyFalse");
       this.map.setZoom(DEFAULT_ZOOM);
       this.map.setCenter({ lat: CENTER_LAT_LONG[0], lng: CENTER_LAT_LONG[1] });
     },
-    initializeMap: function() {
+
+    /**
+     * Initialises Google map, setting map/directions styles and control/center positions.
+     */
+    initialiseMap: function() {
       const mapContainer = this.$refs.googleMap;
       this.map = new this.google.maps.Map(mapContainer, {
         zoom: DEFAULT_ZOOM,
@@ -141,6 +180,11 @@ export default {
       });
       this.directionsDisplay.setMap(this.map);
     },
+
+    /**
+     * Sends request to FourSquare Places API to get data for places in currently selected category.
+     * Calls method to add markers to the map.
+     */
     getData: function() {
       this.$http
         .get(
@@ -162,6 +206,11 @@ export default {
           this.addMarkers(data);
         });
     },
+
+    /**
+     * Sends request to FourSquare Places API when user clicks "Feeling Lucky?" button; gets data for random activity of given (random) categoryId.
+     * @param {String} categoryId
+     */
     getRandomActivityData: function(categoryId) {
       this.$http
         .get(
@@ -179,35 +228,49 @@ export default {
             "&v=20190404"
         )
         .then(function(result) {
-          // Select random activity and send it to addMarkers in an array.
-          // Catch incorrect/very inconsistent FourSquare/Google Places API data (specific IDs)
           let data = result.body.response.venues;
-          let randomActivity = data[Math.floor(Math.random()*data.length)];
+          // Set random activity ID from array of IDs returned by API
+          let randomActivity = data[Math.floor(Math.random() * data.length)];
+          // Catch incorrect/very inconsistent FourSquare/Google Places API data (specific IDs): re-call method until valid ID found
           if (
             randomActivity == "55ab791a498e4ade94d4770c" ||
             randomActivity == "4ecb32e68b813b34fddbcf53" ||
             randomActivity == "569b39c3498e633a3cd9670a" ||
-            randomActivity == "563fe2f2cd10e0967a0b8cde"
+            randomActivity == "563fe2f2cd10e0967a0b8cde" ||
+            randomActivity == "52d3883c498e7f75e1cb6fad" ||
+            randomActivity == "4dcd1649e4cd130e164447b7" ||
+            randomActivity == "5ad7bc18bcbf7a55ca468bf6" ||
+            randomActivity == "4dfd9a62d164848a03f9d5c9"
           ) {
             this.getRandomActivityData(categoryId);
-          }else {
+          } else {
             this.addMarkers([randomActivity]);
           }
         });
     },
+
+    /**
+     * Initialises markers according to whether user selected a category, searched a query, or clicked "Feeling Lucky?" button; sets click listener on each marker.
+     * @param {Object} data
+     */
     addMarkers: function(data) {
       let that = this;
       let markers = data;
       $.each(markers, function(i, marker) {
-        // Catch incorrect/very inconsistent FourSquare/Google Places API data (specific IDs)
+        // Catch incorrect/very inconsistent FourSquare/Google Places API data (specific IDs): only adds valid markers
         if (
           marker.id != "55ab791a498e4ade94d4770c" &&
           marker.id != "4ecb32e68b813b34fddbcf53" &&
           marker.id != "569b39c3498e633a3cd9670a" &&
-          marker.id != "563fe2f2cd10e0967a0b8cde"
+          marker.id != "563fe2f2cd10e0967a0b8cde" &&
+          marker.id != "52d3883c498e7f75e1cb6fad" &&
+          marker.id != "4dcd1649e4cd130e164447b7" &&
+          marker.id != "5ad7bc18bcbf7a55ca468bf6" &&
+          marker.id != "4dfd9a62d164848a03f9d5c9"
         ) {
           let newMarker = {};
-          if(that.isGettingLucky) {
+          if (that.isGettingLucky) {
+            // Initialise "lucky" marker
             newMarker = new that.google.maps.Marker({
               position: { lat: marker.location.lat, lng: marker.location.lng },
               animation: that.google.maps.Animation.DROP,
@@ -216,7 +279,8 @@ export default {
               name: marker.name,
               icon: LUCKY_MARKER_ICON
             });
-          }else {
+          } else {
+            // Initialise default marker
             newMarker = new that.google.maps.Marker({
               position: { lat: marker.location.lat, lng: marker.location.lng },
               map: that.map,
@@ -227,31 +291,36 @@ export default {
           }
           // Handle marker click events
           newMarker.addListener("click", function() {
-            // Smooth transition here somehow
             that.clearDirections();
             that.$emit("$setIsGettingDirectionsFalse");
             if (newMarker === that.activeMarker) {
+              // Marker clicked is already active
               that.map.setZoom(DEFAULT_ZOOM);
               that.$emit("$setMarkerFalse");
               that.activeMarker = null;
             } else {
+              // Marker clicked is not yet active
               that.activeMarker = newMarker;
-              that.getGooglePlaceId(newMarker.name, newMarker.category, newMarker.position);
-              if(that.map.getZoom() <= MARKER_ZOOM){
+              that.getGooglePlaceId(
+                newMarker.name,
+                newMarker.category,
+                newMarker.position
+              );
+              if (that.map.getZoom() <= MARKER_ZOOM) {
                 that.map.setZoom(MARKER_ZOOM);
               }
             }
             that.map.setCenter(newMarker.getPosition());
           });
-          // Handle maker hover events: show info popup
-          newMarker.addListener("mouseover", function() {
-            // Show info window
-          });
-          that.$emit("$setIsGettingLuckyFalse");
+          // that.$emit("$setIsGettingLuckyFalse");
           that.markers.push(newMarker);
         }
       });
     },
+
+    /**
+     * Resets (clears) map markers.
+     */
     deleteMarkers: function() {
       let that = this;
       $.each(that.markers, function(i, marker) {
@@ -259,6 +328,15 @@ export default {
       });
       this.markers = [];
     },
+
+    /**
+     * Searches Google Places API for a given place name (from FourSquare Places API) within defined radius from center location to get its Google Places ID and details.
+     * Code sourced from:
+     * https://developers.google.com/maps/documentation/javascript/places#find_place_from_query
+     * @param {String} name
+     * @param {String} category
+     * @param {Object} position
+     */
     getGooglePlaceId: function(name, category, position) {
       let that = this;
       let query = {
@@ -273,8 +351,10 @@ export default {
       service.findPlaceFromQuery(query, function(results, status) {
         if (status === that.google.maps.places.PlacesServiceStatus.OK) {
           let id = results[0].place_id;
+          // Get Google Places API place details
           that.getGooglePlaceDetails(id, category, position);
         } else {
+          // Catch Google Places API unable to find FourSquare API place
           that.$emit("$setMarkerFalse");
           that.map.setZoom(DEFAULT_ZOOM);
           setTimeout(function() {
@@ -283,6 +363,15 @@ export default {
         }
       });
     },
+
+    /**
+     * Gets place details for place with given Google Places API ID.
+     * Code sourced from:
+     * https://developers.google.com/maps/documentation/javascript/places#find_place_from_query
+     * @param {String} id
+     * @param {String} category
+     * @param {Object} position
+     */
     getGooglePlaceDetails: function(id, category, position) {
       let that = this;
       let request = {
@@ -293,6 +382,7 @@ export default {
       function callback(place, status) {
         let placeData = {};
         if (status === that.google.maps.places.PlacesServiceStatus.OK) {
+          // Set data (properties) of placeData object if they exist in API
           if (place.name) {
             placeData.name = place.name;
           }
@@ -321,14 +411,17 @@ export default {
             placeData.userRatings = place.user_ratings_total;
           }
         }
+        // Set category and position properties of placeData object according to FourSquare data passed
         placeData.category = category;
         placeData.position = position;
         that.$emit("$markerClicked", placeData);
       }
     },
+
+    /**
+     * Handles map UI and gets data when user searches for a query.
+     */
     searchForQuery: function() {
-      this.clearDirections();
-      this.$emit("$setLandingFalse");
       this.refreshMap();
       this.$http
         .get(
@@ -348,48 +441,66 @@ export default {
             "&v=20190404"
         )
         .then(function(result) {
-          this.deleteMarkers();
           this.addMarkers(result.body.response.venues);
         });
     },
+
+    /**
+     * Gets random FourSqaure activity ID to pass to get activity data when user clicks "Feeling Lucky?" button.
+     */
     getRandomActivity: function() {
       let activityIds = this.allCategories.split(",");
-      activityIds.splice(activityIds.length-1, 1);
-      let randomCategoryId = activityIds[Math.floor(Math.random()*activityIds.length)];
+      activityIds.splice(activityIds.length - 1, 1);
+      let randomCategoryId =
+        activityIds[Math.floor(Math.random() * activityIds.length)];
       this.getRandomActivityData(randomCategoryId);
     },
-    // https://developers.google.com/maps/documentation/javascript/examples/directions-simple
+
+    /**
+     * Calculates route from origin to active marker position and displays on map.
+     * Code sourced from:
+     * https://developers.google.com/maps/documentation/javascript/examples/directions-simple
+     */
     findAndDisplayRoute: function() {
       let that = this;
-      // Check if marker is active!!!
-      that.directionsService.route({
-        origin: {lat: CURRENT_LOCATION[0], lng: CURRENT_LOCATION[1]},
-        destination: that.activeMarker.position,
-        travelMode: "DRIVING"
-      }, function(response, status) {
-        if (status === "OK") {
-          that.directionsDisplay.setDirections(response);
-        } else {
-          setTimeout(function(){
-            window.alert("Directions request failed due to " + status);
-          }, 700);
-          that.refreshMap();
+      that.directionsService.route(
+        {
+          origin: { lat: CURRENT_LOCATION[0], lng: CURRENT_LOCATION[1] },
+          destination: that.activeMarker.position,
+          travelMode: "DRIVING"
+        },
+        function(response, status) {
+          if (status === "OK") {
+            that.directionsDisplay.setDirections(response);
+          } else {
+            setTimeout(function() {
+              window.alert("Directions request failed due to " + status);
+            }, 700);
+            that.refreshMap();
+          }
         }
-      });
+      );
     },
+
+    /**
+     * Resets (clears) map directions.
+     */
     clearDirections: function() {
-      if(this.directionsDisplay != null) {
+      if (this.directionsDisplay != null) {
         this.directionsDisplay.set("directions", null);
       }
     }
   },
+  /**
+   * Loads GoogleMapsApiLoader and initialises map.
+   */
   async mounted() {
     const googleMapApi = await GoogleMapsApiLoader({
-      apiKey: this.apiKey,
+      apiKey: API_KEY,
       libraries: ["places"]
     });
     this.google = googleMapApi;
-    this.initializeMap();
+    this.initialiseMap();
   }
 };
 </script>
