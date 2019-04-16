@@ -13,10 +13,12 @@
 <script>
 export default {
   name: "ButtonWater",
+
   props: {
     landingIsActive: Boolean,
     buttonIsActive: Boolean
   },
+  
   methods: {
     /** 
     * Emits method call to set category value according to button click event.

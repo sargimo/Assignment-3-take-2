@@ -54,9 +54,11 @@
 <script>
 export default {
   name: "HollyActivityInfoContainer",
+
   props: {
     placeData: Object
   },
+
   data: function() {
     return {
       // Star rating data
@@ -64,6 +66,7 @@ export default {
       starWidth: Number
     };
   },
+
   computed: {
     /**
      * @return {String} placePhotos
@@ -72,14 +75,16 @@ export default {
       return this.placeData.photos[0].getUrl();
     }
   },
+
   watch: {
     /**
-     * Reactively calculates star rating according to current place.
+     * Calculates star rating according to current place.
      */
     placeData: function() {
       this.convertRating();
     }
   },
+
   methods: {
     /**
      * Emits method call to close activity information container.

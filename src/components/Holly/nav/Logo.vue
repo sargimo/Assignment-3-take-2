@@ -11,9 +11,11 @@
 <script>
 export default {
   name: "Logo",
+
   props: {
     landingIsActive: Boolean
   },
+  
   methods: {
     /**
      * Emits method call to display landing screen.

@@ -57,7 +57,7 @@ methodName: function(params) {
 - Constants should be named as CONSTANT_VALUE.
 
 #### Semicolons/Quotes
-- Always use semicolons to close statements.
+- Use semicolons to close statements.
 - Prefer double quotes with nested single quotes.
 
 #### Commenting
@@ -280,32 +280,6 @@ This makes overriding internal styles easier using human-readable class names wi
   background-color: red;
 }
 </style>
-```
-
-#### Private property names
-Always use the *\$_* prefix for custom private properties in a plugin, mixin, etc. Then to avoid conflicts with code by other authors, also include a named scope (e.g., *\$\_yourPluginName\_*). 
-
-###### Bad
-```
-let myGreatMixin = {
-  // ...
-  methods: {
-    update: function () {
-      // ...
-    }
-  }
-}
-```
-###### Good
-```
-let myGreatMixin = {
-  // ...
-  methods: {
-    $_myGreatMixin_update: function () {
-      // ...
-    }
-  }
-}
 ```
 
 #### Component files
@@ -619,7 +593,7 @@ The following hierarchy is used in .vue files:
 </style>
 ```
 
-For easy navigation, the following order is used for declaring component properties:
+For ease of navigation, the following order is used for declaring component properties:
 `name`, `components`, `props`, `data`, `computed`, `watch`, `methods`, `created`, `mounted`
 
 
@@ -682,7 +656,7 @@ button {
 ```
 
 #### Class/ID selector names (styling)
-- CSS class selector names use `kebab-case`.
+- CSS class selector names use `kebab-case` unless bound using the `:class="{className}"` format.
 - ID selector names use camelCase.
 
 ### If you see anything out of place/missing, please open an [issue](https://github.com/sargimo/Assignment-3-take-2/issues)! :white_check_mark:

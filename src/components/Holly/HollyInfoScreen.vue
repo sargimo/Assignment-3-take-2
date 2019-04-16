@@ -15,7 +15,7 @@
         <Logo
           v-if="!mobileNavIsActive || mobileNavIsDisplayed"
           @$setLandingTrue="setLandingTrue"
-          :landingIsActive="landingIsActive"
+          :landing-is-active="landingIsActive"
         />
       </transition>
       <transition name="fade" mode="out-in">
@@ -23,8 +23,8 @@
           v-if="!mobileNavIsActive || mobileNavIsDisplayed"
           @$searchForQuery="searchForQuery"
           @setCategoryNull="setCategoryNull"
-          :landingIsActive="landingIsActive"
-          :searchQuery="searchQuery"
+          :landing-is-active="landingIsActive"
+          :search-query="searchQuery"
         />
       </transition>
       <transition name="fade" mode="out-in">
@@ -33,24 +33,24 @@
           :class="{buttonsLanding: landingIsActive, buttonsInfo: !landingIsActive}"
         >
           <ButtonBike
-            :buttonIsActive="category == 0"
+            :button-is-active="category == 0"
             @$categorySelected="categorySelected"
-            :landingIsActive="landingIsActive"
+            :landing-is-active="landingIsActive"
           />
           <ButtonHiking
-            :buttonIsActive="category == 1"
+            :button-is-active="category == 1"
             @$categorySelected="categorySelected"
-            :landingIsActive="landingIsActive"
+            :landing-is-active="landingIsActive"
           />
           <ButtonWater
-            :buttonIsActive="category == 2"
+            :button-is-active="category == 2"
             @$categorySelected="categorySelected"
-            :landingIsActive="landingIsActive"
+            :landing-is-active="landingIsActive"
           />
           <ButtonActivities
-            :buttonIsActive="category == 3"
+            :button-is-active="category == 3"
             @$categorySelected="categorySelected"
-            :landingIsActive="landingIsActive"
+            :landing-is-active="landingIsActive"
           />
         </div>
       </transition>
@@ -59,7 +59,7 @@
       <HollyActivityInfoContainer
         @$closeInfoContainer="closeInfoContainer"
         @$getDirections="getDirections"
-        :placeData="placeData"
+        :place-data="placeData"
         v-show="markerIsActive && !isGettingDirections"
         class="activity-info-container"
       />
@@ -78,6 +78,7 @@ import HollyActivityInfoContainer from "./HollyActivityInfoContainer.vue";
 
 export default {
   name: "HollyInfoScreen",
+
   components: {
     Logo,
     SearchBar,
@@ -87,6 +88,7 @@ export default {
     ButtonActivities,
     HollyActivityInfoContainer
   },
+
   props: {
     landingIsActive: Boolean,
     category: null,
@@ -95,6 +97,7 @@ export default {
     searchQuery: null,
     isGettingDirections: Boolean
   },
+
   data: function() {
     return {
       // Handling responsiveness
@@ -103,6 +106,7 @@ export default {
       viewPortWidth: 0
     };
   },
+
   watch: {
     /**
      * Determines viewport width and sets responsive states accordingly.
@@ -117,6 +121,7 @@ export default {
       }
     }
   },
+  
   methods: {
     /**
      * Sets states and emits method call to handle category selection (or deselection).

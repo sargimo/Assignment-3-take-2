@@ -23,6 +23,7 @@ import { setTimeout } from "timers";
 
 export default {
   name: "HollyMap",
+
   props: {
     landingIsActive: Boolean,
     category: null,
@@ -31,6 +32,7 @@ export default {
     isGettingLucky: Boolean,
     isGettingDirections: Boolean
   },
+
   data: function() {
     return {
       google: null,
@@ -41,6 +43,7 @@ export default {
       directionsDisplay: null
     };
   },
+
   computed: {
     /**
      * Returns string of all FourSquare Places API category IDs formatted for API request.
@@ -54,6 +57,7 @@ export default {
       return categories;
     }
   },
+
   watch: {
     /**
      * Handles map UI when category is changed.
@@ -121,6 +125,7 @@ export default {
       }
     }
   },
+
   methods: {
     /**
      * Handles refreshing the map, resetting UI and states to default values.
@@ -491,6 +496,7 @@ export default {
       }
     }
   },
+  
   /**
    * Loads GoogleMapsApiLoader and initialises map.
    */

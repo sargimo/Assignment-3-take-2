@@ -8,12 +8,12 @@
         @$setIsGettingLuckyFalse="setIsGettingLucky(false)"
         @$setIsGettingDirectionsFalse="setIsGettingDirections(false)"
         @$setCategoryNull="setCategory(null)"
-        :landingIsActive="landingIsActive"
+        :landing-is-active="landingIsActive"
         :category="category"
-        :markerIsActive="markerIsActive"
-        :searchQuery="searchQuery"
-        :isGettingLucky="isGettingLucky"
-        :isGettingDirections="isGettingDirections"
+        :marker-is-active="markerIsActive"
+        :search-query="searchQuery"
+        :is-getting-lucky="isGettingLucky"
+        :is-getting-directions="isGettingDirections"
       />
       <HollyLanding
         v-if="landingIsActive"
@@ -21,7 +21,7 @@
         @$categorySelected="categorySelected"
         @$searchForQuery="searchForQuery"
         @$getLucky="getLucky"
-        :landingIsActive="landingIsActive"
+        :landing-is-active="landingIsActive"
       />
       <HollyInfoScreen
         v-if="!landingIsActive"
@@ -32,12 +32,12 @@
         @$searchForQuery="searchForQuery"
         @$setCategoryNull="setCategory(null)"
         @$getDirections="getDirections"
-        :landingIsActive="landingIsActive"
+        :landing-is-active="landingIsActive"
         :category="category"
-        :placeData="placeData"
-        :markerIsActive="markerIsActive"
-        :searchQuery="searchQuery"
-        :isGettingDirections="isGettingDirections"
+        :marker-is-active="markerIsActive"
+        :search-query="searchQuery"
+        :is-getting-directions="isGettingDirections"
+        :place-data="placeData"
       />
     </div>
   </transition>
@@ -50,11 +50,13 @@ import HollyInfoScreen from "./HollyInfoScreen.vue";
 
 export default {
   name: "Holly",
+
   components: {
     HollyMap,
     HollyLanding,
     HollyInfoScreen
   },
+
   data: function() {
     return {
       landingIsActive: true,
@@ -66,6 +68,7 @@ export default {
       isGettingDirections: false
     };
   },
+  
   methods: {
     /**
      * Handles states when a category is selected (or deselected).

@@ -3,16 +3,16 @@
     <router-link class="homeButton" :to="'/'">
       <i class="fas fa-chevron-left"></i>
     </router-link>
-    <Logo @$setLandingTrue="setLandingTrue" :landingIsActive="landingIsActive"/>
+    <Logo @$setLandingTrue="setLandingTrue" :landing-is-active="landingIsActive"/>
     <div>
       <h1>Find your next adventure...</h1>
     </div>
-    <SearchBar @$searchForQuery="searchForQuery" :landingIsActive="landingIsActive"/>
+    <SearchBar @$searchForQuery="searchForQuery" :landing-is-active="landingIsActive"/>
     <div :class="{buttonsLanding: landingIsActive, buttonsInfo: !landingIsActive}">
-      <ButtonBike @$categorySelected="categorySelected" :landingIsActive="landingIsActive"/>
-      <ButtonHiking @$categorySelected="categorySelected" :landingIsActive="landingIsActive"/>
-      <ButtonWater @$categorySelected="categorySelected" :landingIsActive="landingIsActive"/>
-      <ButtonActivities @$categorySelected="categorySelected" :landingIsActive="landingIsActive"/>
+      <ButtonBike @$categorySelected="categorySelected" :landing-is-active="landingIsActive"/>
+      <ButtonHiking @$categorySelected="categorySelected" :landing-is-active="landingIsActive"/>
+      <ButtonWater @$categorySelected="categorySelected" :landing-is-active="landingIsActive"/>
+      <ButtonActivities @$categorySelected="categorySelected" :landing-is-active="landingIsActive"/>
     </div>
     <button @click="getLucky" class="feeling-lucky-button">FEELING LUCKY?</button>
   </div>
@@ -28,6 +28,7 @@ import ButtonActivities from "./nav/ButtonActivities.vue";
 
 export default {
   name: "HollyLanding",
+
   components: {
     Logo,
     SearchBar,
@@ -36,9 +37,11 @@ export default {
     ButtonWater,
     ButtonActivities
   },
+
   props: {
     landingIsActive: Boolean
   },
+  
   methods: {
     /**
      * Emits method call to handle category selection (or deselection).

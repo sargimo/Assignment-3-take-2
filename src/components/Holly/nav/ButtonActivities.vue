@@ -13,10 +13,12 @@
 <script>
 export default {
   name: "ButtonActivities",
+
   props: {
     landingIsActive: Boolean,
     buttonIsActive: Boolean
   },
+  
   methods: {
     categorySelected: function(evt) {
       /** 

@@ -24,10 +24,12 @@
 <script>
 export default {
   name: "SearchBar",
+
   props: {
     landingIsActive: Boolean,
     searchQuery: null
   },
+
   methods: {
     /** 
     * Passes input search query and emits method call to handle search.
@@ -44,6 +46,7 @@ export default {
       this.$emit("$setCategoryNull");
     }
   },
+  
   /** 
   * Sets focus to search query input element on infoscreen page if user search query from landing.
   */
