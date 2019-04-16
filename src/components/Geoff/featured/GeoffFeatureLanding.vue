@@ -1,51 +1,112 @@
 <template>
-  <div>
-    <button @click="getCategoryId">test</button>
-    <GeoffFeatureHeroImage :index="selectedIndex" :source="selectedCategoryData"/>
-    <GeoffFeatureDetails :index="selectedIndex" :source="selectedCategoryData"/>
-    <GeoffFeatureMapImage :source="selectedCategoryData"/>
-    <GeoffFeatureMapIcons :source="selectedCategoryData"/>
+  <div class="category-landing">
+    <GeoffFeatureDetails
+      v-if="categoryId&&selectedCategoryData"
+      :index="selectedIndex"
+      :source="selectedCategoryData"
+    />
+    <GeoffFeatureMapIcons
+      v-if="!isMobile"
+      @$featureIconClicked="featureIconClicked"
+      :source="selectedCategoryData"
+    />
+    <GeoffFeaturedList
+      v-if="isMobile"
+      @$featureItemClicked="featureIconClicked"
+      :source="selectedCategoryData"
+    />
   </div>
 </template>
 
 <script>
-import GeoffFeatureHeroImage from "./GeoffFeatureHeroImage.vue";
 import GeoffFeatureDetails from "./GeoffFeatureDetails.vue";
-import GeoffFeatureMapImage from "./GeoffFeatureMapImage.vue";
 import GeoffFeatureMapIcons from "./GeoffFeatureMapIcons.vue";
+import GeoffFeaturedList from "./GeoffFeaturedList.vue";
 import festivalData from "../constants/festivalData.json";
+import musicVenueData from "../constants/musicVenueData.json";
+import recordStoresData from "../constants/recordStoreData.json";
+import musicShopData from "../constants/musicShopData.json";
+import musicSchoolData from "../constants/musicSchoolData.json";
 
 export default {
   name: "GeoffFeatureLanding",
   components: {
-    GeoffFeatureHeroImage,
     GeoffFeatureDetails,
-    GeoffFeatureMapImage,
-    GeoffFeatureMapIcons
+    GeoffFeatureMapIcons,
+    GeoffFeaturedList
   },
   data: function() {
     return {
-      categoryId: "",
-      categoryData: [festivalData.festivals],
-      selectedCategoryData: "",
-      selectedIndex: 0
+      categoryId: Number,
+      categoryData: [
+        festivalData.venues,
+        musicVenueData.venues,
+        recordStoresData.venues,
+        musicShopData.venues,
+        musicSchoolData.venues
+      ],
+      selectedCategoryData: [],
+      //used for active states of static map icons
+      selectedIndex: 0,
+      viewPortWidth: 0,
+      isMobile: false
     };
   },
-  //   created: function() {
-  //       this.getCategoryData();
-  //   },
+  created: function() {
+    this.getCategoryId();
+    this.setCategory();
+    window.addEventListener("resize", this.changeViewportWidth);
+    this.changeViewportWidth();
+  },
   methods: {
+    //called on categoryId changing from previous page. Takes id from $route
+    //params and stores it for use in category data.
     getCategoryId() {
       this.categoryId = this.$route.params.categoryId;
+    },
+
+    //handles active states for static map icons
+    featureIconClicked(id) {
+      this.selectedIndex = parseInt(id);
+    },
+
+    //uses the categoryId from the previous page to select the correct JSON file
+    //and send the data to child components
+    setCategory() {
+      this.selectedCategoryData = this.categoryData[this.categoryId];
+    },
+    changeViewportWidth() {
+      this.viewPortWidth = window.innerWidth;
     }
   },
   watch: {
     categoryId: function() {
-      this.selectedCategoryData = this.categoryData[this.categoryId];
+      this.setCategory();
+    },
+    viewPortWidth: function() {
+      if (this.viewPortWidth < 1050) {
+        this.isMobile = true;
+      } else {
+        this.isMobile = false;
+      }
     }
   }
 };
 </script>
 
 <style scoped>
+.category-landing {
+  background-image: url("../../../assets/geoff/category-landing-bg.jpg");
+  background-size: cover;
+  background-position: left;
+  height: 100vh;
+  width: 100vw;
+}
+
+@media only screen and (max-width: 1050px) {
+  .category-landing {
+    background-image: none;
+    background-color: #222;
+  }
+}
 </style>

@@ -1,0 +1,19 @@
+{
+    "venues": [
+        {
+            "id": "0",
+            "catId": "2",
+            "name": "SLOW BOAT RECORDS",
+            "location": "183 CUBA STREET, TE ARO",
+            "description": "Slow Boat Records is Wellington, New Zealand’s longest running independent record store. Situated at 183 Cuba Street in the vibrant and eclectic Te Aro area of the capital’s downtown CBD, it has long been a favourite of the discerning music fan. They receive regular orders of new vinyl and CD’s each week, and are happy to try to order anything you want, and, providing they can source it, will try to get it for you as quickly and reasonably as possible.",
+            "website": "http://slowboatrecords.co.nz/",
+            "email": "slow.boat.music@xtra.co.nz",
+            "facebook": "https://www.facebook.com/pages/Slow-Boat-Records/159129047505886/",
+            "instagram": "https://www.instagram.com/explore/locations/1523122/slow-boat-records?hl=en",
+            "phoneNumber": "04 3851330",
+            "mapId": "ChIJ10YVRtivOG0RKV4qxePS5Q0",
+            "category": "Record Store",
+            "style": "{\"position\": \"absolute\", \"left\": \"300px\", \"top\": \"600px\"}" 
+        }
+    ]
+}
