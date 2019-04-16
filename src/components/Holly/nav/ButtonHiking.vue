@@ -15,7 +15,7 @@ export default {
   name: "ButtonHiking",
   props: {
     landing: Boolean,
-    buttonIsActive: false
+    buttonIsActive: Boolean
   },
   methods: {
     categorySelected: function(evt) {

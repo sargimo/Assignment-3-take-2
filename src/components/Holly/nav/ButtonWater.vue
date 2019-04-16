@@ -15,7 +15,7 @@ export default {
   name: "ButtonWater",
   props: {
     landing: Boolean,
-    buttonIsActive: false
+    buttonIsActive: Boolean
   },
   methods: {
     categorySelected: function(evt) {
