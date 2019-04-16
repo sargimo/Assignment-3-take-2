@@ -1,57 +1,64 @@
 <template>
+    <transition name="page-slide" mode="out-in">
+
   <div>
-    <div class="filters">
-      <div class="filters-container">
-        <select class="dropdown" @change="radiusChanged">
-          <option value="1000">WITHIN 1KM</option>
-          <option value="5000">WITHIN 5KM</option>
-          <option value="10000">WITHIN 10KM</option>
-          <option value="20000">WITHIN 20K</option>
-        </select>
-        <button
-          @click.prevent="categoryClickHandler"
-          :class="{active: buttonIsActive[0]}"
-          id="0"
-          value="festivals"
-          class="category-btn"
-        >MUSIC FESTIVALS</button>
-        <button
-          @click.prevent="categoryClickHandler"
-          :class="{active: buttonIsActive[1]}"
-          id="1"
-          value="music venues"
-          class="category-btn"
-        >MUSIC VENUES</button>
-        <button
-          @click.prevent="categoryClickHandler"
-          :class="{active: buttonIsActive[2]}"
-          id="2"
-          value="record stores"
-          class="category-btn"
-        >RECORD STORES</button>
-        <button
-          @click.prevent="categoryClickHandler"
-          :class="{active: buttonIsActive[3]}"
-          id="3"
-          value="music stores"
-          class="category-btn"
-        >MUSIC STORES</button>
-        <button
-          @click.prevent="categoryClickHandler"
-          :class="{active: buttonIsActive[4]}"
-          id="4"
-          value="music schools"
-          class="category-btn"
-        >MUSIC SCHOOLS</button>
+      <div class="filters">
+        <div class="filters-container">
+          <select class="dropdown" @change="radiusChanged">
+            <option value="1000">WITHIN 1KM</option>
+            <option value="5000">WITHIN 5KM</option>
+            <option value="10000">WITHIN 10KM</option>
+            <option value="20000">WITHIN 20K</option>
+          </select>
+          <button
+            @click.prevent="categoryClickHandler"
+            :class="{active: buttonIsActive[0]}"
+            id="0"
+            value="festivals"
+            class="category-btn"
+          >MUSIC FESTIVALS</button>
+          <button
+            @click.prevent="categoryClickHandler"
+            :class="{active: buttonIsActive[1]}"
+            id="1"
+            value="music venues"
+            class="category-btn"
+          >MUSIC VENUES</button>
+          <button
+            @click.prevent="categoryClickHandler"
+            :class="{active: buttonIsActive[2]}"
+            id="2"
+            value="record stores"
+            class="category-btn"
+          >RECORD STORES</button>
+          <button
+            @click.prevent="categoryClickHandler"
+            :class="{active: buttonIsActive[3]}"
+            id="3"
+            value="music stores"
+            class="category-btn"
+          >MUSIC STORES</button>
+          <button
+            @click.prevent="categoryClickHandler"
+            :class="{active: buttonIsActive[4]}"
+            id="4"
+            value="music schools"
+            class="category-btn"
+          >MUSIC SCHOOLS</button>
+        </div>
       </div>
-    </div>
   </div>
+      </transition>
+
 </template>
 
 <script>
 export default {
   name: "GeoffMapCategories",
-
+  props: {
+    "isMobile": Boolean, 
+    "viewPortWidth": Number
+  },
   methods: {
     /** 
       * Emits to parent when a category button is clicked to be handled within 
@@ -59,6 +66,9 @@ export default {
       * @param {Event} evt
     */
     categoryClickHandler: function(evt) {
+      if (this.mobileActive) {
+        this.toggleCategories();
+      }
       this.$emit(
         "$categoryClickHandler",
         evt.target.id,
@@ -100,6 +110,11 @@ export default {
           this.buttonIsActive = [false, false, false, false, true];
           break;
       }
+    },
+
+    //toggles active state of categories filter
+    toggleCategories() {
+      this.$emit("$toggleCategories");
     }
   },
   watch: {
@@ -125,6 +140,9 @@ export default {
           break;
       }
       this.setActive(value);
+    },
+    isMobile: function() {
+      this.mobileActive = this.isMobile;
     }
   },
   created: function() {
@@ -134,7 +152,8 @@ export default {
   data: function() {
     return {
       buttonIsActive: [false, false, false, false],
-      landingId: ""
+      landingId: "",
+      mobileActive: false
     };
   }
 };
@@ -144,6 +163,16 @@ export default {
 </style>
 
 <style scoped>
+.page-slide-enter-active,
+.page-slide-leave-active {
+  transition: all 1s ease;
+}
+
+.page-slide-enter,
+.page-slide-leave-to {
+  transform: translateX(-300px);
+}
+
 .filters-container {
   display: flex;
   height: 100%;
@@ -203,5 +232,38 @@ export default {
 
 .category-btn.active {
   background-color: #ffe96b;
+}
+
+@media only screen and (max-width: 1350px) {
+  .filters-container {
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    align-content: flex-start;
+    padding-top: 50px;
+  }
+
+  .filters {
+    width: 200px;
+    height: 100vh;
+  }
+
+  .category-btn {
+    padding: 5px 20px;
+    margin-top: 40px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .filters {
+    width: 100vw;
+  }
+
+  .filters-container {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+  }
 }
 </style>

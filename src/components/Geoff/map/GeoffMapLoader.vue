@@ -1,15 +1,24 @@
 <template>
   <div>
     <router-link :to="'/GeoffCategories'" exact>
-      <GeoffBackBtn/>
+      <GeoffBackBtn :class="{backBtnNoCategories:!categoriesOpen, backBtnMap:isMobile}"/>
     </router-link>
+    <div @click="toggleCategories" v-if="isMobile" class="category-toggle" :class="{categoryToggleNoCategories:categoriesOpen}">
+      <p><i class="fas fa-filter"></i> Toggle Categories</p>
+    </div>
     <GeoffMapCategories
       @$categoryClickHandler="categoryClickHandler"
       @$radiusChanged="radiusChanged"
+      @$toggleCategories="toggleCategories"
+      v-if="categoriesOpen"
+      :viewPortWidth="viewPortWidth"
+      :isMobile="isMobile"
     />
     <GeoffPlaceInformation
       @$closeInfoPanel="closeInfoPanel"
       @$getDirections="getDirections"
+      :viewPortWidth="viewPortWidth"
+      :isMobile="isMobile"
       :placeData="placeData"
       :gPlaceData="gPlaceData"
       v-if="placeInfoPanel"
@@ -79,7 +88,11 @@ export default {
       featuredMarkers: [],
       directionsService: null,
       directionsDisplay: null,
-      activeMarker: null
+      activeMarker: null,
+      viewPortWidth: Number,
+      isMobile: false,
+      isLessThan600Pixels: false,
+      categoriesOpen: true
     };
   },
 
@@ -94,7 +107,27 @@ export default {
       this.categoryClickHandler(this.$route.params.id);
     }
   },
-  created: function() {},
+  created: function() {
+    window.addEventListener("resize", this.changeViewportWidth);
+    this.changeViewportWidth();
+  },
+  watch: {
+    viewPortWidth: function() {
+      if (this.viewPortWidth > 1350) {
+        this.categoriesOpen = true;
+      }
+      if (this.viewPortWidth < 1350) {
+        this.isMobile = true;
+      } else {
+        this.isMobile = false;
+      }
+      if (this.viewPortWidth < 601) {
+        this.isLessThan600Pixels = true;
+      } else {
+        this.isLessThan600Pixels = false;
+      }
+    }
+  },
   methods: {
     initializeMap() {
       //Loads directionService for use
@@ -137,6 +170,11 @@ export default {
         }
       });
       this.directionsDisplay.setMap(this.map);
+    },
+
+    //watcher for view port width to handle element behaviour for mobile
+    changeViewportWidth() {
+      this.viewPortWidth = window.innerWidth;
     },
 
     /**
@@ -551,6 +589,13 @@ export default {
       if (this.directionsDisplay != null) {
         this.directionsDisplay.set("directions", null);
       }
+    },
+    toggleCategories() {
+      if (this.categoriesOpen == true) {
+        this.categoriesOpen = false;
+      } else {
+        this.categoriesOpen = true;
+      }
     }
   }
 };
@@ -560,5 +605,26 @@ export default {
 .google-map {
   width: 100vw;
   min-height: 100vh;
+}
+
+.category-toggle {
+  position: absolute;
+  color: #ffe96b;
+  top: 40px;
+  left: 20px;
+  z-index: 5;
+  transition: all 0.2s linear;
+}
+
+.categoryToggleNoCategories {
+  left: 220px;
+}
+
+.backBtnNoCategories {
+  left: 30px !important;
+}
+
+.backBtnMap {
+  left: 240px;
 }
 </style>

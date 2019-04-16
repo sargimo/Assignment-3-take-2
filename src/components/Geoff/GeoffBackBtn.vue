@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <i class="fas fa-chevron-circle-left back-btn"></i>
+  <div class="back-btn">
+    <i class="fas fa-chevron-circle-left"></i>
   </div>
 </template>
 
