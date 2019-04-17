@@ -1,18 +1,24 @@
 <template>
-<div class="jack-body">
-<JkHeader />
+  <div class="jack-body">
+    <JkHeader/>
 
+    <div class="jack-landing-content container">
+      <h1>We're passionate in helping you create great things.</h1>
+    </div>
 
-  <div class="jack-landing-content container">
-    <h1>We're passionate in helping you create great things.</h1>
+    <div class="container jack-take-a-peek">
+      <a>
+        <router-link v-bind:to="'/jkdesigners'">
+          <p>Take A Peek</p>
+        </router-link>
+      </a>
+      <a>
+        <router-link v-bind:to="'/jkdesigners'">
+          <div class="arrow bounce"></div>
+        </router-link>
+      </a>
+    </div>
   </div>
-
-  <div class="container jack-take-a-peek">
-    <a><router-link v-bind:to="'/jkdesigners'"><p>Take A Peek</p></router-link></a>
-    <a><router-link v-bind:to="'/jkdesigners'"><div class="arrow bounce"></div></router-link></a>
-  </div>
-
-</div>
 </template>
 
 <script>
@@ -31,7 +37,7 @@ export default {
   background-image: url("../../assets/jack/jack-background.jpg");
   width: 100%;
   height: 100%;
-  background-size:cover;
+  background-size: cover;
   position: absolute;
 }
 
@@ -66,12 +72,11 @@ export default {
 /* Code for arrow below courtesy of Sebastian Laube */
 /* https://codepen.io/bitstarr/pen/XjaJGz */
 
-.arrow
-{
+.arrow {
   position: relative;
   bottom: -2rem;
   left: 50%;
-  margin-left:-20px;
+  margin-left: -20px;
   width: 40px;
   height: 30px;
   filter: saturate(3);
@@ -80,7 +85,6 @@ export default {
    * Dark Arrow Down
    */
   background-image: url("../../assets/jack/jack-downarrow.png");
-  
 }
 
 .bounce {
@@ -88,7 +92,11 @@ export default {
 }
 
 @keyframes bounce {
-  0%, 20%, 50%, 80%, 100% {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
     transform: translateY(0);
   }
   40% {
@@ -98,5 +106,4 @@ export default {
     transform: translateY(-15px);
   }
 }
-
 </style>

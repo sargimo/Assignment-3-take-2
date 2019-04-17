@@ -20,6 +20,7 @@
         <img v-bind:title="user.id" target="_blank" v-bind:src="user.images[138]">
         <p target="_blank">Web Developer</p>
         <h4 target="_blank">{{ user.username }}</h4>
+
       </div>
     </div>
   </div>
@@ -61,6 +62,7 @@ export default {
 .jk-designer-bar {
   background-color: black;
 }
+
 
 /* Global CSS for the Designer bar */
 .jk-designer-bar {

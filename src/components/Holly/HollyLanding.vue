@@ -1,22 +1,21 @@
 <template>
-  <transition name="fade" mode="out-in">
-    <div class="landing">
-      <router-link class="homeButton" :to="'/'"><i class="fas fa-chevron-left"></i></router-link>
-      <Logo @$goHome="goHome"/>
-      <div>
-        <h1>Find your next adventure...</h1>
-      </div>
-      <SearchBar @$searchForQuery="searchForQuery"/>
-      <div
-        :class="{buttonsLanding: this.$parent.$parent.$data.landing, buttonsInfo: this.$parent.$parent.$data.info}"
-      >
-        <ButtonBike @$categorySelected="categorySelected"/>
-        <ButtonHiking @$categorySelected="categorySelected"/>
-        <ButtonWater @$categorySelected="categorySelected"/>
-        <ButtonActivities @$categorySelected="categorySelected"/>
-      </div>
+  <div class="landing">
+    <router-link class="homeButton" :to="'/'">
+      <i class="fas fa-chevron-left"></i>
+    </router-link>
+    <Logo @$setLandingTrue="setLandingTrue" :landing-is-active="landingIsActive"/>
+    <div>
+      <h1>Find your next adventure...</h1>
     </div>
-  </transition>
+    <SearchBar @$searchForQuery="searchForQuery" :landing-is-active="landingIsActive"/>
+    <div :class="{buttonsLanding: landingIsActive, buttonsInfo: !landingIsActive}">
+      <ButtonBike @$categorySelected="categorySelected" :landing-is-active="landingIsActive"/>
+      <ButtonHiking @$categorySelected="categorySelected" :landing-is-active="landingIsActive"/>
+      <ButtonWater @$categorySelected="categorySelected" :landing-is-active="landingIsActive"/>
+      <ButtonActivities @$categorySelected="categorySelected" :landing-is-active="landingIsActive"/>
+    </div>
+    <button @click="getLucky" class="feeling-lucky-button">FEELING LUCKY?</button>
+  </div>
 </template>
 
 <script>
@@ -29,6 +28,7 @@ import ButtonActivities from "./nav/ButtonActivities.vue";
 
 export default {
   name: "HollyLanding",
+
   components: {
     Logo,
     SearchBar,
@@ -37,56 +37,45 @@ export default {
     ButtonWater,
     ButtonActivities
   },
+
+  props: {
+    landingIsActive: Boolean
+  },
+  
   methods: {
+    /**
+     * Emits method call to handle category selection (or deselection).
+     * @param {Number} id
+     */
     categorySelected: function(id) {
       this.$emit("$categorySelected", id);
     },
-    goHome: function() {
+
+    /**
+     * Refreshes window and emits method call to handle changing to landing screen.
+     */
+    setLandingTrue: function() {
       location.reload();
-      this.$emit('$goHome');
+      this.$emit("$setLandingTrue");
     },
+
+    /**
+     * Emits method call to handle user searching a query.
+     * @param {String} query
+     */
     searchForQuery: function(query) {
-      this.$emit('$searchForQuery', query);
+      this.$emit("$searchForQuery", query);
+    },
+
+    /**
+     * Emits method call to handle user clicking "Get Lucky" button.
+     */
+    getLucky: function() {
+      this.$emit("$getLucky");
     }
   }
 };
 </script>
 
-<style scoped src="./constants/navCSS.css">
-</style>
-
-<style scoped>
-.landing {
-  position: absolute;
-  z-index: 1000;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  background: rgba(0, 0, 0, 0.5);
-}
-.homeButton {
-  align-self: flex-start;
-  margin: 2%;
-  margin-bottom: 0;
-  background: none;
-  border: none;
-  color: #fff;
-  font-size: 2rem;
-}
-.homeButton:focus {
-  outline: none;
-}
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.4s ease-in-out, transform 1.5s ease-in-out;
-}
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-}
+<style scoped src="./styles/nav.css">
 </style>
