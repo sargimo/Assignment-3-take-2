@@ -4,6 +4,7 @@
       @click="setLandingTrue"
       :class="{logoLanding: landingIsActive, logoInfo: !landingIsActive}"
       src="../../../assets/holly/logo-final.png"
+      alt="RAd: Rotorua Adventure"
     >
   </div>
 </template>
