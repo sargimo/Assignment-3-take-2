@@ -7,13 +7,18 @@
 <div class="jk-designer-bar"> 
     <div>
   <h1>{{ project.name }}</h1>
+  <p class="project-data">{{ project.stats.views }} Views, {{ project.stats.appreciations }} Appreciations, {{ project.stats.views }} Comments</p>
   </div>
       <div class="jk-previous-button">
   <a class="nav-item nav-link"><router-link v-bind:to="'/jkdesigners'">Previous Page</router-link></a>
     </div>
   </div>
-    <div class="project-images container" v-for="image in project.modules">
+    <div class="project-images container" v-for="image in project.modules" v-bind:key="image.sizes.original">
       <img class="shadow-sm" v-bind:src="image.sizes.original">
+    </div>
+
+    <div class="container" v-for="fields in project.fields" v-bind:key="fields">
+      <p>{{ fields }}</p>
     </div>
 
 </div>
@@ -68,6 +73,10 @@ export default {
 .jk-designer-bar  p {
   font-size: 9px;
   margin-bottom: 0;
+}
+
+.project-data {
+  padding-top: 6px;
 }
 
 .jk-users {

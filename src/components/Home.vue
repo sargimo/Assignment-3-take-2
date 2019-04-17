@@ -80,7 +80,7 @@ a:hover {
   background: url('../assets/holly/holly-tiger.jpg') center / cover no-repeat;
 }
 .jack:hover {
-
+  background: url('../assets/jack/jack-yes.jpg') center / cover no-repeat;
 }
 .jeremy:hover {
   background: url('../assets/jeremy/goose.jpg') center / cover no-repeat;
