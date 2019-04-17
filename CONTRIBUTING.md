@@ -24,8 +24,6 @@ Your topic branch should follow this syntax: *`issue-number/short-description`*.
 To run them, a `config.js` file must be added to `src/components/Geoff/constants` and `src/components/Holly/constants` that exports a Google Maps API key and FourSquare client id and client secret:
 ```
 /* Geoff/constants/config.js */
-
-
 /* Holly/constants/config.js */
 export const API_KEY = "[your Google Maps API key]"
 export const CLIENT_ID = "[your FourSquare client ID]"

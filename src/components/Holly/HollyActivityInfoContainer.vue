@@ -7,7 +7,7 @@
     </div>
     <div class="place-container">
       <div v-if="placeData.photos" class="img-container">
-        <img :src="placePhotos" class="img" alt="{{ placeData.name }}">
+        <img :src="placePhotos" class="img" alt="Activity image">
       </div>
       <div class="place-details">
         <div v-if="placeData.address">
