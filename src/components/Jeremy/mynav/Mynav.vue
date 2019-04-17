@@ -1,4 +1,5 @@
 <template>
+<!-- nav compnent -->
   <div>
     <nav>
       <ul>

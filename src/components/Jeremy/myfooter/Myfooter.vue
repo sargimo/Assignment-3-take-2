@@ -1,4 +1,5 @@
 <template>
+<!-- footer component -->
 <p class="text-center">DZign.Co - Copyright, 2019</p>    
 </template>
 

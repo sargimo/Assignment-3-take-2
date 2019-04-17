@@ -12,7 +12,6 @@ import GeoffFeatureLanding from "./components/Geoff/featured/GeoffFeatureLanding
 import Holly from "./components/Holly/Holly.vue";
 import Jack from "./components/Jack/Jack.vue";
 import Jeremy from "./components/Jeremy/Jeremy.vue";
-import DesignerPortfolio from "./components/Jeremy/designerportfolio/DesignerPortfolio.vue";
 import ProjectComponent from "./components/Jeremy/projectcomponent/ProjectComponent.vue";
 import SingleProject from "./components/Jeremy/singleproject/SingleProject.vue";
 
@@ -34,12 +33,6 @@ const routes = [
     name: "projectcomponent",
     path: "/projectcomponent",
     component: ProjectComponent,
-    props: true
-  },
-  {
-    name: "designerportfolio",
-    path: "/designerportfolio",
-    component: DesignerPortfolio,
     props: true
   },
   {

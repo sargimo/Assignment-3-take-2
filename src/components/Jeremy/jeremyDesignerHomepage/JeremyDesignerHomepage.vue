@@ -3,11 +3,7 @@
     <div class="hero">
       <img class="hero" src="../../../assets/jeremy/jeremy-hero.jpg" alt>
     </div>
-
-    <!-- <div
-      class="h7 text-center"
-    >DZign.Co is an innovative design firm featuring some of the most talented designers in New Zealand. Our team have won countless awards and worked on majore corporate projects.</div>-->
-
+<!-- displays the designers from API -->
     <div class="designer-component">
       <div class="text-center">
         <h1>Our Designers</h1>
@@ -46,8 +42,9 @@ export default {
     };
   },
   methods: {
+    // retrieves designer information from API
     getUsers: function() {
-      console.log("get");
+      // console.log("get");
       this.$http
         .get("https://behance-mock-api.glitch.me/api/users")
         .then(function(data) {
@@ -55,8 +52,9 @@ export default {
           this.users = data.body.users;
         });
     },
+    // pushes the designers id onto next page
     getProjectsByUser: function(userId) {
-      console.log("userId", userId);
+      // console.log("userId", userId);
       this.$router.push({
         name: "projectcomponent",
         params: { userId: userId }
@@ -64,6 +62,7 @@ export default {
     }
   },
   created: function() {
+    // initiates get user
     this.getUsers();
   }
 };

@@ -1,22 +1,18 @@
 <template>
+<!-- call to action component -->
   <div class="cta d-inline-flex p-2">
-
-   
-
-      <div class="d-flex justify-content-center align-self-center cta-details">
-
-        <div class="cta-paragraph col-sm">
-          <h2>
-            Our Designer have had years of industry experience.
-            It is with these experiences that we are able to provide you with the most innovative designs.
-          </h2>
-        </div>
-
-        <div class="cta-button col-sm align-self-center cta-details">
-          <button type="button" class="btn btn-primary btn-lg">Contact Us Now</button>
-        </div>
+    <div class="d-flex justify-content-center align-self-center cta-details">
+      <div class="cta-paragraph col-sm">
+        <h2>
+          Our Designer have had years of industry experience.
+          It is with these experiences that we are able to provide you with the most innovative designs.
+        </h2>
       </div>
 
+      <div class="cta-button col-sm align-self-center cta-details">
+        <button type="button" class="btn btn-primary btn-lg">Contact Us Now</button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -46,8 +42,8 @@ h2 {
   position: relative;
 }
 
-.cta-details{
-    margin-left: 180px;
+.cta-details {
+  margin-left: 180px;
 }
 </style>
 

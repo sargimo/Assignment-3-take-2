@@ -2,6 +2,7 @@
   <div>
     <Mynav/>
 
+<!-- displays projects from from a particular designer -->
     <div class="d-flex justify-content-around project-elements">
       <div v-for="project in projects" v-bind:key="project.id">
         <div class="p-2">
@@ -28,52 +29,15 @@
               class="color-363636"
             >Comments: {{ project.stats.comments }}</h6>
           </div>
-          <!-- Button trigger modal -->
+          <!-- Button to get a project -->
           <router-link to="/singleproject" exact>
           <button type="button" class="btn btn-primary" v-on:click="getAProject(project.id)">View Project</button>
           </router-link>
 
-          <!-- Modal -->
-          <!-- <div
-            class="modal fade"
-            id="exampleModal"
-            tabindex="-1"
-            role="dialog"
-            aria-labelledby="exampleModalLabel"
-            aria-hidden="true"
-          >
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5
-                    class="modal-title"
-                    id="exampleModalLabel"
-                    v-bind:href="project.name"
-                    target="_blank"
-                  >{{ project.name }}</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <div
-                    v-for="photo in project.modules"
-                    v-bind:key="photo.sizes"
-                    class="project-photos-cover"
-                  >
-                    <img class="project-images" v-bind:src="photo.sizes.max_1200">
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-              </div>
-            </div>
-          </div>-->
         </div>
       </div>
 
-      <!-- friday concept -->
+      <!-- Old Original Concept to display API information -->
       <!-- <div class="d-inline-flex ddelement justify-content-around align-items-center row">
         <div class="project-photos-cover col-sm">
           <h2 v-bind:href="project.name" target="_blank">{{ project.name }}</h2>
@@ -141,10 +105,10 @@ export default {
   data: function() {
     return {
       projects: []
-      // designerId: ""
     };
   },
   methods: {
+    // gets projects from particular designer with designer id that was pushed from previous page
     getProjects: function(userId) {
       this.$http
         .get(
@@ -154,6 +118,7 @@ export default {
           this.projects = data.body.projects;
         });
     },
+    // pushes project id to next page to display images from this particular project
     getAProject: function(projectId) {
       this.$router.push({
         name: "singleproject",
@@ -162,7 +127,7 @@ export default {
     }
   },
   created: function() {
-    console.log("params", this.$route.params.userId);
+    // console.log("params", this.$route.params.userId);
     this.getProjects(this.$route.params.userId);
   }
 };
