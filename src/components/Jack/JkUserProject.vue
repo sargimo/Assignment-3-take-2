@@ -42,8 +42,14 @@ export default {
   name: "JkDesigners",
   data: function() {
     return {
-      project: []
-    };
+      project: {
+        "stats": {
+            "views": 0,
+            "appreciations": 0,
+            "comments": 0
+        }
+      }
+    }
   },
   components: {
     JkHeader

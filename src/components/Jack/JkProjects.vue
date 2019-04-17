@@ -40,7 +40,7 @@ export default {
   name: "JkProjects",
   data: function() {
     return {
-      projects: []
+      projects: {}
     };
   },
   components: {

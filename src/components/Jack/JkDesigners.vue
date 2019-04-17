@@ -32,7 +32,7 @@ export default {
   name: "JkDesigners",
   data: function() {
     return {
-      users: []
+      users: {}
     };
   },
   components: {
