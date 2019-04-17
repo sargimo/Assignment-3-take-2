@@ -5,6 +5,7 @@
       id="3"
       :class="{buttonImgLanding: landingIsActive, buttonImgInfo: !landingIsActive, buttonImgIsActive: buttonIsActive}"
       src="../../../assets/holly/button-activities.png"
+      alt="Activities Button"
     >
     <p class="buttonTitle">ACTIVITIES</p>
   </div>
