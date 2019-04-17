@@ -1,13 +1,16 @@
 <template>
   <div>
     <Mynav/>
-    <h1>hello mars</h1>
 
     <div class="project-list-container">
       <div class="project-list-details">
-      <h1>{{ project.name }}</h1>
+        <h1>{{ project.name }}</h1>
+        <hr>
+        <h6>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+</h6>
       </div>
-      <div class="single-project-images" v-for="image in project.modules">
+
+      <div class="single-project-images margin15" v-for="image in project.modules">
         <img class="looped-images" v-bind:src="image.sizes.original">
       </div>
     </div>
@@ -50,16 +53,37 @@ export default {
 </script>
 
 <style scoped>
-.single-project-images {
-  margin: 15px;
-  box-shadow: 1px 5px 5px 4px rgba(135,135,135,0.54);
-  max-width: 900px;
+
+h6{
+  color: #444;
+}
+
+.project-list-container {
+  margin: auto;
+  width: 60%;
+  padding-bottom: 30px;
+}
+.project-list-details {
   text-align: center;
+  margin: 30px;
+}
+
+.margin15 {
+  margin: 15px;
+}
+.single-project-images {
+  /* box-shadow: 1px 5px 5px 4px rgba(135, 135, 135, 0.54); */
+  max-width: 900px;
+  margin: 0 auto;
+  /* border-bottom: 3px;
+  border-style: solid;
+  border-color: grey */
 }
 
 .looped-images {
   width: 900px;
   height: 100%;
-  padding: 0px;
+  margin: 10px;
+  /* text-align: center; */
 }
 </style>
