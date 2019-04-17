@@ -1,24 +1,31 @@
 <template>
-  <div :class="{logoLinkLanding: this.$parent.$parent.$parent.$data.landing, logoLinkInfo: this.$parent.$parent.$parent.$data.info}">
-    <img @click="goHome" :class="{logoLanding: this.$parent.$parent.$parent.$data.landing, logoInfo: this.$parent.$parent.$parent.$data.info}" src="../../../assets/holly/logo-final.png">
+  <div :class="{logoLinkLanding: landingIsActive, logoLinkInfo: !landingIsActive}">
+    <img
+      @click="setLandingTrue"
+      :class="{logoLanding: landingIsActive, logoInfo: !landingIsActive}"
+      src="../../../assets/holly/logo-final.png"
+    >
   </div>
 </template>
 
 <script>
 export default {
-    name: "Logo",
-    methods: {
-      goHome: function() {
-        this.$emit("$goHome");
-      }
+  name: "Logo",
+
+  props: {
+    landingIsActive: Boolean
+  },
+  
+  methods: {
+    /**
+     * Emits method call to display landing screen.
+     */
+    setLandingTrue: function() {
+      this.$emit("$setLandingTrue");
     }
+  }
 };
 </script>
 
-<style scoped src="../constants/navCSS.css">
+<style scoped src="../styles/nav.css">
 </style>
-
-<style scoped>
-
-</style>
-
