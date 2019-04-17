@@ -5,8 +5,11 @@
     </div>
 
     <div class="jk-designer-bar">
-      <div>
+      <div class="jk-left-div">
         <h1>{{ project.name }}</h1>
+        <p
+          class="project-data"
+        >{{ project.stats.views }} Views, {{ project.stats.appreciations }} Appreciations, {{ project.stats.views }} Comments</p>
       </div>
       <div class="jk-previous-button">
         <a class="nav-item nav-link">
@@ -14,8 +17,20 @@
         </a>
       </div>
     </div>
-    <div class="project-images container" v-for="image in project.modules" v-bind:key="image.sizes">
-      <img class="shadow-sm" v-bind:src="image.sizes.original">
+    <div class="field-tags container">
+      <p id="jk-project-tags">Project Tags:</p>
+      <div v-for="fields in project.fields" v-bind:key="fields">
+        <p>{{ fields }}</p>
+      </div>
+    </div>
+    <div class="jk-project-container">
+      <div
+        class="project-images container"
+        v-for="image in project.modules"
+        v-bind:key="image.sizes.original"
+      >
+        <img class="shadow-sm" v-bind:src="image.sizes.original">
+      </div>
     </div>
   </div>
 </template>
@@ -27,8 +42,15 @@ export default {
   name: "JkDesigners",
   data: function() {
     return {
-      project: []
-    };
+      project: {
+        "stats": {
+            "views": 0,
+            "appreciations": 0,
+            "comments": 0
+        }
+      }
+    }
+
   },
   components: {
     JkHeader
@@ -50,45 +72,39 @@ export default {
 </script>
 
 <style>
+
+#jk-project-tags {
+  font-weight: 800;
+}
+
+.field-tags {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.field-tags p {
+  padding-right: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-bottom: 0px;
+  font-size: 12px;
+  color: #abafb5;
+}
+
 .designer-header,
 .jk-designer-bar {
   background-color: black;
 }
 
-.jk-designer-bar {
-  color: #fff;
-  padding-top: 2em;
-  padding-bottom: 2em;
-  padding-left: 2em;
-}
+.project-data {
+  padding-top: 6px;
 
-.jk-designer-bar h1 {
-  font-size: 60px;
-  margin-bottom: -10px;
-}
-
-.jk-designer-bar p {
-  font-size: 9px;
-  margin-bottom: 0;
 }
 
 .jk-users {
   display: flex;
   flex-direction: row;
-}
-
-.jk-designers {
-  padding: 10em 2em 0em 2em;
-}
-
-.jk-designers img {
-  width: 300px;
-}
-
-.jk-designers p {
-  margin: 2px 0 0 0;
-  font-size: 10px;
-  color: #abafb5;
 }
 
 .jk-designers p,
@@ -104,5 +120,9 @@ export default {
   max-width: 100%;
   height: auto;
   max-height: 100%;
+}
+
+.jk-project-container {
+  padding-bottom: 1em;
 }
 </style>

@@ -5,7 +5,7 @@
     </div>
 
     <div class="jk-designer-bar">
-      <div>
+      <div class="jk-left-div">
         <h1>Their Projects</h1>
         <p>Based in our wellington branch.</p>
       </div>
@@ -15,19 +15,19 @@
         </a>
       </div>
     </div>
-
-    <div class="jk-project container">
+    <div class="jk-project">
       <div
-        class="jk-designers"
+        class="jk-projects"
         v-for="project in projects"
         v-bind:key="project.id"
-        v-on:click="getTheProject(project.id)"
+        v-on:click="getSpecificUserProject(project.id)"
       >
-        <img target="_blank" v-bind:src="project.covers[404]">
-        <h4 target="_blank">{{ project.name }}</h4>
+        <img target="_blank" class="shadow-sm" v-bind:src="project.covers[404]">
         <p
           target="_blank"
-        >Views: {{ project.stats.views }} | Appreciations: {{ project.stats.appreciations }}</p>
+        >Views: {{ project.stats.views }}, Appreciations: {{ project.stats.appreciations }}.</p>
+        <h4 target="_blank">{{ project.name }}</h4>
+
         <p></p>
       </div>
     </div>
@@ -41,7 +41,7 @@ export default {
   name: "JkProjects",
   data: function() {
     return {
-      projects: []
+      projects: {}
     };
   },
   components: {
@@ -57,7 +57,8 @@ export default {
           this.projects = data.body.projects;
         });
     },
-    getTheProject: function(projectId) {
+
+    getSpecificUserProject: function(projectId) {
       this.$router.push({
         name: "jkuserproject",
         params: { projectId: projectId }
@@ -77,27 +78,36 @@ export default {
   background-color: black;
 }
 
-.jk-designer-bar {
-  color: #fff;
-  display: flex;
-  padding-top: 2em;
-  padding-bottom: 2em;
-  padding-left: 2em;
-}
 
-.jk-designer-bar h1 {
-  font-size: 60px;
-  margin-bottom: -10px;
-}
-
-.jk-designer-bar p {
-  font-size: 9px;
-  margin-bottom: 0;
+.jk-previous-button {
+  padding-top: 3em;
+  padding-left: 30em;
+  height: 35px;
 }
 
 .jk-project {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
+}
+
+.jk-projects {
+  padding: 10em 2em 0em 2em;
+
+}
+
+.jk-projects p {
+  margin: 2px 0 0 0;
+  font-size: 10px;
+  color: #abafb5;
+}
+
+.jk-projects p,
+.jk-projects h4 {
+  font-family: acumin-pro, sans-serif;
+}
+
+.jk-projects h4 {
+  font-weight: 700;
 }
 </style>
