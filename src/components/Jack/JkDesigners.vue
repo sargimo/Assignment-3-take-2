@@ -17,7 +17,7 @@
         v-bind:key="user.id"
         v-on:click="getProjectsByUser(user.id)"
       >
-        <img v-bind:title="user.id" target="_blank" v-bind:src="user.images[138]">
+        <img v-bind:title="user.id" target="_blank" :src="user.images[138]">
         <p target="_blank">Web Developer</p>
         <h4 target="_blank">{{ user.username }}</h4>
 
