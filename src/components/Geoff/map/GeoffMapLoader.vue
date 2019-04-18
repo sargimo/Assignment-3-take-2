@@ -1,23 +1,38 @@
 <template>
   <div>
-    <GeoffMapCategories
-      @$categoryClickHandler="categoryClickHandler"
-      @$radiusChanged="radiusChanged"
-    />
+    <router-link :to="'/GeoffCategories'" exact>
+      <GeoffBackBtn :class="{backBtnNoCategories:!categoriesOpen, backBtnMap:isMobile}"/>
+    </router-link>
+    <div
+      @click="toggleCategories"
+      v-if="isMobile"
+      class="category-toggle"
+      :class="{categoryToggleNoCategories:categoriesOpen}"
+    >
+      <p>
+        <i class="fas fa-filter"></i> Toggle Categories
+      </p>
+    </div>
+    <transition name="page-slide" mode="in-out">
+      <GeoffMapCategories
+        @$categoryClickHandler="categoryClickHandler"
+        @$radiusChanged="radiusChanged"
+        @$toggleCategories="toggleCategories"
+        v-if="categoriesOpen"
+        :viewPortWidth="viewPortWidth"
+        :isMobile="isMobile"
+      />
+    </transition>
     <GeoffPlaceInformation
       @$closeInfoPanel="closeInfoPanel"
+      @$getDirections="getDirections"
+      :viewPortWidth="viewPortWidth"
+      :isMobile="isMobile"
       :placeData="placeData"
       :gPlaceData="gPlaceData"
       v-if="placeInfoPanel"
     />
     <div class="google-map" ref="googleMap"></div>
-    <!-- <template v-if="Boolean(this.google) && Boolean(this.map)">
-      <slot :google="google" :map="map"/>
-    </template> -->
-    <!-- <button
-      @click="addMarkers([{position: {lat: -41.2855, lng: 174.7772}}, {position: {lat: -41.2875, lng: 174.7742}}, {position: {lat: -41.2871, lng: 174.7779}}])"
-    >add</button>
-    <button @click="deleteMarkers()">delete</button>-->
   </div>
 </template>
 
@@ -26,39 +41,67 @@ import GoogleMapsApiLoader from "google-maps-api-loader";
 import { API_KEY } from "../constants/config.js";
 import { CLIENT_ID } from "../constants/config.js";
 import { CLIENT_SECRET } from "../constants/config.js";
+import { regularMarker } from "../constants/mapSettings.js";
+import { mapStyle } from "../constants/mapSettings.js";
+import GeoffBackBtn from "../GeoffBackBtn.vue";
+import festivalData from "../constants/festivalData.json";
 import musicVenueData from "../constants/musicVenueData.json";
+import recordStoresData from "../constants/recordStoreData.json";
+import musicShopData from "../constants/musicShopData.json";
+import musicSchoolData from "../constants/musicSchoolData.json";
 import GeoffMapCategories from "./GeoffMapCategories.vue";
 import GeoffPlaceInformation from "./GeoffPlaceInformation.vue";
 
 export default {
   name: "GeoffMapLoader",
   components: {
+    GeoffBackBtn,
     GeoffMapCategories,
     GeoffPlaceInformation
   },
-
-  props: {
-    // mapConfig: Object
-  },
-
   data: function() {
     return {
+      //Could be refactored to reduce redundancy of data. CurrentSearchData,
+      //placeData and gPlaceData do not all need to exist. A product of the giant
+      //restructure needed when it was discovered foursquare wasn't usable for details
       google: null,
       map: null,
       apiKey: API_KEY,
       clientId: CLIENT_ID,
       clientSecret: CLIENT_SECRET,
+      //all active non-featured markers
       markers: [],
       currentRadius: "1000",
       currentCategoryId: Number,
-      currentCategoryName: "",
       currentSearchData: [],
       placeInfoPanel: false,
       placeData: "",
       gPlaceId: "",
-      gPlaceData: {},
-      featureData: [musicVenueData.venues],
-      featuredMarkers: []
+      gPlaceData: Object,
+      //foursquare IDs
+      categoryIds: [
+        "5267e4d9e4b0ec79466e48d1",
+        "4bf58dd8d48988d1e5931735",
+        "4bf58dd8d48988d10d951735",
+        "4bf58dd8d48988d1fe941735",
+        "4f04b10d2fb6e1c99f3db0be"
+      ],
+      //JSON files
+      featureData: [
+        festivalData.venues,
+        musicVenueData.venues,
+        recordStoresData.venues,
+        musicShopData.venues,
+        musicSchoolData.venues
+      ],
+      featuredMarkers: [],
+      directionsService: null,
+      directionsDisplay: null,
+      activeMarker: null,
+      activeFeaturedMarker: null,
+      viewPortWidth: Number,
+      isMobile: false,
+      categoriesOpen: true
     };
   },
 
@@ -69,17 +112,49 @@ export default {
     });
     this.google = googleMapApi;
     this.initializeMap();
-    // this.initFeatureMarkers();
+    if (this.$route.params.id) {
+      this.categoryClickHandler(this.$route.params.id);
+    }
   },
-
+  created: function() {
+    window.addEventListener("resize", this.changeViewportWidth);
+    this.changeViewportWidth();
+  },
+  watch: {
+    viewPortWidth: function() {
+      if (this.viewPortWidth > 1350) {
+        this.categoriesOpen = true;
+      }
+      if (this.viewPortWidth < 1350) {
+        this.isMobile = true;
+      } else {
+        this.isMobile = false;
+      }
+      if (this.viewPortWidth < 601) {
+        this.isLessThan600Pixels = true;
+      } else {
+        this.isLessThan600Pixels = false;
+      }
+    }
+  },
   methods: {
     initializeMap() {
+      //Loads directionService for use
+      this.directionsService = new this.google.maps.DirectionsService();
+      //Loads directionDisplay for custom polylines
+      this.directionsDisplay = new this.google.maps.DirectionsRenderer({
+        polylineOptions: {
+          strokeColor: "#3fcbca",
+          strokeWeight: 5,
+          geodesic: true
+        }
+      });
       const mapContainer = this.$refs.googleMap;
+      //sets map settings and control layout
       this.map = new this.google.maps.Map(mapContainer, {
-        zoom: 13,
-        minZoom: 10,
-        maxZoom: 25,
+        zoom: 15,
         center: { lat: -41.2865, lng: 174.7762 },
+        styles: mapStyle,
         mapTypeControl: false,
         fullscreenControl: true,
         fullscreenControlOptions: {
@@ -94,6 +169,7 @@ export default {
           position: google.maps.ControlPosition.LEFT_BOTTOM
         }
       });
+      //customise streetview options so the controls are not hidden behind other elements
       this.map.getStreetView().setOptions({
         addressControlOptions: {
           position: google.maps.ControlPosition.BOTTOM_LEFT
@@ -102,59 +178,248 @@ export default {
           position: google.maps.ControlPosition.BOTTOM_LEFT
         }
       });
+      this.directionsDisplay.setMap(this.map);
     },
+
+    //watcher for view port width to handle element behaviour for mobile
+    changeViewportWidth() {
+      this.viewPortWidth = window.innerWidth;
+    },
+
+    /**
+     * takes array of objects containing map data and place info data
+     * @param {Array} places
+     */
     addMarkers(places) {
-      let myMap = this.map;
-      let gMarkers = this.markers;
-      let gMap = this.google.maps;
+      let that = this;
       $.each(places, function(i, place) {
-        let newGMarker = new gMap.Marker({
-          position: place.position,
-          id: place.id,
-          map: myMap,
-          name: place.name,
-          address: place.address,
-          addressLoc: place.addressLoc,
-          distance: place.distance,
-          category: place.category
-        });
-        gMarkers.push(newGMarker);
+        //catches currently known bad markers from incorrect foursquare data and does not render them. Hardcoded IDs. Would not be needed if there was time to refactor to only use google places.
+        if (
+          place.id != "51282985e4b016a0d5c349bb" &&
+          place.id != "4f18fe7ee4b0808f61c5fe7d" &&
+          place.id != "4c93d727f244b1f7f7751c1d" &&
+          place.id != "51f19f81498e4abbea0feca4" &&
+          place.id != "5166230ee4b0dc749a1f949d" &&
+          place.id != "4de584ed814db55dc23649e4" &&
+          place.id != "4dfd5508b61c84188ef03f40" &&
+          place.id != "4b15d5eaf964a520deb423e3" &&
+          place.id != "4b2d7154f964a520c3d624e3" &&
+          place.id != "4bb94fb698c7ef3bd9053202" &&
+          place.id != "4f94b335e4b04c3ffac0885e" &&
+          place.id != "4fb32341e4b0d1c733ebe6ce"
+        ) {
+          let newGMarker = new that.google.maps.Marker({
+            position: place.position,
+            icon: "https://i.ibb.co/MGR4s7m/geoff-map-marker.png",
+            hovericon: "https://i.ibb.co/d5V63PX/marker-hover.png",
+            activeicon: "https://i.ibb.co/Z13r9JL/marker-active.png",
+            id: place.id,
+            map: that.map,
+            name: place.name,
+            address: place.address,
+            addressLoc: place.addressLoc,
+            distance: place.distance,
+            category: place.category
+          });
+          that.markers.push(newGMarker);
+        }
       });
-      this.initMarkerClickListeners(gMarkers);
+      this.initMarkerClickListeners(that.markers);
     },
-    deleteMarkers() {
-      let gMarkers = this.markers;
+
+    /**
+     * takes array of objects containing map data and sets their map to null,
+     * removing them from the map
+     * @param {Array} array
+     */
+    deleteMarkers(array) {
+      let gMarkers = array;
       $.each(gMarkers, function(i, gMarker) {
         gMarker.setMap(null);
       });
+      //empties storage data of previous markers that have been removed from map
       gMarkers = [];
     },
+
+    /**
+     * Takes an id representing the category. Written to handle showing of
+     * featured festivals which has no data from the API and is hard coded in
+     * JSON. If time allowed, could use major refactor along with the the other
+     * data request and storage methods.
+     * @param {Number} id
+     */
+    showFeaturedFestivals(id) {
+      let that = this;
+      this.deleteMarkers(this.markers);
+      this.deleteMarkers(this.featuredMarkers);
+      let category = this.featureData[id];
+      //zooms map out due to one of the festivals being very far north
+      that.map.setZoom(9);
+      $.each(category, function(i, marker) {
+        //required syntax for requests with built in getDetails method
+        let request = {
+          placeId: category[i].mapId,
+        };
+        let service = new google.maps.places.PlacesService(that.map);
+        service.getDetails(request, callback);
+        function callback(place, status) {
+          if (status === google.maps.places.PlacesServiceStatus.OK) {
+            //renders marker with data
+            let newGMarker = new that.google.maps.Marker({
+              position: place.geometry.location,
+              icon: "https://i.ibb.co/GCw4xmG/geoff-featured-map-marker.png",
+              hoverIcon:
+                "https://i.ibb.co/pX4TC3J/22783793aa0449a49a9b8cfe993996c3.png",
+              zIndex: 999,
+              id: place.id,
+              map: that.map,
+              name: marker.name,
+              desc: marker.description,
+              address: marker.location,
+              addressLoc: place.address_components[3].short_name,
+              category: marker.category
+            });
+            //inits click listeners for marker
+            newGMarker.addListener("click", function(evt) {
+              that.clearDirections();
+              that.map.setZoom(15);
+              that.activeMarker = newGMarker;
+              that.map.setCenter(newGMarker.getPosition());
+              that.placeInfoPanel = true;
+              that.placeData = { name: marker.name, category: marker.category };
+              that.gPlaceData = {
+                address: marker.location,
+                website: marker.website,
+                desc: marker.description
+              };
+              //removes any active featured marker, on click of any new marker
+              if (that.activeFeaturedMarker) {
+                that.activeFeaturedMarker.setIcon(
+                  "https://i.ibb.co/GCw4xmG/geoff-featured-map-marker.png"
+                );
+              //removes any active marker, on click of any new marker  
+              if (that.activeMarker) {
+                that.activeMarker.setIcon("https://i.ibb.co/MGR4s7m/geoff-map-marker.png")
+              }
+              }
+              //stores markers in seperate array from normal markers to be able
+              //to handle them independantly if required
+              newGMarker.setIcon(
+                "https://i.ibb.co/pX4TC3J/22783793aa0449a49a9b8cfe993996c3.png"
+              );
+            });
+            that.featuredMarkers.push(newGMarker);
+          }
+        }
+      });
+    },
+
+    /**
+     * Takes array of markers and initialises the click listeners on them
+     * @param {Array} array
+     */
     initMarkerClickListeners(markers) {
       let that = this;
       $.each(markers, function(i, marker) {
         marker.addListener("click", function(evt) {
+          //removes any active marker, on click of any new marker
+          if (that.activeMarker) {
+            that.activeMarker.setIcon(
+              "https://i.ibb.co/MGR4s7m/geoff-map-marker.png"
+            );
+          }
+          //removes any featured marker, on a click of any new marker
+          if (that.activeFeaturedMarker) {
+                that.activeFeaturedMarker.setIcon(
+                  "https://i.ibb.co/GCw4xmG/geoff-featured-map-marker.png"
+                )
+          };
+          marker.setIcon("https://i.ibb.co/g9fdzF7/marker-active.png");
+          that.clearDirections();
           that.map.setZoom(15);
           that.map.setCenter(marker.getPosition());
           // that.getPlaceDetails(marker.id);
           that.placeInfoPanel = true;
           that.storePlaceDetails(marker);
           that.getGooglePlaceId(that.placeData.name);
-          // that.getGooglePlaceId("san fran")
-          // that.getGooglePlaceDetails()
+          that.activeMarker = marker;
+        });
+        marker.addListener("mouseover", function() {
+          if (that.activeMarker !== marker) {
+            marker.setIcon("https://i.ibb.co/XjX5b95/marker-hover.png");
+          }
+        });
+        marker.addListener("mouseout", function() {
+          if (that.activeMarker !== marker) {
+            marker.setIcon("https://i.ibb.co/MGR4s7m/geoff-map-marker.png");
+          }
         });
       });
     },
-    categoryClickHandler: function(id, value, ref) {
-      // this.getSearchData(id, this.currentRadius);
-      this.showFeatureMarkers(0);
+    /**
+     * Takes an id. Id represents the category chosen.
+     * Called once when page initialises, and then each time a new category
+     * is clicked.
+     * @param {Number} id
+     */
+    categoryClickHandler: function(id) {
+      this.clearDirections();
+      if (id === "0") {
+        this.deleteMarkers(this.featuredMarkers);
+        this.showFeaturedFestivals(id);
+      } else {
+        this.map.setCenter({ lat: -41.2865, lng: 174.7762 });
+        this.changeZoom(this.currentRadius);
+        this.getSearchData(this.categoryIds[id], this.currentRadius);
+        this.deleteMarkers(this.featuredMarkers);
+        this.showFeatureMarkers(id);
+      }
     },
+
+    /**
+     * Called on watching for when the radius has been changed from dropdown.
+     * Stores the number in data inside MapLoader for use in other methods.
+     * @param {Number} radius
+     */
     radiusChanged: function(radius) {
       this.currentRadius = radius;
+      this.changeZoom(radius);
     },
-    showFeatureMarkers(key) {
+
+    /**
+     * switch case to convert radius numbers into appropriate zoom levels on the map
+     * @param {Number} radius
+     */
+    changeZoom(radius) {
+      switch (radius) {
+        case "1000":
+          this.map.setZoom(15);
+          break;
+        case "5000":
+          this.map.setZoom(14);
+          break;
+        case "10000":
+          this.map.setZoom(13);
+          break;
+        case "20000":
+          this.map.setZoom(12);
+          break;
+      }
+    },
+
+    /**
+     * Handles showing featured markers. Takes the google places ID from JSON
+     * and returns google data for markers.
+     * @param {Number} id
+     */
+    showFeatureMarkers(id) {
+      this.deleteMarkers(this.markers);
+      this.deleteMarkers(this.featuredMarkers);
       let that = this;
-      let category = this.featureData[key];
+      let category = this.featureData[id];
+      this.clearDirections();   
       $.each(category, function(i, marker) {
+        //required syntax for built in getDetails request
         let request = {
           placeId: category[i].mapId
         };
@@ -162,8 +427,12 @@ export default {
         service.getDetails(request, callback);
         function callback(place, status) {
           if (status === google.maps.places.PlacesServiceStatus.OK) {
+            //renders new markers
             let newGMarker = new that.google.maps.Marker({
               position: place.geometry.location,
+              zIndex: 999,
+              icon: "https://i.ibb.co/GCw4xmG/geoff-featured-map-marker.png",
+              zIndex: 999,
               id: place.id,
               map: that.map,
               name: marker.name,
@@ -171,18 +440,59 @@ export default {
               addressLoc: place.address_components[3].short_name,
               category: marker.category
             });
+            //inits click listeners on new markers
             newGMarker.addListener("click", function(evt) {
+              that.clearDirections();
               that.map.setZoom(15);
               that.map.setCenter(newGMarker.getPosition());
               that.placeInfoPanel = true;
-              that.storePlaceDetails(marker);
-              that.getGooglePlaceId(that.placeData.name);
+              that.placeData = { name: marker.name, category: marker.category };
+              that.gPlaceData = {
+                address: marker.location,
+                website: marker.website,
+                desc: marker.description
+              };
+              //removes any active featured marker, on click of any new marker
+              if (that.activeFeaturedMarker) {
+                that.activeFeaturedMarker.setIcon(
+                  "https://i.ibb.co/GCw4xmG/geoff-featured-map-marker.png"
+                );
+              //removes any active marker, on click of any new marker
+              if (that.activeMarker) {
+                that.activeMarker.setIcon("https://i.ibb.co/MGR4s7m/geoff-map-marker.png")
+                };
+              };
+              newGMarker.setIcon(
+                "https://i.ibb.co/pX4TC3J/22783793aa0449a49a9b8cfe993996c3.png"
+              );
+              that.activeFeaturedMarker = newGMarker;
             });
+            newGMarker.addListener("mouseover", function() {
+              if (that.activeFeaturedMarker !== newGMarker) {
+                newGMarker.setIcon("https://i.ibb.co/cXDswXx/Layer-1.png");
+              }
+            });
+            newGMarker.addListener("mouseout", function() {
+              if (that.activeFeaturedMarker !== newGMarker) {
+                newGMarker.setIcon(
+                  "https://i.ibb.co/GCw4xmG/geoff-featured-map-marker.png"
+                );
+              }
+            });
+            //stores markers in featured markers data
             that.featuredMarkers.push(newGMarker);
           }
         }
       });
     },
+
+    /**
+     * Takes a categoryId and a radius number. categoryId is a foursquare ID.
+     * Returns all foursquare data from chosen category within selected radius.
+     * With more time, needs to be refactored to be more reusable by other methods.
+     * @param {Number} categoryId
+     * @param {Number} radius
+     */
     getSearchData(categoryId, radius) {
       this.$http
         .get(
@@ -197,7 +507,7 @@ export default {
             "&v=20190404"
         )
         .then(function(data) {
-          this.deleteMarkers();
+          this.deleteMarkers(this.markers);
           this.currentSearchData = [];
           let addMarkers = this.addMarkers;
           let searchData = this.currentSearchData;
@@ -216,6 +526,11 @@ export default {
           this.addMarkers(this.currentSearchData);
         });
     },
+
+    /**
+     * Stores the data from clicked marker to put placed in the place details screen
+     * @param {Object} marker
+     */
     storePlaceDetails(marker) {
       this.placeData = {
         position: marker.position,
@@ -226,9 +541,15 @@ export default {
         category: marker.category
       };
     },
-    getGooglePlaceId(name) {
+
+    /**
+     * Takes name of venue from foursquare, and searches it against google
+     * places data. If there is no match, alerts the user the venue is permanently
+     * closed. Not an ideal solution but with a major breaking issue with foursquare
+     * it was required to finish in time and meet use cases.
+     * @param {String} name
+     */ getGooglePlaceId(name) {
       let that = this;
-      // let formattedAddress = this.placeData.address.split(' ').join('+');
       let query = {
         query: name,
         locationBias: {
@@ -240,34 +561,28 @@ export default {
       let service = new google.maps.places.PlacesService(this.map);
       service.findPlaceFromQuery(query, function(results, status) {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
-          console.log(results);
           let id = results[0].place_id;
           that.getGooglePlaceDetails(id);
         } else {
-          console.log("foursquare is trash and google is garbage");
+          alert("Venue Permanently Closed");
         }
       });
-      // $.get(
-      //   "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" +
-      //   formattedAddress +
-      //   "&key=" +
-      //   this.apiKey
-      //   )
-      //   .then(function(data) {
-      //     console.log(data)
-      //   })
     },
+
+    /**
+     * Takes google place id for details request. Still uses some information
+     * from foursquare and some from google. Needs to be refactored to use one
+     * or the other eventually.
+     * @param {Number} id
+     */
     getGooglePlaceDetails(id) {
       let that = this;
       let request = {
         placeId: id
-        // fields: ['photo', 'user_ratings_total', 'opening_hours', 'website', 'formatted_phone_number', 'reviews', 'rating']
       };
-      console.log(id);
       let service = new google.maps.places.PlacesService(this.map);
       service.getDetails(request, callback);
       function callback(place, status) {
-        console.log(place);
         if (status === google.maps.places.PlacesServiceStatus.OK) {
           that.gPlaceData = {};
           if (place.formatted_phone_number) {
@@ -300,45 +615,97 @@ export default {
           if (place.reviews) {
             that.gPlaceData.reviews = place.reviews;
           }
-          // that.gPlaceData = {
-          //   phoneNumber: place.formatted_phone_number,
-          //   openNow: place.opening_hours.open_now,
-          //   openTimes: place.opening_hours.weekday_text,
-          //   userRatings: place.user_ratings_total,
-          //   website: place.website,
-          //   photos: place.photos,
-          //   rating: place.rating,
-          //   reviews: place.reviews
-          // }
-          // console.log(that.gPlaceData)
         }
       }
     },
+
+    //handles the closing of more details panel on map
     closeInfoPanel() {
       this.placeInfoPanel = false;
+      this.activeMarker.setIcon(
+        "https://i.ibb.co/MGR4s7m/geoff-map-marker.png"
+      );
+      this.clearDirections();
+    },
+
+    //gets directions from hardcoded position to chosen venue. If going to
+    //production, hard coded location would need to become a get location of
+    //user request
+    getDirections() {
+      let that = this;
+      that.directionsService.route(
+        {
+          origin: { lat: -41.2268, lng: 174.807 },
+          destination: that.activeMarker.position,
+          travelMode: "DRIVING"
+        },
+        function(response, status) {
+          if (status === "OK") {
+            that.directionsDisplay.setDirections(response);
+          } else {
+            window.alert("Directions request failed due to " + status);
+          }
+        }
+      );
+    },
+
+    //removes polyline of directions
+    clearDirections: function() {
+      if (this.directionsDisplay != null) {
+        this.directionsDisplay.set("directions", null);
+      }
+    },
+    toggleCategories() {
+      if (this.categoriesOpen == true) {
+        this.categoriesOpen = false;
+      } else {
+        if (this.viewPortWidth < 800) {
+          this.closeInfoPanel();
+        }
+        this.categoriesOpen = true;
+      }
     }
-    // getPlaceDetails(id) {
-    //   this.$http
-    //     .get(
-    //       "https://api.foursquare.com/v2/venues/" +
-    //         id +
-    //         "&client_id=" +
-    //         this.clientId +
-    //         "&client_secret=" +
-    //         this.clientSecret +
-    //         "&v=20190404"
-    //     )
-    //     .then(function(data) {
-    //       console.log(data);
-    //     });
-    // }
   }
 };
 </script>
 
 <style scoped>
+.page-slide-enter-active,
+.page-slide-leave-active {
+  transition: all 1s ease;
+}
+
+.page-slide-leave-to {
+  transform: translateX(-300px);
+}
+
+.page-slide-enter {
+  transform: translateX(300px);
+}
+
 .google-map {
   width: 100vw;
   min-height: 100vh;
+}
+
+.category-toggle {
+  position: absolute;
+  color: #ffe96b;
+  top: 40px;
+  left: 20px;
+  z-index: 5;
+  transition: all 0.2s linear;
+}
+
+.categoryToggleNoCategories {
+  left: 220px;
+}
+
+.backBtnNoCategories {
+  left: 30px !important;
+}
+
+.backBtnMap {
+  left: 240px;
 }
 </style>

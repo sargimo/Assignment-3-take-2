@@ -1,15 +1,11 @@
-
 <template>
-  <div
-    :class="{buttonLanding: this.$parent.$parent.$parent.$data.landing, buttonInfo: this.$parent.$parent.$parent.$data.info,
-            buttonIsActive: buttonIsActive}"
-  >
+  <div :class="{buttonLanding: landingIsActive, buttonInfo: !landingIsActive, buttonIsActive: buttonIsActive}">
     <img
       @click="categorySelected"
       id="3"
-      :class="{buttonImgLanding: this.$parent.$parent.$parent.$data.landing, buttonImgInfo: this.$parent.$parent.$parent.$data.info,
-              buttonImgIsActive: buttonIsActive}"
+      :class="{buttonImgLanding: landingIsActive, buttonImgInfo: !landingIsActive, buttonImgIsActive: buttonIsActive}"
       src="../../../assets/holly/button-activities.png"
+      alt="Activities Button"
     >
     <p class="buttonTitle">ACTIVITIES</p>
   </div>
@@ -18,16 +14,23 @@
 <script>
 export default {
   name: "ButtonActivities",
-  props: { 
-    buttonIsActive: false
+
+  props: {
+    landingIsActive: Boolean,
+    buttonIsActive: Boolean
   },
+  
   methods: {
     categorySelected: function(evt) {
+      /** 
+      * Emits method call to set category value according to button click event.
+      * @param {click} evt
+      */
       this.$emit("$categorySelected", evt.target.id);
     }
   }
 };
 </script>
 
-<style scoped src="../constants/navCSS.css">
+<style scoped src="../styles/nav.css">
 </style>

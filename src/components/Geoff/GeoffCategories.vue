@@ -1,49 +1,57 @@
 <template>
   <transition name="page-fade-in" mode="out-in">
     <div class="categories-container">
-      <div @click="getCategoryId" class="category festivals" id="0">
+      <div id="0" @click="getCategoryId('0')" class="category festivals">
         <router-link :to="'/geofffeaturelanding'" exact>
-          <div class="cat-title">
+          <div @click="getCategoryId('0')" class="cat-title">
             <h3>FESTIVALS</h3>
             <p>THE BIGGEST EVENTS IN WELLINGTON</p>
           </div>
         </router-link>
       </div>
-      <div class="category music-venues">
-        <div class="cat-title">
-          <h3>
-            MUSIC
-            <br>VENUES
-          </h3>
-          <p>LIVE WEEKEND MUSIC VENUES</p>
-        </div>
+      <div @click="getCategoryId('1')" class="category music-venues" id="1">
+        <router-link :to="'/geofffeaturelanding'" exact>
+          <div @click="getCategoryId('1')" class="cat-title">
+            <h3>
+              MUSIC
+              <br>VENUES
+            </h3>
+            <p>LIVE WEEKEND MUSIC VENUES</p>
+          </div>
+        </router-link>
       </div>
-      <div class="category record-stores">
-        <div class="cat-title">
-          <h3>
-            RECORD
-            <br>STORES
-          </h3>
-          <p>VINYL, CDS AND EVERYTHING INBETWEEN</p>
-        </div>
+      <div @click="getCategoryId('2')" class="category record-stores" id="2">
+        <router-link :to="'/geofffeaturelanding'" exact>
+          <div @click="getCategoryId('2')" class="cat-title">
+            <h3>
+              RECORD
+              <br>STORES
+            </h3>
+            <p>VINYL, CDS AND EVERYTHING INBETWEEN</p>
+          </div>
+        </router-link>
       </div>
-      <div class="category music-shops">
-        <div class="cat-title">
-          <h3>
-            MUSIC
-            <br>SHOPS
-          </h3>
-          <p>FOR ALL YOUR MUSICAL NEEDS</p>
-        </div>
+      <div @click="getCategoryId('3')" class="category music-shops" id="3">
+        <router-link :to="'/geofffeaturelanding'" exact>
+          <div @click="getCategoryId('3')" class="cat-title">
+            <h3>
+              MUSIC
+              <br>SHOPS
+            </h3>
+            <p>FOR ALL YOUR MUSICAL NEEDS</p>
+          </div>
+        </router-link>
       </div>
-      <div class="category music-schools">
-        <div class="cat-title">
-          <h3>
-            MUSIC
-            <br>SCHOOLS
-          </h3>
-          <p>LEARN FROM THE BEST</p>
-        </div>
+      <div @click="getCategoryId('4')" class="category music-schools" id="4">
+        <router-link :to="'/geofffeaturelanding'" exact>
+          <div @click="getCategoryId('4')" class="cat-title">
+            <h3>
+              MUSIC
+              <br>SCHOOLS
+            </h3>
+            <p>LEARN FROM THE BEST</p>
+          </div>
+        </router-link>
       </div>
     </div>
   </transition>
@@ -54,20 +62,34 @@ import festivalData from "./constants/festivalData.json";
 export default {
   name: "GeoffCategories",
   data: function() {
-    return {};
+    return {
+      catId: null
+    };
   },
   methods: {
-    getCategoryId(evt) {
+    getCategoryId(value) {
+      this.catId = value;
+    }
+  },
+  watch: {
+    catId: function() {
       this.$router.push({
         name: "geofffeaturelanding",
-        params: { categoryId: evt.target.id }
+        params: { categoryId: this.catId }
       });
     }
   }
 };
 </script>
 
+<style scoped src="./constants/customFonts.css">
+</style>
+
 <style scoped>
+a:hover {
+  text-decoration: none;
+}
+
 .categories-container {
   display: flex;
   flex-flow: row nowrap;
@@ -187,7 +209,7 @@ export default {
 
 .category:hover {
   transition: 0.5s;
-  max-width: 40% !important;
+  max-width: 40%;
   flex-grow: 2;
   cursor: pointer;
 }
@@ -198,6 +220,8 @@ export default {
 }
 
 .cat-title {
+  font-family: "BigNoodleTitling", sans-serif;
+  font-size: 25px;
   transition: all 0.3s linear;
   position: relative;
   z-index: 1;
@@ -205,11 +229,47 @@ export default {
 
 .cat-title p {
   color: #ffe96b;
+  font-size: 20px;
+  padding-top: 15px;
 }
 
 .cat-title h3 {
   color: #fff;
   font-size: 2em;
   margin: auto;
+}
+
+@media only screen and (max-width: 850px) {
+  .category {
+    max-height: 20%;
+    width: 100vw;
+    min-height: 10%;
+    height: 20vh;
+    max-width: 100vw;
+  }
+  .cat-title h3 {
+    font-size: 30px;
+  }
+
+  .cat-title p {
+    padding-top: 5px;
+    font-size: 18px;
+  }
+
+  .categories-container {
+    flex-flow: column;
+  }
+
+  .category:hover {
+    transition: 0.5s;
+    max-height: 40% !important;
+    height: 40vh;
+    max-width: 100%;
+    width: 100vw;
+  }
+
+  .category:hover .cat-title {
+    transform: translateY(-5px);
+  }
 }
 </style>

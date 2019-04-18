@@ -1,0 +1,47 @@
+{
+    "venues": [
+        {
+            "id": "0",
+            "catId": "3",
+            "name": "MUSIC PLANET",
+            "location": "158 VICTORIA STREET, TE ARO",
+            "description": "At Music Planet, we live and breathe music and are passionately dedicated to helping hobbyists, students and musicians succeed in their musical endeavours. Their goal was always the total satisfaction of his customers and they continue to strive for that today. A quick read of their testimonials section will show you that we are finding a measure of success in customer satisfaction not only in New Zealand, but across several countries around the world.",
+            "website": "https://www.musicplanet.co.nz/",
+            "email": "wellington@musicplanet.co.nz",
+            "facebook": "http://www.facebook.com/musicplanet.co.nz",
+            "instagram": "https://www.instagram.com/musicplanetnz/",
+            "phoneNumber": "04 3829030",
+            "mapId": "ChIJM2Sr69evOG0R_b8UcpN35jo",
+            "category": "Music Store",
+            "style": "{\"position\": \"absolute\", \"left\": \"270px\", \"top\": \"550px\"}" 
+        },
+        {
+            "id": "1",
+            "catId": "3",
+            "name": "ALISTAIR'S MUSIC",
+            "location": "215 CUBA STREET, TE ARO",
+            "description": "Founded in 2001 on the smell of an oily rag, they aim to provide good quality instruments to students, teachers, musicians and the musical community at large. Owners Alistair and Catriona believe musical instruments are works of art and should be viewed as such, and have the knowledge to boot.",
+            "website": "https://www.facebook.com/pg/alistairsmusic/",
+            "email": "alistairsmusic@hotmail.com",
+            "facebook": "https://www.facebook.com/pg/alistairsmusic/",
+            "phoneNumber": "04 9174487",
+            "mapId": "ChIJNXMpXtivOG0RZnnJ5hFkkpk",
+            "category": "Music Store",
+            "style": "{\"position\": \"absolute\", \"left\": \"280px\", \"top\": \"660px\"}" 
+        },
+        {
+            "id": "2",
+            "catId": "3",
+            "name": "WETA GUITARS",
+            "location": "36 HAPPY VALLEY ROAD, OWHIRO BAY",
+            "description": "If you're looking for a more custom musical instrument experience, look no further than Weta Guitars. Malcom is one of the best when it comes to craftsmanship and custom build or restored guitars. A large assortment of parts for repairs and resale are available. Ready to handle any custom guitar job you can imagine.",
+            "website": "https://www.facebook.com/Weta-Guitars-guitar-repairs-153583381426974/",
+            "email": "wetaguitars36@gmail.com",
+            "facebook": "https://www.facebook.com/Weta-Guitars-guitar-repairs-153583381426974/",
+            "phoneNumber": "04 3836748",
+            "mapId": "ChIJf1UfT8-6OG0ReJQvRoGuwPs",
+            "category": "Music Store",
+            "style": "{\"position\": \"absolute\", \"left\": \"250px\", \"top\": \"860px\"}" 
+        }
+    ]
+}

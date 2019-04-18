@@ -1,0 +1,444 @@
+/* Landing and InfoScreen styles */
+
+.logoLinkLanding, .logoLinkInfo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    cursor: pointer;
+    margin-top: 1%;
+    margin-bottom: 2%;
+}
+
+.logoLinkLanding {
+    width: 50%;
+}
+
+.logoLinkInfo {
+    width: 100%;
+}
+
+.logoLanding, .logoInfo, .buttonImgLanding, .buttonImgInfo {
+    margin: auto;
+    transition: transform 0.2s ease-in-out;
+}
+
+.logoLanding {
+    width: 20%;
+}
+
+.logoInfo {
+    width: 50%;
+    margin-bottom: 6%;
+}
+
+.logoLanding:hover, .logoInfo:hover, .buttonImgLanding:hover, .buttonImgInfo:hover {
+    transform: scale(1.05);
+}
+
+.searchLanding, .searchInfo {
+    font-family: 'Nanum Gothic', sans-serif;
+}
+
+.input-group-text.amber.lighten-3 {
+    background: #ffffff;
+}
+
+.input-group-text.amber.lighten-3 i {
+    color: #c7800e;
+}
+
+.input-group-text.amber.lighten-3:hover {
+    background: #c7800e;
+}
+
+.input-group-text.amber.lighten-3:hover i {
+    color: #ffffff;
+}
+
+.input-group-text.amber.lighten-3:focus {
+    outline: none !important;
+}
+
+input.form-control:focus {
+    outline: none !important;
+    -webkit-appearance: none !important;
+    box-shadow: none;
+    border: 1px solid #ced4da;
+}
+
+input.form-control:focus::placeholder {
+    color: #c6ccd2;
+}
+
+.searchLanding {
+    width: 30vw;
+}
+
+.searchLanding input {
+    font-size: 1.8em;
+    margin-top: 2%;
+}
+
+.searchInfo {
+    width: 75%;
+}
+
+.searchInfo input {
+    font-size: 1.2em;
+}
+
+.buttonsLanding, .buttonsInfo {
+    margin-top: 3%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.buttonsLanding {
+    width: 45%;
+    flex-direction: row;
+    margin-bottom: 2%;
+}
+
+.buttonsInfo {
+    width: 100%;
+    flex-direction: column;
+    margin-top: 6%;
+}
+
+.buttonTitle {
+    font-family: 'Spinnaker', sans-serif;
+}
+
+.buttonLanding, .buttonInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #f4f4f4;
+    width: 100%;
+}
+
+.buttonInfo {
+    padding-top: 5%;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+.buttonIsActive {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.buttonImgLanding, .buttonImgInfo {
+    display: flex;
+    width: 140px;
+    height: 140px;
+    margin-bottom: 4%;
+    border: transparent solid 6px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.buttonImgInfo {
+    width: 100px;
+    height: 100px;
+}
+
+.buttonImgLanding:hover, .buttonImgInfo:hover, .buttonImgIsActive {
+    border: #f4f4f4 solid 6px;
+}
+
+h1 {
+    color: #ffffff;
+    font-size: 3rem;
+    margin-bottom: 4%;
+    font-family: 'Cabin', sans-serif;
+}
+
+.feeling-lucky-button {
+    background: #c78003;
+    border-radius: 4px;
+    padding: 0.5% 1%;
+    color: #f4f4f4;
+    font-size: 1.4rem;
+    border: #f4f4f4 solid 1px;
+}
+
+.feeling-lucky-button:hover {
+    background: #edca2f;
+    color: #291e02;
+}
+
+.feeling-lucky-button:focus {
+    outline: none;
+}
+
+.feeling-lucky-button:active {
+    border: #291e02 solid 1px;
+}
+
+/* Landing */
+
+.landing {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.55);
+}
+
+.homeButton {
+    align-self: flex-start;
+    margin: 2%;
+    margin-bottom: 0;
+    background: none;
+    border: none;
+    color: #f4f4f4;
+    font-size: 2rem;
+}
+
+.homeButton:focus {
+    outline: none;
+}
+
+/* InfoScreen */
+
+.info-screen {
+    width: 100%;
+    height: 100%;
+}
+
+.lhs-nav {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 2;
+    width: 18vw;
+    height: 100vh;
+    overflow: hidden;
+    background: #c7800e;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+}
+
+.fas.openNav, .fas.closeNav {
+    padding: 1%;
+    color: #f4f4f4;
+    position: absolute;
+    top: 12px;
+    right: 8px;
+    font-size: 1.4rem;
+    cursor: pointer;
+}
+
+.navIsHidden {
+    left: -228px;
+    transition: left 0.8s ease-in-out;
+}
+
+/* Media queries */
+
+@media screen and (max-width: 1600px) {
+    /* Landing */
+    .logoLanding {
+        width: 30%;
+    }
+    .buttonsLanding {
+        width: 60%;
+    }
+    .feeling-lucky-button {
+        margin-top: 0;
+        padding: 0.8% 1.2%;
+    }
+    /* InfoScreen */
+    .lhs-nav {
+        width: 18%;
+    }
+    .searchInfo {
+        width: 75%;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    /* Landing */
+    .logoLanding {
+        width: 40%;
+    }
+    .searchLanding {
+        width: 50%;
+    }
+    .buttonsLanding {
+        width: 80%;
+        margin: 4%;
+    }
+    /* InfoScreen */
+    .lhs-nav {
+        width: 24%;
+    }
+    .logoInfo {
+        width: 50%;
+        margin-bottom: 10%;
+    }
+    .searchInfo {
+        width: 85%;
+        margin-bottom: 4%;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    /* Landing */
+    .logoLanding {
+        width: 40%;
+        margin-bottom: 10%;
+    }
+    h1 {
+        font-size: 2.6rem;
+    }
+    .searchLanding {
+        width: 60%;
+    }
+    .buttonsLanding {
+        width: 80%;
+        margin: 10%;
+    }
+    .buttonImgLanding {
+        width: 120px;
+        height: 120px;
+    }
+    .buttonTitle {
+        font-size: 75%;
+    }
+    .feeling-lucky-button {
+        font-size: 1.2rem;
+        padding: 1.5% 2.5%;
+    }
+    /* InfoScreen */
+    .lhs-nav {
+        width: 30%;
+    }
+    .logoInfo {
+        width: 60%;
+        margin-bottom: 10%;
+    }
+    .searchInfo {
+        width: 88%;
+        margin-bottom: 10%;
+    }
+}
+
+@media screen and (max-width: 550px) {
+    /* Landing */
+    .logoLinkLanding {
+        margin-top: 0;
+    }
+    .logoLanding {
+        width: 60%;
+        margin-bottom: 1.5%;
+    }
+    h1 {
+        font-size: 2rem;
+    }
+    .searchLanding {
+        width: 70%;
+        font-size: 0.6rem;
+        margin-bottom: 2%;
+    }
+    .buttonsLanding {
+        width: 80%;
+        flex-direction: column;
+        margin: 3%;
+    }
+    .buttonImgLanding {
+        width: 90px;
+        height: 90px;
+        margin-bottom: 0;
+    }
+    /* InfoScreen */
+    .lhs-nav {
+        width: 60%;
+        transition: left 0.8s ease-in-out;
+    }
+    .logoInfo {
+        width: 60%;
+        margin-bottom: 6%;
+    }
+    .searchInfo {
+        margin-bottom: 6%;
+        width: 85%;
+    }
+}
+
+@media screen and (max-width: 420px) {
+    /* Landing */
+    .homeButton {
+        font-size: 1.6rem;
+    }
+    .logoLinkLanding {
+        margin-top: 0;
+    }
+    .logoLanding {
+        width: 60%;
+        margin: 0;
+        margin-top: -10px;
+    }
+    h1 {
+        font-size: 1rem;
+        margin-bottom: 4%;
+    }
+    .searchLanding {
+        width: 70%;
+        font-size: 0.5rem;
+        margin-bottom: 4%;
+    }
+    .buttonsLanding {
+        width: 80%;
+        flex-direction: column;
+        margin: 0;
+        margin-bottom: 4%;
+    }
+    .buttonLanding {
+        margin: 0;
+        padding: 0;
+    }
+    .buttonImgLanding {
+        width: 60px;
+        height: 60px;
+        margin: 0;
+    }
+    .buttonTitle {
+        font-size: 0.6rem;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    .feeling-lucky-button {
+        font-size: 0.8rem;
+    }
+    /* InfoScreen */
+    .logoInfo {
+        width: 40%;
+        margin-top: 2%;
+        margin-bottom: 2%;
+    }
+    .searchInfo {
+        margin-bottom: 2%;
+    }
+    .buttonImgInfo {
+        width: 70px;
+        height: 70px;
+        margin-bottom: 0;
+    }
+    .navIsHidden {
+        left: -155px;
+        transition: left 0.8s ease-in-out;
+    }
+}

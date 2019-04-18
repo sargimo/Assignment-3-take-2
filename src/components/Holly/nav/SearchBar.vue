@@ -2,10 +2,12 @@
   <form
     @submit.prevent="searchForQuery"
     class="input-group md-form form-sm form-2 pl-0"
-    :class="{searchLanding: this.$parent.$parent.$parent.$data.landing, searchInfo: this.$parent.$parent.$parent.$data.info}"
+    :class="{searchLanding: landingIsActive, searchInfo: !landingIsActive}"
   >
     <input
-      class="form-control my-0 py-1 amber-border"
+      @click="setCategoryNull"
+      :value="searchQuery"
+      class="form-control my-0 py-1"
       ref="searchBar"
       type="text"
       placeholder="Search"
@@ -22,15 +24,41 @@
 <script>
 export default {
   name: "SearchBar",
+
+  props: {
+    landingIsActive: Boolean,
+    searchQuery: null
+  },
+
   methods: {
+    /** 
+    * Passes input search query and emits method call to handle search.
+    */
     searchForQuery: function() {
-      this.$refs.searchBar.focus();
       let query = this.$refs.searchBar.value;
-      this.$emit('$searchForQuery', query);
+      this.$emit("$searchForQuery", query);
+    },
+
+    /** 
+    * Emits method call to reset category value to null.
+    */
+    setCategoryNull: function() {
+      this.$emit("$setCategoryNull");
+    }
+  },
+  
+  /** 
+  * Sets focus to search query input element on infoscreen page if user search query from landing.
+  */
+  created: function() {
+    if (this.searchQuery != null) {
+      this.$nextTick(function() {
+        return this.$refs.searchBar.focus();
+      });
     }
   }
 };
 </script>
 
-<style scoped src="../constants/navCSS.css">
+<style scoped src="../styles/nav.css">
 </style>

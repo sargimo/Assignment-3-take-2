@@ -1,13 +1,13 @@
 # Contributing Guide
 
-Thanks for checking out our Star Wars project! :star:
+Thanks for checking out our group project!
 
-The following is a set of guidelines for contributing and use. Please follow them as best you can, asking about any changes you wish to make in an [issue](https://github.com/jkilmartin/StarwarsVueStyleGuide/issues) first (including to this document).
+The following is a set of guidelines for contributing and use. Please follow them as best you can, asking about any changes you wish to make in an [issue](https://github.com/sargimo/Assignment-3-take-2/issues) first (including to any documentation).
 
 ## Issues, Branching, Development, and Pull Requests
 
 ### Issues
-Before forking and contributing, please open an [issue](https://github.com/jkilmartin/StarwarsVueStyleGuide/issues) with a relevant title and description of intentions.
+Before forking and contributing, please open an [issue](https://github.com/sargimo/Assignment-3-take-2/issues) with a relevant title and description of intentions.
 
 ### Branching and Development
 - Development is done using the `dev` branch. The `master` branch is the latest stable version. 
@@ -20,42 +20,60 @@ Your topic branch should follow this syntax: *`issue-number/short-description`*.
 
 - Please work in the `src` folder and avoid `dist`.
 
+- The map-based apps use the [Google Maps JS/Places/Directions](https://developers.google.com/maps/documentation/) and [FourSquare Places](https://developer.foursquare.com/places-api) APIs. 
+To run them, a `config.js` file must be added to `src/components/Geoff/constants` and `src/components/Holly/constants` that exports a Google Maps API key and FourSquare client id and client secret:
+```
+/* Geoff/constants/config.js */
+/* Holly/constants/config.js */
+export const API_KEY = "[your Google Maps API key]"
+export const CLIENT_ID = "[your FourSquare client ID]"
+export const CLIENT_SECRET = "[your FourSquare client secret]"
+```
+
 ### Pull Requests
 1. Ensure your topic branch is up to date with the latest version in this repository, and ensure all changes are committed.
-2. Ensure you are merging to the `dev` branch in this repository.
-3. If there are any pending pull requests in `dev`, check the *Files Changed* section to address conflicts.
-4. If there are no conflicts, go ahead and open your [Pull Request](https://github.com/jkilmartin/StarwarsVueStyleGuide/pulls).
-5. Enter a title and description. The description should include the keyword `resolve` and the `issue number`.
-6. Submit and we'll get to work!
+2. Please check you have no errors in your console.
+3. Ensure you are merging to the `dev` branch in this repository.
+4. If there are any pending pull requests in `dev`, check the *Files Changed* section to address conflicts.
+5. If there are no conflicts, go ahead and open your [Pull Request](https://github.com/sargimo/Assignment-3-take-2/pulls).
+6. Enter a title and description. The description should include the keyword `resolve` and the `issue number`.
+7. Submit!
 
 ### Git Commits
-As much as possible ensure only one logical change per commit is made.
+As much as possible please make only one logical change per commit.
 Commit messages should describe the original issue, why a change was made, and how the change addresses the issue.
 
 ## JavaScript/Vue.js/CSS Styleguide
 
 #### ES5/6
 - Use `let` and `const` rather than `var`.
-- We avoid arrow functions because of scope issues when using `this`.
+- We avoid arrow functions because of scope issues when using `this`. 
+Our function convention is the following:
+```
+methodName: function(params) {
+  // ...
+}
+```
+
 - Use ES6 syntax to import/export: 
 ```
   export default TestModule;
 
-  import TestModule from './TestModule';
+  import TestModule from "./TestModule";
   ```
-- Use Promises as async functions.
 
 #### Within-component naming
-- Functions and variables use camelCase.
+- Functions and variables (data, props, computed, etc.) use camelCase.
 - Constants should be named as CONSTANT_VALUE.
 
-#### Semicolons
-Always use semicolons to close statements.
+#### Semicolons/Quotes
+- Use semicolons to close statements.
+- Prefer double quotes with nested single quotes.
 
 #### Commenting
 Functions should be commented.
-All third-party code should also be acknowledged with comments.
-Comments should follow the syntax:
+All third-party code should also be acknowledged with comments containing links.
+Comments should follow this syntax:
 ```
 /** 
   * A concise description of what the function does.
@@ -69,23 +87,23 @@ Component names, except for root App components, should consist of several words
 
 ###### Bad
 ```
-Vue.component('Todo', {
+Vue.component("Todo", {
   // ...
 })
 
 export default {
-  name: 'Todo',
+  name: "Todo",
   // ...
 }
 ```
 ###### Good
 ```
-Vue.component('TodoItem', {
+Vue.component("TodoItem", {
   // ...
 })
 
 export default {
-  name: 'TodoItem',
+  name: "TodoItem",
   // ...
 }
 ```
@@ -95,33 +113,33 @@ Component data must be a function that returns an object (except on a new Vue in
  
 ###### Bad
 ```
-Vue.component('some-comp', {
+Vue.component("some-comp", {
   data: {
-    foo: 'bar'
+    foo: "bar"
   }
 })
 
 export default {
   data: {
-    foo: 'bar'
+    foo: "bar"
   }
 }
 ```
 ###### Good
 ```
-Vue.component('some-comp', {
+Vue.component("some-comp", {
   data: function () {
     return {
-      foo: 'bar'
+      foo: "bar"
     }
   }
 })
 
 // In a .vue file
 export default {
-  data () {
+  data: function () {
     return {
-      foo: 'bar'
+      foo: "bar"
     }
   }
 }
@@ -131,7 +149,7 @@ export default {
 // will ever exist
 new Vue({
   data: {
-    foo: 'bar'
+    foo: "bar"
   }
 })
 ```
@@ -142,7 +160,7 @@ Prop definitions should be as detailed as possible rather than shorthand, at lea
 ###### Bad
 ```
 // OK when prototyping, not in production
-props: ['status']
+props: ["status"]
 ```
 ###### Good
 ```
@@ -157,10 +175,10 @@ props: {
     required: true,
     validator: function (value) {
       return [
-        'syncing',
-        'synced',
-        'version-conflict',
-        'error'
+        "syncing",
+        "synced",
+        "version-conflict",
+        "error"
       ].indexOf(value) !== -1
     }
   }
@@ -274,38 +292,12 @@ This makes overriding internal styles easier using human-readable class names wi
 </style>
 ```
 
-#### Private property names
-Always use the *\$_* prefix for custom private properties in a plugin, mixin, etc. Then to avoid conflicts with code by other authors, also include a named scope (e.g., *\$\_yourPluginName\_*). 
-
-###### Bad
-```
-let myGreatMixin = {
-  // ...
-  methods: {
-    update: function () {
-      // ...
-    }
-  }
-}
-```
-###### Good
-```
-let myGreatMixin = {
-  // ...
-  methods: {
-    $_myGreatMixin_update: function () {
-      // ...
-    }
-  }
-}
-```
-
 #### Component files
 Each component should be in its own file.
 This helps when searching for a component to edit or review how to use it.
 ###### Bad
 ```
-Vue.component('TodoList', {
+Vue.component("TodoList", {
   // ...
 })
 ```
@@ -431,7 +423,7 @@ This follows the conventions of each language. Within JavaScript, camelCase is m
 ###### Bad
 ```
 props: {
-  'greeting-text': String
+  "greeting-text": String
 }
 
 <WelcomeMessage greetingText="hi"/>
@@ -474,9 +466,9 @@ Component templates should only include simple expressions; more complex express
 ###### Bad
 ```
 {{
-  fullName.split(' ').map(function (word) {
+  fullName.split(" ").map(function (word) {
     return word[0].toUpperCase() + word.slice(1)
-  }).join(' ')
+  }).join(" ")
 }}
 ```
 ###### Good
@@ -487,9 +479,9 @@ Component templates should only include simple expressions; more complex express
 // The complex expression has been moved to a computed property
 computed: {
   normalizedFullName: function () {
-    return this.fullName.split(' ').map(function (word) {
+    return this.fullName.split(" ").map(function (word) {
       return word[0].toUpperCase() + word.slice(1)
-    }).join(' ')
+    }).join(" ")
   }
 }
 ```
@@ -592,7 +584,7 @@ computed: {
 }
 ```
 
-#### Single-file component top-level element order
+#### Single-file component top-level element and property order
 The following hierarchy is used in .vue files:
 
 ```
@@ -610,6 +602,10 @@ The following hierarchy is used in .vue files:
   // ...
 </style>
 ```
+
+For ease of navigation, the following order is used for declaring component properties:
+`name`, `components`, `props`, `data`, `computed`, `watch`, `methods`, `created`, `mounted`
+
 
 #### Using *v-if/v-else-if/v-else* without *key*
 Use *key* with *v-if* + *v-else* if they are the same element type (e.g., both \<div> elements).
@@ -670,7 +666,7 @@ button {
 ```
 
 #### Class/ID selector names (styling)
-- CSS class selector names use `kebab-case`.
+- CSS class selector names use `kebab-case` unless bound using the `:class="{className}"` format.
 - ID selector names use camelCase.
 
-### May the force be with you.
+### If you see anything out of place/missing, please open an [issue](https://github.com/sargimo/Assignment-3-take-2/issues)! :white_check_mark:

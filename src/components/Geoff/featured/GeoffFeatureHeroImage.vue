@@ -1,19 +1,20 @@
 <template>
-  <div :style="{ 'backgroundImage': 'url(' + url + ')' }" class="jumbotron">
-
-  </div>
+  <div :style="{ 'backgroundImage': 'url(' + url + ')' }" class="jumbotron"></div>
 </template>
 
 <script>
 export default {
   name: "GeoffFeatureHeroImage",
   components: {},
-  props: ['source', 'index'],
+  props: {
+    source: Array,
+    index: Number
+  },
   data: function() {
     return {
       url: String,
       currentIndex: Number
-    }
+    };
   },
   watch: {
     source: function() {
@@ -25,11 +26,11 @@ export default {
 </script>
 
 <style scoped>
-  .jumbotron {
-    color: white;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 50vh;
-  }
+.jumbotron {
+  color: white;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 50vh;
+}
 </style>

@@ -44,17 +44,14 @@ export default {
   methods: {
     // retrieves designer information from API
     getUsers: function() {
-      // console.log("get");
       this.$http
         .get("https://behance-mock-api.glitch.me/api/users")
         .then(function(data) {
-          console.log("data", data);
           this.users = data.body.users;
         });
     },
     // pushes the designers id onto next page
     getProjectsByUser: function(userId) {
-      // console.log("userId", userId);
       this.$router.push({
         name: "projectcomponent",
         params: { userId: userId }
