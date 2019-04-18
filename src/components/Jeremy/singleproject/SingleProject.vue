@@ -47,7 +47,6 @@ export default {
     }
   },
   created: function() {
-    // console.log("params", this.$route.params.projectId);
     this.getProject(this.$route.params.projectId);
   }
 };
