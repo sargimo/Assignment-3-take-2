@@ -127,7 +127,6 @@ export default {
     }
   },
   created: function() {
-    // console.log("params", this.$route.params.userId);
     this.getProjects(this.$route.params.userId);
   }
 };
@@ -138,14 +137,12 @@ export default {
 .project-photos-cover {
   margin-top: 10px;
   margin-bottom: 10px;
-  /* text-align: center; */
 }
 
 .color-363636 {
   color: #636363;
 }
 .project-images {
-  /* border-radius: 25px; */
   border-color: #cccccc;
   border-style: solid;
   border-width: 2px;
@@ -154,10 +151,6 @@ export default {
   width: 500px;
   height: 350px;
 }
-
-/* .project-cover {
-  height: 110px;
-} */
 
 .designer-element {
   margin: 15px;
@@ -169,7 +162,6 @@ export default {
   padding: 20px;
   background-color: #dbdbdb;
   transition: background-color 0.5s ease;
-  /* text-align: center; */
 }
 
 .ddelement:hover {
