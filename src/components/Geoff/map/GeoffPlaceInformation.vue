@@ -4,66 +4,66 @@
       <button class="back-btn" @click="emitBack">X</button>
       <div class="details">
         <transition name="fade" mode="out-in">
-        <div v-if="placeData.name" :key="placeData.name" class="title-text">
-          <h1 class="name-text">{{placeData.name}}</h1>
-          <p class="category-text">{{placeData.category}}</p>
-          <hr class="hrule">
-        </div>
+          <div v-if="placeData.name" :key="placeData.name" class="title-text">
+            <h1 class="name-text">{{placeData.name}}</h1>
+            <p class="category-text">{{placeData.category}}</p>
+            <hr class="hrule">
+          </div>
         </transition>
         <transition name="fade" mode="out-in">
-        <div v if="gPlaceData.address" :key="gPlaceData.address" class="details-text">
-          <p v-if="gPlaceData.address">
-            <span class="detail-title">ADDRESS:</span>
-            {{gPlaceData.address}}
-          </p>
-          <p v-if="gPlaceData.desc">{{gPlaceData.desc}}</p>
-          <p v-if="gPlaceData.distance">
-            <span class="detail-title">DISTANCE:</span>
-            {{gPlaceData.distance}}m
-          </p>
-          <p v-if="gPlaceData.phoneNumber">
-            <span class="detail-title">PHONE NUMBER:</span>
-            {{gPlaceData.phoneNumber}}
-          </p>
-          <p v-if="gPlaceData.openNow">
-            <span class="detail-title open-now">OPEN NOW!</span>
-          </p>
-          <p v-if="gPlaceData.openTimes">
-            <span class="detail-title">OPEN TIMES:</span>
-            <br>
-            {{gPlaceData.openTimes[0]}}
-            <br>
-            {{gPlaceData.openTimes[1]}}
-            <br>
-            {{gPlaceData.openTimes[2]}}
-            <br>
-            {{gPlaceData.openTimes[3]}}
-            <br>
-            {{gPlaceData.openTimes[4]}}
-            <br>
-            {{gPlaceData.openTimes[5]}}
-            <br>
-            {{gPlaceData.openTimes[6]}}
-            <br>
-          </p>
-          <p v-if="gPlaceData.userRatings">
-            <span class="detail-title">USER RATINGS:</span>
-            {{gPlaceData.userRatings}}
-          </p>
-          <p v-if="gPlaceData.website">
-            <span class="detail-title">
-              <a class="detail-title" :href="this.gPlaceData.website">WEBSITE</a>
-            </span>
-          </p>
-          <!-- <p v-if="gPlaceData.photos">PHOTOS: {{gPlaceData.photos}}</p> -->
-          <p v-if="gPlaceData.rating">
-            <span class="detail-title">RATING:</span>
-            <span class="stars-outer">
-              <span :style="{ width: width + '%' }" class="stars-inner"></span>
-            </span>
-          </p>
-          <!-- <p v-if="gPlaceData.reviews">REVIEWS: {{gPlaceData.reviews}}</p> -->
-        </div>
+          <div v if="gPlaceData.address" :key="gPlaceData.address" class="details-text">
+            <p v-if="gPlaceData.address">
+              <span class="detail-title">ADDRESS:</span>
+              {{gPlaceData.address}}
+            </p>
+            <p v-if="gPlaceData.desc">{{gPlaceData.desc}}</p>
+            <p v-if="gPlaceData.distance">
+              <span class="detail-title">DISTANCE:</span>
+              {{gPlaceData.distance}}m
+            </p>
+            <p v-if="gPlaceData.phoneNumber">
+              <span class="detail-title">PHONE NUMBER:</span>
+              {{gPlaceData.phoneNumber}}
+            </p>
+            <p v-if="gPlaceData.openNow">
+              <span class="detail-title open-now">OPEN NOW!</span>
+            </p>
+            <p v-if="gPlaceData.openTimes">
+              <span class="detail-title">OPEN TIMES:</span>
+              <br>
+              {{gPlaceData.openTimes[0]}}
+              <br>
+              {{gPlaceData.openTimes[1]}}
+              <br>
+              {{gPlaceData.openTimes[2]}}
+              <br>
+              {{gPlaceData.openTimes[3]}}
+              <br>
+              {{gPlaceData.openTimes[4]}}
+              <br>
+              {{gPlaceData.openTimes[5]}}
+              <br>
+              {{gPlaceData.openTimes[6]}}
+              <br>
+            </p>
+            <p v-if="gPlaceData.userRatings">
+              <span class="detail-title">USER RATINGS:</span>
+              {{gPlaceData.userRatings}}
+            </p>
+            <p v-if="gPlaceData.website">
+              <span class="detail-title">
+                <a class="detail-title" :href="this.gPlaceData.website">WEBSITE</a>
+              </span>
+            </p>
+            <!-- <p v-if="gPlaceData.photos">PHOTOS: {{gPlaceData.photos}}</p> -->
+            <p v-if="gPlaceData.rating">
+              <span class="detail-title">RATING:</span>
+              <span class="stars-outer">
+                <span :style="{ width: width + '%' }" class="stars-inner"></span>
+              </span>
+            </p>
+            <!-- <p v-if="gPlaceData.reviews">REVIEWS: {{gPlaceData.reviews}}</p> -->
+          </div>
         </transition>
       </div>
       <div class="directions">

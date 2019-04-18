@@ -1,42 +1,42 @@
 <template>
-<transition name="fade" mode="out-in">
-  <div key="container">
-    <router-link :to="'/GeoffCategories'" exact>
-      <GeoffBackBtn :class="{backBtnNoCategories:!categoriesOpen, backBtnMap:isMobile}"/>
-    </router-link>
-    <div
-      @click="toggleCategories"
-      v-if="isMobile"
-      class="category-toggle"
-      :class="{categoryToggleNoCategories:categoriesOpen}"
-    >
-      <p>
-        <i class="fas fa-bars"></i>
-      </p>
-    </div>
-    <transition name="fade" mode="out-in">
-      <GeoffMapCategories
-        @$categoryClickHandler="categoryClickHandler"
-        @$radiusChanged="radiusChanged"
-        @$toggleCategories="toggleCategories"
-        :key="categoriesOpen"
-        v-if="categoriesOpen"
-        :viewPortWidth="viewPortWidth"
-        :isMobile="isMobile"
+  <transition name="fade" mode="out-in">
+    <div key="container">
+      <router-link :to="'/GeoffCategories'" exact>
+        <GeoffBackBtn :class="{backBtnNoCategories:!categoriesOpen, backBtnMap:isMobile}"/>
+      </router-link>
+      <div
+        @click="toggleCategories"
+        v-if="isMobile"
+        class="category-toggle"
+        :class="{categoryToggleNoCategories:categoriesOpen}"
+      >
+        <p>
+          <i class="fas fa-bars"></i>
+        </p>
+      </div>
+      <transition name="fade" mode="out-in">
+        <GeoffMapCategories
+          @$categoryClickHandler="categoryClickHandler"
+          @$radiusChanged="radiusChanged"
+          @$toggleCategories="toggleCategories"
+          :key="categoriesOpen"
+          v-if="categoriesOpen"
+          :viewPortWidth="viewPortWidth"
+          :isMobile="isMobile"
+        />
+      </transition>
+      <GeoffPlaceInformation
+        @$closeInfoPanel="closeInfoPanel"
+        @$getDirections="getDirections"
+        :view-port-width="viewPortWidth"
+        :is-mobile="isMobile"
+        :place-data="placeData"
+        :g-place-data="gPlaceData"
+        v-if="placeInfoPanel"
       />
-    </transition>
-    <GeoffPlaceInformation
-      @$closeInfoPanel="closeInfoPanel"
-      @$getDirections="getDirections"
-      :view-port-width="viewPortWidth"
-      :is-mobile="isMobile"
-      :place-data="placeData"
-      :g-place-data="gPlaceData"
-      v-if="placeInfoPanel"
-    />
-    <div class="google-map" ref="googleMap"></div>
-  </div>
-</transition>
+      <div class="google-map" ref="googleMap"></div>
+    </div>
+  </transition>
 </template>
 
 <script>
@@ -45,7 +45,7 @@ import { API_KEY } from "../constants/config.js";
 import { CLIENT_ID } from "../constants/config.js";
 import { CLIENT_SECRET } from "../constants/config.js";
 import { MAP_STYLE } from "../constants/mapSettings.js";
-import { WELLINGTON_RADIUS } from "../constants/data.js"
+import { WELLINGTON_RADIUS } from "../constants/data.js";
 import { REGULAR_MARKER } from "../constants/data.js";
 import { REGULAR_MARKER_ACTIVE } from "../constants/data.js";
 import { REGULAR_MARKER_HOVER } from "../constants/data.js";
@@ -247,7 +247,7 @@ export default {
       $.each(category, function(i, marker) {
         //required syntax for requests with built in getDetails method
         let request = {
-          placeId: category[i].mapId,
+          placeId: category[i].mapId
         };
         let service = new google.maps.places.PlacesService(that.map);
         service.getDetails(request, callback);
@@ -283,9 +283,7 @@ export default {
               that.activeFeaturedMarker = newGMarker;
               //stores markers in seperate array from normal markers to be able
               //to handle them independantly if required
-              newGMarker.setIcon(
-                FEATURED_MARKER_ACTIVE
-              );
+              newGMarker.setIcon(FEATURED_MARKER_ACTIVE);
             });
             newGMarker.addListener("mouseover", function() {
               if (that.activeFeaturedMarker !== newGMarker) {
@@ -294,9 +292,7 @@ export default {
             });
             newGMarker.addListener("mouseout", function() {
               if (that.activeFeaturedMarker !== newGMarker) {
-                newGMarker.setIcon(
-                  FEATURED_MARKER
-                );
+                newGMarker.setIcon(FEATURED_MARKER);
               }
             });
             that.featuredMarkers.push(newGMarker);
@@ -397,7 +393,7 @@ export default {
       this.deleteMarkers(this.featuredMarkers);
       let that = this;
       let category = this.featureData[id];
-      this.clearDirections();   
+      this.clearDirections();
       $.each(category, function(i, marker) {
         //required syntax for built in getDetails request
         let request = {
@@ -433,9 +429,7 @@ export default {
                 desc: marker.description
               };
               that.removeActiveMarkers();
-              newGMarker.setIcon(
-                FEATURED_MARKER_ACTIVE
-              );
+              newGMarker.setIcon(FEATURED_MARKER_ACTIVE);
               that.activeFeaturedMarker = newGMarker;
             });
             newGMarker.addListener("mouseover", function() {
@@ -445,9 +439,7 @@ export default {
             });
             newGMarker.addListener("mouseout", function() {
               if (that.activeFeaturedMarker !== newGMarker) {
-                newGMarker.setIcon(
-                  FEATURED_MARKER
-                );
+                newGMarker.setIcon(FEATURED_MARKER);
               }
             });
             //stores markers in featured markers data
@@ -593,8 +585,8 @@ export default {
     //handles the closing of more details panel on map
     closeInfoPanel: function() {
       this.removeActiveMarkers();
-      this.gPlaceData={};
-      this.placeData="";
+      this.gPlaceData = {};
+      this.placeData = "";
       this.placeInfoPanel = false;
       this.clearDirections();
     },
@@ -602,14 +594,10 @@ export default {
     //removes any featured or non featured marker, on a click of any new marker
     removeActiveMarkers: function() {
       if (this.activeMarker) {
-        this.activeMarker.setIcon(
-          REGULAR_MARKER
-        );
-    }
+        this.activeMarker.setIcon(REGULAR_MARKER);
+      }
       if (this.activeFeaturedMarker) {
-            this.activeFeaturedMarker.setIcon(
-              FEATURED_MARKER
-          )
+        this.activeFeaturedMarker.setIcon(FEATURED_MARKER);
       }
     },
 
@@ -672,7 +660,7 @@ export default {
 <style scoped>
 .fade-enter-active,
 .fade-leave-active {
-  transition-duration: .3s;
+  transition-duration: 0.3s;
   transition-property: opacity;
   transition-timing-function: ease;
 }
@@ -730,5 +718,4 @@ export default {
     left: 85%;
   }
 }
-
 </style>

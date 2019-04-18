@@ -1,51 +1,51 @@
 <template>
   <div>
-  <transition name="panel-transition" mode="out-in">
-    <div class="filters">
-      <div class="filters-container">
-        <select class="dropdown" @change="radiusChanged">
-          <option value="1000">WITHIN 1KM</option>
-          <option value="5000">WITHIN 5KM</option>
-          <option value="10000">WITHIN 10KM</option>
-          <option value="20000">WITHIN 20K</option>
-        </select>
-        <button
-          @click.prevent="categoryClickHandler"
-          :class="{active: buttonIsActive[0]}"
-          id="0"
-          value="festivals"
-          class="category-btn"
-        >MUSIC FESTIVALS</button>
-        <button
-          @click.prevent="categoryClickHandler"
-          :class="{active: buttonIsActive[1]}"
-          id="1"
-          value="music venues"
-          class="category-btn"
-        >MUSIC VENUES</button>
-        <button
-          @click.prevent="categoryClickHandler"
-          :class="{active: buttonIsActive[2]}"
-          id="2"
-          value="record stores"
-          class="category-btn"
-        >RECORD STORES</button>
-        <button
-          @click.prevent="categoryClickHandler"
-          :class="{active: buttonIsActive[3]}"
-          id="3"
-          value="music stores"
-          class="category-btn"
-        >MUSIC STORES</button>
-        <button
-          @click.prevent="categoryClickHandler"
-          :class="{active: buttonIsActive[4]}"
-          id="4"
-          value="music schools"
-          class="category-btn"
-        >MUSIC SCHOOLS</button>
+    <transition name="panel-transition" mode="out-in">
+      <div class="filters">
+        <div class="filters-container">
+          <select class="dropdown" @change="radiusChanged">
+            <option value="1000">WITHIN 1KM</option>
+            <option value="5000">WITHIN 5KM</option>
+            <option value="10000">WITHIN 10KM</option>
+            <option value="20000">WITHIN 20K</option>
+          </select>
+          <button
+            @click.prevent="categoryClickHandler"
+            :class="{active: buttonIsActive[0]}"
+            id="0"
+            value="festivals"
+            class="category-btn"
+          >MUSIC FESTIVALS</button>
+          <button
+            @click.prevent="categoryClickHandler"
+            :class="{active: buttonIsActive[1]}"
+            id="1"
+            value="music venues"
+            class="category-btn"
+          >MUSIC VENUES</button>
+          <button
+            @click.prevent="categoryClickHandler"
+            :class="{active: buttonIsActive[2]}"
+            id="2"
+            value="record stores"
+            class="category-btn"
+          >RECORD STORES</button>
+          <button
+            @click.prevent="categoryClickHandler"
+            :class="{active: buttonIsActive[3]}"
+            id="3"
+            value="music stores"
+            class="category-btn"
+          >MUSIC STORES</button>
+          <button
+            @click.prevent="categoryClickHandler"
+            :class="{active: buttonIsActive[4]}"
+            id="4"
+            value="music schools"
+            class="category-btn"
+          >MUSIC SCHOOLS</button>
+        </div>
       </div>
-    </div>
     </transition>
   </div>
 </template>
@@ -88,7 +88,7 @@ export default {
       }
       this.setActive(value);
     },
-    
+
     isMobile: function() {
       if (this.isMobile) {
         this.mobileActive = true;

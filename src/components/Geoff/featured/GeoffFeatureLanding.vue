@@ -1,23 +1,23 @@
 <template>
- <transition name="fade" mode="out-in">
-  <div class="category-landing">
-    <GeoffFeatureDetails
-      v-if="categoryId&&selectedCategoryData"
-      :index="selectedIndex"
-      :source="selectedCategoryData"
-    />
-    <GeoffFeatureMapIcons
-      v-if="!isMobile"
-      @$featureIconClicked="featureIconClicked"
-      :source="selectedCategoryData"
-    />
-    <GeoffFeaturedList
-      v-if="isMobile"
-      @$featureItemClicked="featureIconClicked"
-      :source="selectedCategoryData"
-    />
-  </div>
- </transition>
+  <transition name="fade" mode="out-in">
+    <div class="category-landing">
+      <GeoffFeatureDetails
+        v-if="categoryId&&selectedCategoryData"
+        :index="selectedIndex"
+        :source="selectedCategoryData"
+      />
+      <GeoffFeatureMapIcons
+        v-if="!isMobile"
+        @$featureIconClicked="featureIconClicked"
+        :source="selectedCategoryData"
+      />
+      <GeoffFeaturedList
+        v-if="isMobile"
+        @$featureItemClicked="featureIconClicked"
+        :source="selectedCategoryData"
+      />
+    </div>
+  </transition>
 </template>
 
 <script>
@@ -107,7 +107,7 @@ export default {
 
 .fade-enter,
 .fade-leave-active {
-  opacity: 0
+  opacity: 0;
 }
 
 .category-landing {

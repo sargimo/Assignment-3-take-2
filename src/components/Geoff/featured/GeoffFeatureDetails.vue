@@ -12,62 +12,61 @@
       </h1>
     </div>
     <div class="details">
-          <transition name="fade" mode="out-in">
-      <div :key="source[index].name" class="venue-title">
-        <h2 :v-if="source">{{source[index].location}}</h2>
-        <h1>{{source[index].name}}</h1>
-      </div>
-          </transition>
-              <transition name="fade" mode="out-in">
-      <div :key="source[index].website" class="contact-icons">
-        <p>
-          <a :href="this.source[index].website">
-            <i class="fas fa-globe"></i>
-            {{source[index].website}}
+      <transition name="fade" mode="out-in">
+        <div :key="source[index].name" class="venue-title">
+          <h2 :v-if="source">{{source[index].location}}</h2>
+          <h1>{{source[index].name}}</h1>
+        </div>
+      </transition>
+      <transition name="fade" mode="out-in">
+        <div :key="source[index].website" class="contact-icons">
+          <p>
+            <a :href="this.source[index].website">
+              <i class="fas fa-globe"></i>
+              {{source[index].website}}
+            </a>
+          </p>
+          <p v-if="source[index].phoneNumber">
+            <i class="fas fa-phone"></i>
+            {{source[index].phoneNumber}}
+          </p>
+          <p>
+            <i class="fas fa-envelope-open-text"></i>
+            {{source[index].email}}
+          </p>
+        </div>
+      </transition>
+      <transition name="fade" mode="out-in">
+        <div :key="source[index].description" class="description">
+          <p>{{source[index].description}}</p>
+        </div>
+      </transition>
+      <transition name="fade" mode="out-in">
+        <div :key="source[index].facebook" class="socials">
+          <a :href="this.source[index].facebook">
+            <i class="fab fa-facebook"></i>
           </a>
-        </p>
-        <p v-if="source[index].phoneNumber">
-          <i class="fas fa-phone"></i>
-          {{source[index].phoneNumber}}
-        </p>
-        <p>
-          <i class="fas fa-envelope-open-text"></i>
-          {{source[index].email}}
-        </p>
-      </div>
-              </transition>
-                  <transition name="fade" mode="out-in">
-      <div :key="source[index].description" class="description">
-        <p>{{source[index].description}}</p>
-      </div>
-                  </transition>
-                      <transition name="fade" mode="out-in">
-      <div :key="source[index].facebook" class="socials">
-        <a :href="this.source[index].facebook">
-          <i class="fab fa-facebook"></i>
-        </a>
-        <a :href="this.source[index].instagram">
-          <i class="fab fa-instagram"></i>
-        </a>
-      </div>
-                      </transition>
-                          <transition name="fade" mode="out-in">
-
-      <div :key="source[index].name" class="explore-welly">
-        <p>Explore all Wellington has to offer</p>
-      </div>
-                          </transition>
-                              <transition name="fade" mode="out-in">
-      <div :key="source[index].name" class="button-align">
-        <router-link :to="'/geoffmaploader'" exact>
-          <button
-            @click="exploreMapClicked"
-            :id="this.source[index].catId"
-            class="btn-yellow"
-          >EXPLORE</button>
-        </router-link>
-      </div>
-                              </transition>
+          <a :href="this.source[index].instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+        </div>
+      </transition>
+      <transition name="fade" mode="out-in">
+        <div :key="source[index].name" class="explore-welly">
+          <p>Explore all Wellington has to offer</p>
+        </div>
+      </transition>
+      <transition name="fade" mode="out-in">
+        <div :key="source[index].name" class="button-align">
+          <router-link :to="'/geoffmaploader'" exact>
+            <button
+              @click="exploreMapClicked"
+              :id="this.source[index].catId"
+              class="btn-yellow"
+            >EXPLORE</button>
+          </router-link>
+        </div>
+      </transition>
     </div>
     <!-- </transition> -->
   </div>
