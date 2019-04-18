@@ -1,4 +1,5 @@
 <template>
+ <transition name="fade" mode="out-in">
   <div class="category-landing">
     <GeoffFeatureDetails
       v-if="categoryId&&selectedCategoryData"
@@ -16,6 +17,7 @@
       :source="selectedCategoryData"
     />
   </div>
+ </transition>
 </template>
 
 <script>
@@ -52,37 +54,11 @@ export default {
       isMobile: false
     };
   },
-  created: function() {
-    this.getCategoryId();
-    this.setCategory();
-    window.addEventListener("resize", this.changeViewportWidth);
-    this.changeViewportWidth();
-  },
-  methods: {
-    //called on categoryId changing from previous page. Takes id from $route
-    //params and stores it for use in category data.
-    getCategoryId() {
-      this.categoryId = this.$route.params.categoryId;
-    },
-
-    //handles active states for static map icons
-    featureIconClicked(id) {
-      this.selectedIndex = parseInt(id);
-    },
-
-    //uses the categoryId from the previous page to select the correct JSON file
-    //and send the data to child components
-    setCategory() {
-      this.selectedCategoryData = this.categoryData[this.categoryId];
-    },
-    changeViewportWidth() {
-      this.viewPortWidth = window.innerWidth;
-    }
-  },
   watch: {
     categoryId: function() {
       this.setCategory();
     },
+
     viewPortWidth: function() {
       if (this.viewPortWidth < 1050) {
         this.isMobile = true;
@@ -90,11 +66,50 @@ export default {
         this.isMobile = false;
       }
     }
+  },
+  methods: {
+    //called on categoryId changing from previous page. Takes id from $route
+    //params and stores it for use in category data.
+    getCategoryId: function() {
+      this.categoryId = this.$route.params.categoryId;
+    },
+
+    //handles active states for static map icons
+    featureIconClicked: function(id) {
+      this.selectedIndex = parseInt(id);
+    },
+
+    //uses the categoryId from the previous page to select the correct JSON file
+    //and send the data to child components
+    setCategory: function() {
+      this.selectedCategoryData = this.categoryData[this.categoryId];
+    },
+    changeViewportWidth: function() {
+      this.viewPortWidth = window.innerWidth;
+    }
+  },
+  created: function() {
+    this.getCategoryId();
+    this.setCategory();
+    window.addEventListener("resize", this.changeViewportWidth);
+    this.changeViewportWidth();
   }
 };
 </script>
 
 <style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition-duration: 1s;
+  transition-property: opacity;
+  transition-timing-function: ease;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0
+}
+
 .category-landing {
   background-image: url("../../../assets/geoff/category-landing-bg.jpg");
   background-size: cover;

@@ -1,10 +1,10 @@
-const mapSettings = {
+export const MAP_SETTINGS = {
     zoom: 13,
     minZoom: 10,
     maxZoom: 25
 }
 
-const mapStyle = 
+export const MAP_STYLE = 
 [
     {
         "featureType": "all",
@@ -268,11 +268,3 @@ const mapStyle =
         ]
     }
 ];
-
-const regularMarker = {
-    url: "../../../assets/geoff/geoff-map-marker.png",
-}
-
-export { mapSettings };
-export { regularMarker };
-export { mapStyle };

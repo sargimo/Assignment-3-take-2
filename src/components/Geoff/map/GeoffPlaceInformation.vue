@@ -3,12 +3,15 @@
     <div class="place-container">
       <button class="back-btn" @click="emitBack">X</button>
       <div class="details">
-        <div class="title-text">
+        <transition name="fade" mode="out-in">
+        <div v-if="placeData.name" :key="placeData.name" class="title-text">
           <h1 class="name-text">{{placeData.name}}</h1>
           <p class="category-text">{{placeData.category}}</p>
           <hr class="hrule">
         </div>
-        <div class="details-text">
+        </transition>
+        <transition name="fade" mode="out-in">
+        <div v if="gPlaceData.address" :key="gPlaceData.address" class="details-text">
           <p v-if="gPlaceData.address">
             <span class="detail-title">ADDRESS:</span>
             {{gPlaceData.address}}
@@ -61,6 +64,7 @@
           </p>
           <!-- <p v-if="gPlaceData.reviews">REVIEWS: {{gPlaceData.reviews}}</p> -->
         </div>
+        </transition>
       </div>
       <div class="directions">
         <button @click="getDirections">GET DIRECTIONS</button>
@@ -72,30 +76,10 @@
 <script>
 export default {
   name: "GeoffPlaceInformation",
-  components: {},
   props: {
     placeData: Object,
     gPlaceData: {}
   },
-  methods: {
-    //turns a number rating into a visual representation of stars
-    convertRating() {
-      let starPercentage = (this.gPlaceData.rating / this.starTotal) * 100;
-      let starPercentRounded = `${Math.round(starPercentage / 10) * 10}`;
-      this.width = starPercentRounded;
-    },
-
-    //emits to parent to close info panel
-    emitBack() {
-      this.$emit("$closeInfoPanel");
-    },
-
-    //emits to parent get directions has been clicked
-    getDirections() {
-      this.$emit("$getDirections");
-    }
-  },
-
   data: function() {
     return {
       starTotal: 5,
@@ -103,11 +87,29 @@ export default {
       width: Number
     };
   },
-
   watch: {
     //converts number into star visual each time a new venue is clicked
     gPlaceData: function() {
       this.convertRating();
+    }
+  },
+  methods: {
+    //https://webdesign.tutsplus.com/tutorials/a-simple-javascript-technique-for-filling-star-ratings--cms-29450?fbclid=IwAR2MtEKi2gEQh0miXwm4BZkOsJKBwJQyuGAYmuvHzzXfslrRLHPYFkJQhpk
+    //turns a number rating into a visual representation of stars, above link for reference.
+    convertRating: function() {
+      let starPercentage = (this.gPlaceData.rating / this.starTotal) * 100;
+      let starPercentRounded = `${Math.round(starPercentage / 10) * 10}`;
+      this.width = starPercentRounded;
+    },
+
+    //emits to parent to close info panel
+    emitBack: function() {
+      this.$emit("$closeInfoPanel");
+    },
+
+    //emits to parent get directions has been clicked
+    getDirections: function() {
+      this.$emit("$getDirections");
     }
   }
 };
@@ -117,6 +119,18 @@ export default {
 </style>
 
 <style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition-duration: 0.3s;
+  transition-property: opacity;
+  transition-timing-function: ease;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
+}
+
 .place-container {
   position: absolute;
   display: flex;

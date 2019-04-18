@@ -29,7 +29,7 @@ export default {
      * data retrieval and then uses iconActive for active state of icons.
      * @param {Event} evt
      */
-    featureItemClicked(evt) {
+    featureItemClicked: function(evt) {
       this.$emit("$featureItemClicked", evt.target.id);
       this.iconActive = evt.target.id;
     }
@@ -58,15 +58,10 @@ export default {
   font-family: "BigNoodleTitling", sans-serif;
   font-size: 25px;
   padding: 0 20px;
-  /* margin-bottom: 15px;
-    padding: 10px 5px; */
   text-align: center;
   color: #fff;
-  /* border: 1px solid #3fcbca; */
   cursor: pointer;
   position: relative;
-  /* border-radius: 50px; */
-  /* margin: 0 auto; */
 }
 
 .featured-list li:before {
@@ -91,10 +86,6 @@ export default {
   transform: scaleX(1);
 }
 
-/* .featured-list li:hover {
-  border-bottom: 1px solid #3fcbca;
-} */
-
 .featured-list li.iconActive {
   background-color: #ffe96b;
   border: 1px solid #ffe96b;
@@ -103,7 +94,6 @@ export default {
 }
 
 .featured-list::-webkit-scrollbar {
-  /* width: 3px; */
   height: 3px;
 }
 

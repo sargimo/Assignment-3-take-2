@@ -1,6 +1,7 @@
 <template>
   <div class="back-btn">
     <i class="fas fa-chevron-circle-left"></i>
+    <p>back</p>
   </div>
 </template>
 
@@ -20,6 +21,11 @@ export default {
   color: #fff;
   transition: all 0.2s linear;
   transform: scale(1);
+}
+
+.back-btn p {
+  font-size: 12px;
+  text-align: center;
 }
 
 .back-btn:hover {

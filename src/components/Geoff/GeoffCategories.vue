@@ -66,17 +66,17 @@ export default {
       catId: null
     };
   },
-  methods: {
-    getCategoryId(value) {
-      this.catId = value;
-    }
-  },
   watch: {
     catId: function() {
       this.$router.push({
         name: "geofffeaturelanding",
         params: { categoryId: this.catId }
       });
+    }
+  },
+  methods: {
+    getCategoryId: function(value) {
+      this.catId = value;
     }
   }
 };

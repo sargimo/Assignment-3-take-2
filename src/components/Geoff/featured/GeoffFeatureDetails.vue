@@ -12,11 +12,14 @@
       </h1>
     </div>
     <div class="details">
-      <div class="venue-title">
+          <transition name="fade" mode="out-in">
+      <div :key="source[index].name" class="venue-title">
         <h2 :v-if="source">{{source[index].location}}</h2>
         <h1>{{source[index].name}}</h1>
       </div>
-      <div class="contact-icons">
+          </transition>
+              <transition name="fade" mode="out-in">
+      <div :key="source[index].website" class="contact-icons">
         <p>
           <a :href="this.source[index].website">
             <i class="fas fa-globe"></i>
@@ -32,10 +35,14 @@
           {{source[index].email}}
         </p>
       </div>
-      <div class="description">
+              </transition>
+                  <transition name="fade" mode="out-in">
+      <div :key="source[index].description" class="description">
         <p>{{source[index].description}}</p>
       </div>
-      <div class="socials">
+                  </transition>
+                      <transition name="fade" mode="out-in">
+      <div :key="source[index].facebook" class="socials">
         <a :href="this.source[index].facebook">
           <i class="fab fa-facebook"></i>
         </a>
@@ -43,10 +50,15 @@
           <i class="fab fa-instagram"></i>
         </a>
       </div>
-      <div class="explore-welly">
+                      </transition>
+                          <transition name="fade" mode="out-in">
+
+      <div :key="source[index].name" class="explore-welly">
         <p>Explore all Wellington has to offer</p>
       </div>
-      <div class="button-align">
+                          </transition>
+                              <transition name="fade" mode="out-in">
+      <div :key="source[index].name" class="button-align">
         <router-link :to="'/geoffmaploader'" exact>
           <button
             @click="exploreMapClicked"
@@ -55,7 +67,9 @@
           >EXPLORE</button>
         </router-link>
       </div>
+                              </transition>
     </div>
+    <!-- </transition> -->
   </div>
 </template>
 
@@ -73,7 +87,7 @@ export default {
      * a category search and active state upon load
      * @param {Event} evt
      */
-    exploreMapClicked(evt) {
+    exploreMapClicked: function(evt) {
       let id = evt.target.id;
       this.$router.push({
         name: "geoffmaploader",
@@ -88,6 +102,18 @@ export default {
 </style>
 
 <style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition-duration: 0.3s;
+  transition-property: opacity;
+  transition-timing-function: ease;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
+}
+
 .back-btn {
   position: absolute;
   z-index: 3;
@@ -341,16 +367,5 @@ export default {
   .description p {
     max-height: 10vh;
   }
-}
-
-@media only screen and (max-width: 800px) {
-  /* .cust-container {
-    background-color: rgba(0, 0, 0, 0.2);
-  } */
-  /* .page-title h1 {
-    font-size: 48px;
-    top: 5%;
-    left: 10%;
-  } */
 }
 </style>

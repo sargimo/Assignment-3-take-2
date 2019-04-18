@@ -1,5 +1,6 @@
 <template>
   <div>
+  <transition name="panel-transition" mode="out-in">
     <div class="filters">
       <div class="filters-container">
         <select class="dropdown" @change="radiusChanged">
@@ -45,6 +46,7 @@
         >MUSIC SCHOOLS</button>
       </div>
     </div>
+    </transition>
   </div>
 </template>
 
@@ -54,6 +56,46 @@ export default {
   props: {
     isMobile: Boolean,
     viewPortWidth: Number
+  },
+  data: function() {
+    return {
+      buttonIsActive: [false, false, false, false],
+      landingId: "",
+      mobileActive: false
+    };
+  },
+  watch: {
+    //watches the landingId value sent from previous page and turns the id into
+    //a string for setActive to deal with it. Both could be refactored if time allowed.
+    landingId: function() {
+      let value = this.landingId;
+      switch (value) {
+        case "0":
+          value = "festivals";
+          break;
+        case "1":
+          value = "music venues";
+          break;
+        case "2":
+          value = "record stores";
+          break;
+        case "3":
+          value = "music stores";
+          break;
+        case "4":
+          value = "music schools";
+          break;
+      }
+      this.setActive(value);
+    },
+    
+    isMobile: function() {
+      if (this.isMobile) {
+        this.mobileActive = true;
+      } else {
+        this.mobileActive = false;
+      }
+    }
   },
   methods: {
     /**
@@ -88,7 +130,7 @@ export default {
      * active states. Almost certainly not the cleanest solution.
      * @param {String} value
      */
-    setActive(value) {
+    setActive: function(value) {
       switch (value) {
         case "festivals":
           this.buttonIsActive = [true, false, false, false, false];
@@ -109,53 +151,13 @@ export default {
     },
 
     //toggles active state of categories filter
-    toggleCategories() {
+    toggleCategories: function() {
       this.$emit("$toggleCategories");
-    }
-  },
-  watch: {
-    //watches the landingId value sent from previous page and turns the id into
-    //a string for setActive to deal with it. Both could be refactored if time allowed.
-    landingId: function() {
-      let value = this.landingId;
-      switch (value) {
-        case "0":
-          value = "festivals";
-          break;
-        case "1":
-          value = "music venues";
-          break;
-        case "2":
-          value = "record stores";
-          break;
-        case "3":
-          value = "music stores";
-          break;
-        case "4":
-          value = "music schools";
-          break;
-      }
-      this.setActive(value);
-    },
-    isMobile: function() {
-      if (this.isMobile) {
-        this.mobileActive = true;
-      } else {
-        this.mobileActive = false;
-      }
-      // this.mobileActive = this.isMobile;
     }
   },
   created: function() {
     //gets landingId from previous page
     this.landingId = this.$route.params.id;
-  },
-  data: function() {
-    return {
-      buttonIsActive: [false, false, false, false],
-      landingId: "",
-      mobileActive: false
-    };
   }
 };
 </script>
@@ -164,6 +166,16 @@ export default {
 </style>
 
 <style scoped>
+.panel-transition-enter-active,
+.panel-transition-leave-active {
+  transition: width 0.3s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.panel-transition-enter,
+.panel-transition-leave-to {
+  width: 0%;
+}
+
 .filters-container {
   display: flex;
   height: 100%;
@@ -229,9 +241,8 @@ export default {
   .filters-container {
     flex-wrap: wrap;
     justify-content: center;
-    align-items: flex-start;
-    align-content: flex-start;
-    padding-top: 50px;
+    align-items: center;
+    align-content: center;
   }
 
   .filters {

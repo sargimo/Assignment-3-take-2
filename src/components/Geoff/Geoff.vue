@@ -22,7 +22,6 @@
 <script>
 export default {
   name: "Geoff",
-  components: {}
 };
 </script>
 

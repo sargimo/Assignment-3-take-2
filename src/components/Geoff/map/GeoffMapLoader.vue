@@ -1,5 +1,6 @@
 <template>
-  <div>
+<transition name="fade" mode="out-in">
+  <div key="container">
     <router-link :to="'/GeoffCategories'" exact>
       <GeoffBackBtn :class="{backBtnNoCategories:!categoriesOpen, backBtnMap:isMobile}"/>
     </router-link>
@@ -10,14 +11,15 @@
       :class="{categoryToggleNoCategories:categoriesOpen}"
     >
       <p>
-        <i class="fas fa-filter"></i> Toggle Categories
+        <i class="fas fa-bars"></i>
       </p>
     </div>
-    <transition name="page-slide" mode="in-out">
+    <transition name="fade" mode="out-in">
       <GeoffMapCategories
         @$categoryClickHandler="categoryClickHandler"
         @$radiusChanged="radiusChanged"
         @$toggleCategories="toggleCategories"
+        :key="categoriesOpen"
         v-if="categoriesOpen"
         :viewPortWidth="viewPortWidth"
         :isMobile="isMobile"
@@ -26,14 +28,15 @@
     <GeoffPlaceInformation
       @$closeInfoPanel="closeInfoPanel"
       @$getDirections="getDirections"
-      :viewPortWidth="viewPortWidth"
-      :isMobile="isMobile"
-      :placeData="placeData"
-      :gPlaceData="gPlaceData"
+      :view-port-width="viewPortWidth"
+      :is-mobile="isMobile"
+      :place-data="placeData"
+      :g-place-data="gPlaceData"
       v-if="placeInfoPanel"
     />
     <div class="google-map" ref="googleMap"></div>
   </div>
+</transition>
 </template>
 
 <script>
@@ -41,14 +44,22 @@ import GoogleMapsApiLoader from "google-maps-api-loader";
 import { API_KEY } from "../constants/config.js";
 import { CLIENT_ID } from "../constants/config.js";
 import { CLIENT_SECRET } from "../constants/config.js";
-import { regularMarker } from "../constants/mapSettings.js";
-import { mapStyle } from "../constants/mapSettings.js";
-import GeoffBackBtn from "../GeoffBackBtn.vue";
+import { MAP_STYLE } from "../constants/mapSettings.js";
+import { WELLINGTON_RADIUS } from "../constants/data.js"
+import { REGULAR_MARKER } from "../constants/data.js";
+import { REGULAR_MARKER_ACTIVE } from "../constants/data.js";
+import { REGULAR_MARKER_HOVER } from "../constants/data.js";
+import { FEATURED_MARKER } from "../constants/data.js";
+import { FEATURED_MARKER_ACTIVE } from "../constants/data.js";
+import { FEATURED_MARKER_HOVER } from "../constants/data.js";
+import { CATEGORY_IDS } from "../constants/data.js";
+import { CURRENT_LOCATION } from "../constants/data.js";
 import festivalData from "../constants/festivalData.json";
 import musicVenueData from "../constants/musicVenueData.json";
 import recordStoresData from "../constants/recordStoreData.json";
 import musicShopData from "../constants/musicShopData.json";
 import musicSchoolData from "../constants/musicSchoolData.json";
+import GeoffBackBtn from "../GeoffBackBtn.vue";
 import GeoffMapCategories from "./GeoffMapCategories.vue";
 import GeoffPlaceInformation from "./GeoffPlaceInformation.vue";
 
@@ -79,13 +90,7 @@ export default {
       gPlaceId: "",
       gPlaceData: Object,
       //foursquare IDs
-      categoryIds: [
-        "5267e4d9e4b0ec79466e48d1",
-        "4bf58dd8d48988d1e5931735",
-        "4bf58dd8d48988d10d951735",
-        "4bf58dd8d48988d1fe941735",
-        "4f04b10d2fb6e1c99f3db0be"
-      ],
+      categoryIds: CATEGORY_IDS,
       //JSON files
       featureData: [
         festivalData.venues,
@@ -104,22 +109,6 @@ export default {
       categoriesOpen: true
     };
   },
-
-  async mounted() {
-    const googleMapApi = await GoogleMapsApiLoader({
-      libraries: ["places"],
-      apiKey: this.apiKey
-    });
-    this.google = googleMapApi;
-    this.initializeMap();
-    if (this.$route.params.id) {
-      this.categoryClickHandler(this.$route.params.id);
-    }
-  },
-  created: function() {
-    window.addEventListener("resize", this.changeViewportWidth);
-    this.changeViewportWidth();
-  },
   watch: {
     viewPortWidth: function() {
       if (this.viewPortWidth > 1350) {
@@ -130,15 +119,17 @@ export default {
       } else {
         this.isMobile = false;
       }
-      if (this.viewPortWidth < 601) {
-        this.isLessThan600Pixels = true;
+      if (this.viewPortWidth < 801) {
+        this.isLessThan800Pixels = true;
       } else {
-        this.isLessThan600Pixels = false;
+        this.isLessThan800Pixels = false;
       }
     }
   },
   methods: {
-    initializeMap() {
+    //https://vuejs.org/v2/cookbook/practical-use-of-scoped-slots.html
+    //skeleton for google maps integration was inspired from above link.
+    initializeMap: function() {
       //Loads directionService for use
       this.directionsService = new this.google.maps.DirectionsService();
       //Loads directionDisplay for custom polylines
@@ -154,7 +145,7 @@ export default {
       this.map = new this.google.maps.Map(mapContainer, {
         zoom: 15,
         center: { lat: -41.2865, lng: 174.7762 },
-        styles: mapStyle,
+        styles: MAP_STYLE,
         mapTypeControl: false,
         fullscreenControl: true,
         fullscreenControlOptions: {
@@ -182,7 +173,7 @@ export default {
     },
 
     //watcher for view port width to handle element behaviour for mobile
-    changeViewportWidth() {
+    changeViewportWidth: function() {
       this.viewPortWidth = window.innerWidth;
     },
 
@@ -190,7 +181,7 @@ export default {
      * takes array of objects containing map data and place info data
      * @param {Array} places
      */
-    addMarkers(places) {
+    addMarkers: function(places) {
       let that = this;
       $.each(places, function(i, place) {
         //catches currently known bad markers from incorrect foursquare data and does not render them. Hardcoded IDs. Would not be needed if there was time to refactor to only use google places.
@@ -210,9 +201,7 @@ export default {
         ) {
           let newGMarker = new that.google.maps.Marker({
             position: place.position,
-            icon: "https://i.ibb.co/MGR4s7m/geoff-map-marker.png",
-            hovericon: "https://i.ibb.co/d5V63PX/marker-hover.png",
-            activeicon: "https://i.ibb.co/Z13r9JL/marker-active.png",
+            icon: REGULAR_MARKER,
             id: place.id,
             map: that.map,
             name: place.name,
@@ -232,7 +221,7 @@ export default {
      * removing them from the map
      * @param {Array} array
      */
-    deleteMarkers(array) {
+    deleteMarkers: function(array) {
       let gMarkers = array;
       $.each(gMarkers, function(i, gMarker) {
         gMarker.setMap(null);
@@ -248,7 +237,7 @@ export default {
      * data request and storage methods.
      * @param {Number} id
      */
-    showFeaturedFestivals(id) {
+    showFeaturedFestivals: function(id) {
       let that = this;
       this.deleteMarkers(this.markers);
       this.deleteMarkers(this.featuredMarkers);
@@ -267,9 +256,7 @@ export default {
             //renders marker with data
             let newGMarker = new that.google.maps.Marker({
               position: place.geometry.location,
-              icon: "https://i.ibb.co/GCw4xmG/geoff-featured-map-marker.png",
-              hoverIcon:
-                "https://i.ibb.co/pX4TC3J/22783793aa0449a49a9b8cfe993996c3.png",
+              icon: FEATURED_MARKER,
               zIndex: 999,
               id: place.id,
               map: that.map,
@@ -292,21 +279,25 @@ export default {
                 website: marker.website,
                 desc: marker.description
               };
-              //removes any active featured marker, on click of any new marker
-              if (that.activeFeaturedMarker) {
-                that.activeFeaturedMarker.setIcon(
-                  "https://i.ibb.co/GCw4xmG/geoff-featured-map-marker.png"
-                );
-              //removes any active marker, on click of any new marker  
-              if (that.activeMarker) {
-                that.activeMarker.setIcon("https://i.ibb.co/MGR4s7m/geoff-map-marker.png")
-              }
-              }
+              that.removeActiveMarkers();
+              that.activeFeaturedMarker = newGMarker;
               //stores markers in seperate array from normal markers to be able
               //to handle them independantly if required
               newGMarker.setIcon(
-                "https://i.ibb.co/pX4TC3J/22783793aa0449a49a9b8cfe993996c3.png"
+                FEATURED_MARKER_ACTIVE
               );
+            });
+            newGMarker.addListener("mouseover", function() {
+              if (that.activeFeaturedMarker !== newGMarker) {
+                newGMarker.setIcon(FEATURED_MARKER_HOVER);
+              }
+            });
+            newGMarker.addListener("mouseout", function() {
+              if (that.activeFeaturedMarker !== newGMarker) {
+                newGMarker.setIcon(
+                  FEATURED_MARKER
+                );
+              }
             });
             that.featuredMarkers.push(newGMarker);
           }
@@ -318,23 +309,12 @@ export default {
      * Takes array of markers and initialises the click listeners on them
      * @param {Array} array
      */
-    initMarkerClickListeners(markers) {
+    initMarkerClickListeners: function(markers) {
       let that = this;
       $.each(markers, function(i, marker) {
         marker.addListener("click", function(evt) {
-          //removes any active marker, on click of any new marker
-          if (that.activeMarker) {
-            that.activeMarker.setIcon(
-              "https://i.ibb.co/MGR4s7m/geoff-map-marker.png"
-            );
-          }
-          //removes any featured marker, on a click of any new marker
-          if (that.activeFeaturedMarker) {
-                that.activeFeaturedMarker.setIcon(
-                  "https://i.ibb.co/GCw4xmG/geoff-featured-map-marker.png"
-                )
-          };
-          marker.setIcon("https://i.ibb.co/g9fdzF7/marker-active.png");
+          that.removeActiveMarkers();
+          marker.setIcon(REGULAR_MARKER_ACTIVE);
           that.clearDirections();
           that.map.setZoom(15);
           that.map.setCenter(marker.getPosition());
@@ -346,12 +326,12 @@ export default {
         });
         marker.addListener("mouseover", function() {
           if (that.activeMarker !== marker) {
-            marker.setIcon("https://i.ibb.co/XjX5b95/marker-hover.png");
+            marker.setIcon(REGULAR_MARKER_HOVER);
           }
         });
         marker.addListener("mouseout", function() {
           if (that.activeMarker !== marker) {
-            marker.setIcon("https://i.ibb.co/MGR4s7m/geoff-map-marker.png");
+            marker.setIcon(REGULAR_MARKER);
           }
         });
       });
@@ -390,7 +370,7 @@ export default {
      * switch case to convert radius numbers into appropriate zoom levels on the map
      * @param {Number} radius
      */
-    changeZoom(radius) {
+    changeZoom: function(radius) {
       switch (radius) {
         case "1000":
           this.map.setZoom(15);
@@ -412,7 +392,7 @@ export default {
      * and returns google data for markers.
      * @param {Number} id
      */
-    showFeatureMarkers(id) {
+    showFeatureMarkers: function(id) {
       this.deleteMarkers(this.markers);
       this.deleteMarkers(this.featuredMarkers);
       let that = this;
@@ -431,7 +411,7 @@ export default {
             let newGMarker = new that.google.maps.Marker({
               position: place.geometry.location,
               zIndex: 999,
-              icon: "https://i.ibb.co/GCw4xmG/geoff-featured-map-marker.png",
+              icon: FEATURED_MARKER,
               zIndex: 999,
               id: place.id,
               map: that.map,
@@ -452,30 +432,21 @@ export default {
                 website: marker.website,
                 desc: marker.description
               };
-              //removes any active featured marker, on click of any new marker
-              if (that.activeFeaturedMarker) {
-                that.activeFeaturedMarker.setIcon(
-                  "https://i.ibb.co/GCw4xmG/geoff-featured-map-marker.png"
-                );
-              //removes any active marker, on click of any new marker
-              if (that.activeMarker) {
-                that.activeMarker.setIcon("https://i.ibb.co/MGR4s7m/geoff-map-marker.png")
-                };
-              };
+              that.removeActiveMarkers();
               newGMarker.setIcon(
-                "https://i.ibb.co/pX4TC3J/22783793aa0449a49a9b8cfe993996c3.png"
+                FEATURED_MARKER_ACTIVE
               );
               that.activeFeaturedMarker = newGMarker;
             });
             newGMarker.addListener("mouseover", function() {
               if (that.activeFeaturedMarker !== newGMarker) {
-                newGMarker.setIcon("https://i.ibb.co/cXDswXx/Layer-1.png");
+                newGMarker.setIcon(FEATURED_MARKER_HOVER);
               }
             });
             newGMarker.addListener("mouseout", function() {
               if (that.activeFeaturedMarker !== newGMarker) {
                 newGMarker.setIcon(
-                  "https://i.ibb.co/GCw4xmG/geoff-featured-map-marker.png"
+                  FEATURED_MARKER
                 );
               }
             });
@@ -493,7 +464,7 @@ export default {
      * @param {Number} categoryId
      * @param {Number} radius
      */
-    getSearchData(categoryId, radius) {
+    getSearchData: function(categoryId, radius) {
       this.$http
         .get(
           "https://api.foursquare.com/v2/venues/search?ll=-41.2855,174.7772&categoryId=" +
@@ -509,7 +480,6 @@ export default {
         .then(function(data) {
           this.deleteMarkers(this.markers);
           this.currentSearchData = [];
-          let addMarkers = this.addMarkers;
           let searchData = this.currentSearchData;
           $.each(data.body.response.venues, function(i, place) {
             let gMapMarkerInfo = {
@@ -531,7 +501,7 @@ export default {
      * Stores the data from clicked marker to put placed in the place details screen
      * @param {Object} marker
      */
-    storePlaceDetails(marker) {
+    storePlaceDetails: function(marker) {
       this.placeData = {
         position: marker.position,
         id: marker.id,
@@ -548,12 +518,13 @@ export default {
      * closed. Not an ideal solution but with a major breaking issue with foursquare
      * it was required to finish in time and meet use cases.
      * @param {String} name
-     */ getGooglePlaceId(name) {
+     */ getGooglePlaceId: function(name) {
       let that = this;
       let query = {
         query: name,
         locationBias: {
-          radius: 50000,
+          //number is in meters. Should be a constant stored elsewhere
+          radius: WELLINGTON_RADIUS,
           center: { lat: -41.2865, lng: 174.7762 }
         },
         fields: ["place_id"]
@@ -575,7 +546,7 @@ export default {
      * or the other eventually.
      * @param {Number} id
      */
-    getGooglePlaceDetails(id) {
+    getGooglePlaceDetails: function(id) {
       let that = this;
       let request = {
         placeId: id
@@ -620,22 +591,36 @@ export default {
     },
 
     //handles the closing of more details panel on map
-    closeInfoPanel() {
+    closeInfoPanel: function() {
+      this.removeActiveMarkers();
+      this.gPlaceData={};
+      this.placeData="";
       this.placeInfoPanel = false;
-      this.activeMarker.setIcon(
-        "https://i.ibb.co/MGR4s7m/geoff-map-marker.png"
-      );
       this.clearDirections();
+    },
+
+    //removes any featured or non featured marker, on a click of any new marker
+    removeActiveMarkers: function() {
+      if (this.activeMarker) {
+        this.activeMarker.setIcon(
+          REGULAR_MARKER
+        );
+    }
+      if (this.activeFeaturedMarker) {
+            this.activeFeaturedMarker.setIcon(
+              FEATURED_MARKER
+          )
+      }
     },
 
     //gets directions from hardcoded position to chosen venue. If going to
     //production, hard coded location would need to become a get location of
     //user request
-    getDirections() {
+    getDirections: function() {
       let that = this;
       that.directionsService.route(
         {
-          origin: { lat: -41.2268, lng: 174.807 },
+          origin: CURRENT_LOCATION,
           destination: that.activeMarker.position,
           travelMode: "DRIVING"
         },
@@ -655,7 +640,7 @@ export default {
         this.directionsDisplay.set("directions", null);
       }
     },
-    toggleCategories() {
+    toggleCategories: function() {
       if (this.categoriesOpen == true) {
         this.categoriesOpen = false;
       } else {
@@ -665,11 +650,38 @@ export default {
         this.categoriesOpen = true;
       }
     }
+  },
+  created: function() {
+    window.addEventListener("resize", this.changeViewportWidth);
+    this.changeViewportWidth();
+  },
+  async mounted() {
+    const googleMapApi = await GoogleMapsApiLoader({
+      libraries: ["places"],
+      apiKey: this.apiKey
+    });
+    this.google = googleMapApi;
+    this.initializeMap();
+    if (this.$route.params.id) {
+      this.categoryClickHandler(this.$route.params.id);
+    }
   }
 };
 </script>
 
 <style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition-duration: .3s;
+  transition-property: opacity;
+  transition-timing-function: ease;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
+}
+
 .page-slide-enter-active,
 .page-slide-leave-active {
   transition: all 1s ease;
@@ -690,15 +702,18 @@ export default {
 
 .category-toggle {
   position: absolute;
-  color: #ffe96b;
-  top: 40px;
+  font-size: 25px;
+  color: #3fcbca;
+  top: 20px;
   left: 20px;
   z-index: 5;
   transition: all 0.2s linear;
 }
 
 .categoryToggleNoCategories {
-  left: 220px;
+  left: 156px;
+  top: 2px;
+  color: #222;
 }
 
 .backBtnNoCategories {
@@ -708,4 +723,12 @@ export default {
 .backBtnMap {
   left: 240px;
 }
+
+@media only screen and (max-width: 800px) {
+  .categoryToggleNoCategories {
+    top: 5%;
+    left: 85%;
+  }
+}
+
 </style>

@@ -25,13 +25,18 @@ export default {
       iconActive: 0
     };
   },
+  watch: {
+    source: function() {
+      this.getStyles();
+    }
+  },
   methods: {
     /**
      * Gets click event to take the id of the clicked item, emit to parent for
      * data retrieval and then uses iconActive for active state of icons.
      * @param {Event} evt
      */
-    featureIconClicked(evt) {
+    featureIconClicked: function(evt) {
       this.$emit("$featureIconClicked", evt.target.id);
       this.iconActive = evt.target.id;
     },
@@ -39,7 +44,7 @@ export default {
     //Uses hard coded absolute positioning from JSON to position markers. Certainly
     //not the most robust solution but a choice was made that function was more
     //important due to time restraints.
-    getStyles() {
+    getStyles: function() {
       let that = this;
       this.styles = [];
       $.each(that.source, function(i, venue) {
@@ -50,11 +55,6 @@ export default {
   },
   created: function() {
     this.getStyles();
-  },
-  watch: {
-    source: function() {
-      this.getStyles();
-    }
   }
 };
 </script>

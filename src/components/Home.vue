@@ -47,7 +47,7 @@ export default {
 }
 .home-enter-active,
 .home-leave-active {
-  transition: opacity 1s ease-in-out, transform 0.8s ease-in-out;
+  transition: opacity 1s ease-in-out;
 }
 .home-enter,
 .home-leave-to {
