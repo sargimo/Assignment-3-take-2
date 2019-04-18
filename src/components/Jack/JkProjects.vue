@@ -64,7 +64,7 @@ export default {
     }
   },
   created: function() {
-    // console.log("params", this.$route.params.userId)
+    // this gathers the user id from the previous route and pushes it into this document
     this.getProjects(this.$route.params.userId);
   }
 };

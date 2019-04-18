@@ -19,7 +19,7 @@
     </div>
     <div class="field-tags container">
       <p id="jk-project-tags">Project Tags:</p>
-      <div v-for="fields in project.fields" v-bind:key="fields">
+      <div v-for="fields in project.fields" :key="fields">
         <p>{{ fields }}</p>
       </div>
     </div>
@@ -27,7 +27,7 @@
       <div
         class="project-images container"
         v-for="image in project.modules"
-        v-bind:key="image.sizes.original"
+        :key="image.sizes.original"
       >
         <img class="shadow-sm" v-bind:src="image.sizes.original">
       </div>
@@ -55,6 +55,7 @@ export default {
     JkHeader
   },
   methods: {
+    // getProject is used to gather the api link so it can be used in the template later on.
     getProject: function(projectId) {
       this.$http
         .get("https://behance-mock-api.glitch.me/api/projects/" + projectId)
@@ -64,7 +65,7 @@ export default {
     }
   },
   created: function() {
-    // console.log("params", this.$route.params.projectId)
+    // this gathers the project id from the previous route and pushes it into this document
     this.getProject(this.$route.params.projectId);
   }
 };

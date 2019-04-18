@@ -8,6 +8,7 @@
   </div>
 
   <div class="container jack-take-a-peek">
+    <!-- Routing links for the bottom buttons of my page -->
     <a><router-link v-bind:to="'/jkdesigners'"><p>Take A Peek</p></router-link></a>
     <a><router-link v-bind:to="'/jkdesigners'"><div class="arrow bounce"></div></router-link></a>
   </div>
