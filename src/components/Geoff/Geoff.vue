@@ -1,6 +1,10 @@
 <template>
   <!-- <transition name="page-fade-in" mode="in-out"> -->
   <div class="home-bg">
+    <router-link :to="'/'" exact>
+      <GeoffBackBtn/>
+    </router-link>
+
     <div class="container">
       <div class="nz-outline">
         <img src="../../assets/geoff/nz-outline.png">
@@ -20,8 +24,13 @@
 </template>
 
 <script>
+import GeoffBackBtn from "./GeoffBackBtn.vue";
+
 export default {
-  name: "Geoff"
+  name: "Geoff",
+  components: {
+    GeoffBackBtn
+  }
 };
 </script>
 

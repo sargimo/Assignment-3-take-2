@@ -1,6 +1,9 @@
 <template>
   <transition name="page-fade-in" mode="out-in">
     <div class="categories-container">
+      <router-link :to="'/geoff'" exact>
+        <GeoffBackBtn/>
+      </router-link>
       <div id="0" @click="getCategoryId('0')" class="category festivals">
         <router-link :to="'/geofffeaturelanding'" exact>
           <div @click="getCategoryId('0')" class="cat-title">
@@ -59,8 +62,13 @@
 
 <script>
 import festivalData from "./constants/festivalData.json";
+import GeoffBackBtn from "./GeoffBackBtn.vue";
+
 export default {
   name: "GeoffCategories",
+  components: {
+    GeoffBackBtn
+  },
   data: function() {
     return {
       catId: null
