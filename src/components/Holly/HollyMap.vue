@@ -6,7 +6,7 @@
 
 <script>
 import GoogleMapsApiLoader from "google-maps-api-loader";
-import { mapStyles } from "./styles/mapStyles.js";
+import { MAP_STYLES } from "./styles/mapStyles.js";
 import { API_KEY } from "./constants/config.js";
 import { CLIENT_ID } from "./constants/config.js";
 import { CLIENT_SECRET } from "./constants/config.js";
@@ -132,7 +132,7 @@ export default {
      */
     refreshMap: function() {
       this.map.getStreetView().setVisible(false);
-      this.deleteMarkers();
+      this.clearMarkers();
       this.clearDirections();
       this.$emit("$setMarkerFalse");
       this.$emit("$setIsGettingDirectionsFalse");
@@ -143,6 +143,8 @@ export default {
 
     /**
      * Initialises Google map, setting map/directions styles and control/center positions.
+     * Code base sourced from:
+     * https://vuejs.org/v2/cookbook/practical-use-of-scoped-slots.html?fbclid=IwAR3EAoHwG2k1IwmCgkbj4kOpBH64DGRi_Q2NJW_4ZkQmoBnMpu-mbDN4kEw
      */
     initialiseMap: function() {
       const mapContainer = this.$refs.googleMap;
@@ -165,7 +167,7 @@ export default {
           position: this.google.maps.ControlPosition.RIGHT_BOTTOM
         },
         center: { lat: CENTER_LAT_LONG[0], lng: CENTER_LAT_LONG[1] },
-        styles: mapStyles
+        styles: MAP_STYLES
       });
       this.map.getStreetView().setOptions({
         addressControlOptions: {
@@ -191,13 +193,14 @@ export default {
      * Calls method to add markers to the map.
      */
     getData: function() {
+      let categoryIds = API_CATEGORIES[this.category].categories;
       this.$http
         .get(
           "https://api.foursquare.com/v2/venues/search?" +
             "ll=" +
             CENTER_POSITION +
             "&categoryId=" +
-            API_CATEGORIES[this.category].categories +
+            categoryIds +
             "&radius=" +
             SEARCH_RADIUS +
             "&client_id=" +
@@ -307,9 +310,9 @@ export default {
               // Marker clicked is not yet active
               that.activeMarker = newMarker;
               that.getGooglePlaceId(
-                newMarker.name,
-                newMarker.category,
-                newMarker.position
+                that.activeMarker.name,
+                that.activeMarker.category,
+                that.activeMarker.position
               );
               if (that.map.getZoom() <= MARKER_ZOOM) {
                 that.map.setZoom(MARKER_ZOOM);
@@ -317,7 +320,6 @@ export default {
             }
             that.map.setCenter(newMarker.getPosition());
           });
-          // that.$emit("$setIsGettingLuckyFalse");
           that.markers.push(newMarker);
         }
       });
@@ -326,7 +328,7 @@ export default {
     /**
      * Resets (clears) map markers.
      */
-    deleteMarkers: function() {
+    clearMarkers: function() {
       let that = this;
       $.each(that.markers, function(i, marker) {
         marker.setMap(null);

@@ -5,6 +5,7 @@
       id="0"
       :class="{buttonImgLanding: landingIsActive, buttonImgInfo: !landingIsActive, buttonImgIsActive: buttonIsActive}"
       src="../../../assets/holly/button-bike.png"
+      alt="MTB Button"
     >
     <p class="buttonTitle">MOUNTAIN BIKING</p>
   </div>

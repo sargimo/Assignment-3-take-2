@@ -12,6 +12,8 @@ import GeoffBackBtn from "./components/Geoff/GeoffBackBtn.vue";
 import Holly from "./components/Holly/Holly.vue";
 import Jack from "./components/Jack/Jack.vue";
 import Jeremy from "./components/Jeremy/Jeremy.vue";
+import ProjectComponent from "./components/Jeremy/projectcomponent/ProjectComponent.vue";
+import SingleProject from "./components/Jeremy/singleproject/SingleProject.vue";
 
 Vue.config.productionTip = false;
 
@@ -27,15 +29,30 @@ const routes = [
   { path: "/geofffeaturelanding", component: GeoffFeatureLanding, name: "geofffeaturelanding", props: true },
   { path: "/geoffbackbtn", component: GeoffBackBtn },
   { path: "/holly", component: Holly },
-  { path: "/jeremy", component: Jeremy },
-  { path: "/jack", component: Jack},
+  { path: "/jack", component: Jack },
+  { path: "/jeremy", component: Jeremy},
+  {
+    name: "projectcomponent",
+    path: "/projectcomponent",
+    component: ProjectComponent,
+    props: true
+  },
+  {
+    name: "singleproject",
+    path: "/singleproject",
+    component: SingleProject,
+    props: true
+  },
+  
   { path: "/jkdesigners", component: JkDesigners},
-  { path: "/jkprojects", component: JkProjects, name: "jkprojects", props: true }
+  { path: "/jkprojects", component: JkProjects, name: "jkprojects", props: true },
+  { path: "/jkuserproject", component: JkUserProject, name: "jkuserproject", props: true }
 ];
 
 // Jack Routing
 import JkDesigners from "./components/Jack/JkDesigners.vue";
 import JkProjects from "./components/Jack/JkProjects.vue";
+import JkUserProject from "./components/Jack/JkUserProject.vue";
 
 const router = new VueRouter({
   routes,
