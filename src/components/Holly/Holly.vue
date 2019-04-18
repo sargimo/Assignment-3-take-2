@@ -1,116 +1,205 @@
-<!-- Parent component to everything: Holly (landing) and InfoScreen!!! -->
-
 <template>
-  <div class="home">
-    <GoogleMap
-      @$landingFalse="landingFalse"
-      @$markerClicked="markerClicked"
-      :landing="landing"
-      :category="category"
-      :markerIsActive="markerIsActive"
-      :searchQuery="searchQuery"
-      :mapConfig="mapConfig"
-    />
-    <HollyLanding
-      @$categorySelected="categorySelected"
-      @$searchForQuery="searchForQuery"
-      v-if="this.$parent.$data.landing"
-    />
-    <HollyInfoScreen
-      @$goHome="goHome"
-      @$categorySelected="categorySelected"
-      @$closeInfoContainer="closeInfoContainer"
-      @$searchForQuery="searchForQuery"
-      :category="category"
-      :placeData="placeData"
-      :markerIsActive="markerIsActive"
-      v-if="this.$parent.$data.info"
-    />
-  </div>
+  <transition name="fade" mode="out-in">
+    <div class="home">
+      <HollyMap
+        @$setLandingFalse="setLanding(false)"
+        @$markerClicked="markerClicked"
+        @$setMarkerFalse="setMarkerIsActive(false)"
+        @$setIsGettingLuckyFalse="setIsGettingLucky(false)"
+        @$setIsGettingDirectionsFalse="setIsGettingDirections(false)"
+        @$setCategoryNull="setCategory(null)"
+        :landing-is-active="landingIsActive"
+        :category="category"
+        :marker-is-active="markerIsActive"
+        :search-query="searchQuery"
+        :is-getting-lucky="isGettingLucky"
+        :is-getting-directions="isGettingDirections"
+      />
+      <HollyLanding
+        v-if="landingIsActive"
+        @$setLandingFalse="setLanding(false)"
+        @$categorySelected="categorySelected"
+        @$searchForQuery="searchForQuery"
+        @$getLucky="getLucky"
+        :landing-is-active="landingIsActive"
+      />
+      <HollyInfoScreen
+        v-if="!landingIsActive"
+        @$setLandingFalse="setLanding(false)"
+        @$setLandingTrue="setLanding(true)"
+        @$categorySelected="categorySelected"
+        @$closeInfoContainer="closeInfoContainer"
+        @$searchForQuery="searchForQuery"
+        @$setCategoryNull="setCategory(null)"
+        @$getDirections="getDirections"
+        :landing-is-active="landingIsActive"
+        :category="category"
+        :marker-is-active="markerIsActive"
+        :search-query="searchQuery"
+        :is-getting-directions="isGettingDirections"
+        :place-data="placeData"
+      />
+    </div>
+  </transition>
 </template>
 
 <script>
-import GoogleMapsApiLoader from "google-maps-api-loader";
-import GoogleMap from "./GoogleMap.vue";
+import HollyMap from "./HollyMap.vue";
 import HollyLanding from "./HollyLanding.vue";
 import HollyInfoScreen from "./HollyInfoScreen.vue";
-import { mapSettings } from "./constants/mapSettings.js";
-import { CENTER_LAT_LONG } from "./constants/data.js";
 
 export default {
   name: "Holly",
+
   components: {
-    GoogleMap,
+    HollyMap,
     HollyLanding,
     HollyInfoScreen
   },
+
   data: function() {
     return {
-      category: "",
-      landing: false,
+      landingIsActive: true,
+      category: null,
       markerIsActive: false,
-      searchQuery: "",
-      placeData: {}
+      searchQuery: null,
+      placeData: {},
+      isGettingLucky: false,
+      isGettingDirections: false
     };
   },
-  computed: {
-    mapConfig() {
-      return {
-        ...mapSettings,
-        center: { lat: CENTER_LAT_LONG[0], lng: CENTER_LAT_LONG[1] }
-      };
-    }
-  },
+  
   methods: {
+    /**
+     * Handles states when a category is selected (or deselected).
+     * @param {Number} id
+     */
     categorySelected: function(id) {
-      this.$parent.$data.landing = false;
-      this.$parent.$data.info = true;
-      this.category = id;
+      this.setLanding(false);
+      this.setCategory(id);
+      this.setSearchQuery(null);
     },
-    goHome: function() {
-      this.$parent.$data.landing = true;
-      this.$parent.$data.info = false;
-      this.landing = true;
-      this.markerIsActive = false;
-    },
-    landingFalse: function() {
-      this.landing = false;
-    },
+
+    /**
+     * Handles marker click events, updating states and current place data.
+     * @param {Object} placeData
+     */
     markerClicked: function(placeData) {
       this.placeData = placeData;
-      this.markerIsActive = true;
+      this.setMarkerIsActive(true);
     },
+
+    /**
+     * Handles closing of activity information container.
+     */
     closeInfoContainer: function() {
-      this.markerIsActive = false;
+      this.setIsGettingDirections(false);
+      this.setMarkerIsActive(false);
     },
+
+    /**
+     * Handles user submitting a search query.
+     * @param {String} query
+     */
     searchForQuery: function(query) {
-      this.searchQuery = query;
+      this.setLanding(false);
+      this.setSearchQuery(query);
+      this.setCategory(null);
+    },
+
+    /**
+     * Handles user clicking "Feeling Lucky?" button.
+     */
+    getLucky: function() {
+      this.setIsGettingLucky(true);
+      this.setLanding(false);
+    },
+
+    /**
+     * Handles user clicking "Get Directions" button.
+     */
+    getDirections: function() {
+      this.setIsGettingDirections(true);
+    },
+
+    /**
+     * Handles states for whether or not landing screen is displayed.
+     * @param {Boolean} bool
+     */
+    setLanding: function(bool) {
+      if (bool) {
+        this.setSearchQuery(null);
+        this.setLandingIsActive(true);
+        this.setCategory(null);
+        this.setMarkerIsActive(false);
+      } else {
+        this.setLandingIsActive(false);
+      }
+    },
+
+    /**
+     * Sets markerIsActive state according to whether or not a marker is active (clicked on).
+     * @param {Boolean} bool
+     */
+    setMarkerIsActive: function(bool) {
+      bool ? (this.markerIsActive = true) : (this.markerIsActive = false);
+    },
+
+    /**
+     * Sets category value according to user selection (or deselection). May be null.
+     * @param {Number} value
+     */
+    setCategory: function(value) {
+      value == null ? (this.category = null) : (this.category = value);
+    },
+
+    /**
+     * Sets value of searchQuery according to user input. May be null.
+     * @param {String} value
+     */
+    setSearchQuery: function(value) {
+      value == null ? (this.searchQuery = null) : (this.searchQuery = value);
+    },
+
+    /**
+     * Sets isGettingLucky state regarding user clicking "Feeling Lucky?" button.
+     * @param {Boolean} bool
+     */
+    setIsGettingLucky: function(bool) {
+      bool ? (this.isGettingLucky = true) : (this.isGettingLucky = false);
+    },
+
+    /**
+     * Sets isGettingDirections state regarding user clicking "Get Directions" button.
+     * @param {number} id
+     */
+    setIsGettingDirections: function(bool) {
+      bool
+        ? (this.isGettingDirections = true)
+        : (this.isGettingDirections = false);
+    },
+
+    /**
+     * Sets landingIsActive state regarding whether landing screen is displayed.
+     * @param {Boolean} bool
+     */
+    setLandingIsActive: function(bool) {
+      bool ? (this.landingIsActive = true) : (this.landingIsActive = false);
     }
   }
 };
 </script>
 
-
 <style scoped>
 .home {
-  font-family: "Amatic SC", cursive;
-  font-family: 'Cabin', sans-serif;
-  /* search */
-  /* font-family: 'Cuprum', sans-serif; */
-  /* font-family: 'Dokdo', cursive; */
-  /* search? */
-  /* font-family: 'Exo', sans-serif; */
-  /* font-family: 'Indie Flower', cursive; */
-  /* best */
-  /* font-family: 'Istok Web', sans-serif; */
-  /* font-family: 'Julius Sans One', sans-serif; */
-  /* font-family: 'Nanum Gothic', sans-serif; */
-  /* other best */
-  /* font-family: 'Nobile', sans-serif; */
-  /* font-family: 'Raleway', sans-serif; */
-  /* font-family: 'Reenie Beanie', cursive; */
-  /* font-family: 'Source Code Pro', monospace; */
-  font-family: 'Spinnaker', sans-serif;
-  /* font-family: 'Viga', sans-serif; */
+  font-family: "Spinnaker", sans-serif;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.4s ease-in-out, transform 1.5s ease-in-out;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

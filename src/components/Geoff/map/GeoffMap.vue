@@ -11,7 +11,7 @@ import { mapSettings } from "../constants/mapSettings.js";
 export default {
   components: {
     GeoffMapLoader
-  },
+  }
   //   data: function(){
   //       return {
   //           API_KEY: API_KEY

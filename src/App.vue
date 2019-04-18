@@ -7,15 +7,7 @@
 <script>
 
 export default {
-  name: "App",
-  components: {
-  },
-  data: function() {
-    return {
-      landing: true,
-      info: false
-    }
-  }
+  name: "App"
 };
 </script>
 

@@ -50,6 +50,7 @@ export default {
         }
       }
     }
+
   },
   components: {
     JkHeader
@@ -72,6 +73,7 @@ export default {
 </script>
 
 <style>
+
 #jk-project-tags {
   font-weight: 800;
 }
@@ -98,6 +100,7 @@ export default {
 
 .project-data {
   padding-top: 6px;
+
 }
 
 .jk-users {
@@ -108,6 +111,10 @@ export default {
 .jk-designers p,
 .jk-designers h4 {
   font-family: acumin-pro, sans-serif;
+}
+
+.jk-designers h4 {
+  font-weight: 700;
 }
 
 .project-images img {

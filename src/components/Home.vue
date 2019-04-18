@@ -1,32 +1,37 @@
 <template>
-  
+  <transition name="home" mode="out-in">
     <div class="background">
-      <transition name="home" mode="out-in">
       <div class="my-container">
         <div class="row">
           <div class="column col-md-6 col-sm-12 geoff">
-              <router-link :to="'/geoff'"><div class="name">GEOFF</div></router-link>
+            <router-link :to="'/geoff'">
+              <div class="name">GEOFF</div>
+            </router-link>
           </div>
           <div class="column col-md-6 col-sm-12 holly">
-              <router-link :to="'/holly'"><div class="name">HOLLY</div></router-link>
+            <router-link :to="'/holly'">
+              <div class="name">HOLLY</div>
+            </router-link>
           </div>
           <div class="column col-md-6 col-sm-12 jack">
-              <router-link :to="'/jack'"><div class="name">JACK</div></router-link>
+            <router-link :to="'/jack'">
+              <div class="name">JACK</div>
+            </router-link>
           </div>
           <div class="column col-md-6 col-sm-12 jeremy">
-              <router-link :to="'/jeremy'"><div class="name">JEREMY</div></router-link>
+            <router-link :to="'/jeremy'">
+              <div class="name">JEREMY</div>
+            </router-link>
           </div>
         </div>
       </div>
-      </transition>
     </div>
-  
+  </transition>
 </template>
 
 <script>
 export default {
-  name: "Home",
-  components: {}
+  name: "Home"
 };
 </script>
 
@@ -42,7 +47,7 @@ export default {
 }
 .home-enter-active,
 .home-leave-active {
-  transition: opacity 1.5s ease-in-out, transform 0.8s ease-in-out;
+  transition: opacity 1s ease-in-out, transform 0.8s ease-in-out;
 }
 .home-enter,
 .home-leave-to {
@@ -66,30 +71,39 @@ a:hover {
 .row {
   margin: 0 !important;
 }
-.geoff, .holly, .jack, .jeremy {
+.geoff,
+.holly,
+.jack,
+.jeremy {
   background: black;
   transition: background 0.5s linear;
 }
-.geoff:hover, .holly:hover, .jack:hover, .jeremy:hover {
+.geoff:hover,
+.holly:hover,
+.jack:hover,
+.jeremy:hover {
   background: black;
 }
 .geoff:hover {
-  background: url('../assets/geoff/geoff-tiger.jpg') bottom / cover no-repeat;
+  background: url("../assets/geoff/geoff-tiger.jpg") bottom / cover no-repeat;
 }
 .holly:hover {
-  background: url('../assets/holly/holly-tiger.jpg') center / cover no-repeat;
+  background: url("../assets/holly/holly-tiger.jpg") center / cover no-repeat;
 }
 .jack:hover {
   background: url('../assets/jack/source.gif') center / cover no-repeat;
 }
 .jeremy:hover {
-  background: url('../assets/jeremy/goose.jpg') center / cover no-repeat;
+  background: url("../assets/jeremy/goose.jpg") center / cover no-repeat;
   color: black;
 }
 .name {
   color: #fff;
 }
-.geoff:hover .name, .holly:hover .name, .jack:hover .name, .jeremy:hover .name {
+.geoff:hover .name,
+.holly:hover .name,
+.jack:hover .name,
+.jeremy:hover .name {
   color: black;
 }
 </style>

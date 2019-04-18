@@ -27,6 +27,7 @@
           target="_blank"
         >Views: {{ project.stats.views }}, Appreciations: {{ project.stats.appreciations }}.</p>
         <h4 target="_blank">{{ project.name }}</h4>
+
         <p></p>
       </div>
     </div>
@@ -56,6 +57,7 @@ export default {
           this.projects = data.body.projects;
         });
     },
+
     getSpecificUserProject: function(projectId) {
       this.$router.push({
         name: "jkuserproject",
@@ -76,6 +78,7 @@ export default {
   background-color: black;
 }
 
+
 .jk-previous-button {
   padding-top: 3em;
   padding-left: 30em;
@@ -90,6 +93,7 @@ export default {
 
 .jk-projects {
   padding: 10em 2em 0em 2em;
+
 }
 
 .jk-projects p {
